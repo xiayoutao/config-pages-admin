@@ -4,6 +4,6 @@ import store from '@/store';
 export function postMessage (theWindow, data, delay = 0, origin) {
   origin = origin || store.state.previewOrigin;
   setTimeout(() => {
-    theWindow.postMessage(data, 'http://localhost:7001');
+    theWindow.postMessage(data, origin);
   }, delay);
 }
