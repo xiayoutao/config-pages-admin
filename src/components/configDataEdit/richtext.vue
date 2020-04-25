@@ -25,7 +25,7 @@
   </div>
   <div class="config-group">
     <!-- <vue-editor class="editor" ref="editor" v-model="dataForm.content" /> -->
-    <quill-editor class="editor" ref="editor" v-model="dataForm.content"></quill-editor>
+    <quill-editor class="editor" v-model="dataForm.content"></quill-editor>
   </div>
 </div>
 </template>
@@ -33,7 +33,6 @@
 <script>
 import globalMixin from '@/mixins/configEdit.js';
 import ColorPicker from '@/components/colorPicker/index.vue';
-// import { VueEditor } from 'vue2-editor';
 import { quillEditor } from 'vue-quill-editor';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
@@ -44,7 +43,6 @@ export default {
   name: 'edit-x-richtext',
   components: {
     ColorPicker,
-    // VueEditor,
     quillEditor,
   },
   mixins: [
@@ -73,5 +71,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.editor {
+  /deep/ .ql-container {
+    height: 400px;
+  }
 }
 </style>
