@@ -1,0 +1,175 @@
+.config-input {
+  display: inline-block;
+  width: 100%;
+  height: 32px;
+  margin: 0;
+  padding: 0 10px;
+  border: 1px solid #dcdee0;
+  font-size: 14px;
+  color: #333;
+  outline: 0;
+
+  &::-webkit-input-placeholder {
+    color: #ccc;
+  }
+
+  &.textarea {
+    height: 80px;
+    padding: 5px 10px;
+  }
+}
+
+.config-title {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 9px 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.config-tips {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 9px 12px;
+  font-size: 12px;
+  color: #969799;
+}
+
+.config-group {
+  padding: 9px 12px;
+
+  &.flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .config-group-header {
+      margin-bottom: 0;
+    }
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    min-width: 50px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    color: $tips-text-color;
+
+    &.import {
+      color: $--color-danger;
+    }
+
+    .is-required {
+      margin-right: 3px;
+      font-size: 18px;
+      color: $--color-danger;
+    }
+
+    >p {
+      margin: 0;
+      font-size: 14px;
+    }
+  }
+
+  &.grey {
+    background-color: #f7f8fa;
+  }
+
+  &-content {
+    color: #323233;
+
+    &.full-width {
+      flex: 1;
+    }
+  }
+
+  .config-upload {
+    .upload-tips {
+      margin: 0 0 10px;
+      font-size: 12px;
+      color: $tips-text-color;
+    }
+    
+    .upload-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      border: none;
+      background: #fff;
+      box-shadow: 0 2px 4px 0 rgba(52,57,65,.2);
+      border-radius: 2px;
+      font-size: 24px;
+      color: $color;
+    }
+
+    .upload-text {
+      display: block;
+      margin-top: 10px;
+      font-size: 12px;
+      color: $--color-danger;
+    }
+  }
+}
+
+.radio-box {
+  display: flex;
+  align-items: center;
+
+  .radio-item {
+    display: flex;
+    align-items: center;
+    margin: 0 15px 0 0;
+    cursor: pointer;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.checked {
+      .radio-control {
+        border-color: #155bd4;
+
+        &:before {
+          background-color: #155bd4;
+          transform: scale(1);
+        }
+      }
+    }
+
+    .radio-control {
+      position: relative;
+      display: block;
+      width: 16px;
+      height: 16px;
+      margin: 0 5px 0 0;
+      border: 1px solid #dcdee0;
+      border-radius: 50%;
+
+      &:before {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 3px;
+        left: 3px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #fff;
+        transform: scale(0);
+        transition: all .1s ease-in-out;
+      }
+    }
+  }
+}
+
+.edit-bg {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}

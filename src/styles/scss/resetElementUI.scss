@@ -1,0 +1,81 @@
+/**
+ * 重写element-ui样式
+ */
+
+input.el-input__inner,
+textarea.el-textarea__inner {
+  width: 100%;
+  max-width: 400px;
+
+  @include screen-mob {
+    width: 14rem;
+    max-width: 100%;
+  }
+}
+
+.el-select {
+  width: 400px;
+
+  @include screen-mob {
+    width: 14rem;
+    max-width: 100%;
+
+    .el-select__caret {
+      cursor: default;
+    }
+  }
+}
+
+.el-checkbox {
+  &__input {
+    margin-right: 3px;
+  }
+}
+
+.el-dialog {
+  @include screen-mob {
+    width: 20rem;
+  }
+}
+
+.el-upload-dragger {
+  @include screen-mob {
+    width: 14rem;
+  }
+}
+
+.el-popover {
+  @include screen-mob {
+    width: 17.5rem;
+  }
+}
+
+.el-message-box {
+  @include screen-mob {
+    width: 18rem;
+  }
+}
+
+.el-pagination {
+  margin: 20px 0;
+
+  & span.el-pagination__sizes {
+    @include screen-mob {
+      display: none !important;
+    }
+  }
+
+  & &__jump {
+    .is-in-pagination {
+      .el-input__inner {
+        @include screen-mob {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.el-alert {
+  line-height: 1;
+}

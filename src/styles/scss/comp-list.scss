@@ -1,0 +1,95 @@
+/**
+ * 组件列表样式
+ */
+
+.comp-list {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+}
+
+.comp-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex: 0 0 50%;
+  height: 88px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  text-align: center;
+  cursor: move;
+
+  &:hover {
+    background-color: $color;
+
+    .comp-item-icon {
+      background-position: 0 32px;
+    }
+
+    .comp-item-name,
+    .comp-item-use {
+      color: #fff;
+    }
+  }
+
+  &-icon {
+    display: inline-block;
+    margin-top: 8px;
+    background-position: 0 0;
+    height: 32px;
+    width: 32px;
+    background-size: cover;
+
+    &.icon-title {
+      background-image: url('../../images/icon-cps-text.png');
+    }
+    &.icon-goods {
+      background-image: url('../../images/icon-cps-goods.png');
+    }
+    &.icon-find {
+      background-image: url('../../images/icon-cps-find.png');
+    }
+    &.icon-imageAd {
+      background-image: url('../../images/icon-cps-imageAd.png');
+    }
+    &.icon-imageNav {
+      background-image: url('../../images/icon-cps-imageNav.png');
+    }
+    &.icon-division {
+      background-image: url('../../images/icon-cps-division.png');
+    }
+    &.icon-memberEnter {
+      background-image: url('../../images/icon-cps-memberEnter.png');
+    }
+    &.icon-memberInfo {
+      background-image: url('../../images/icon-cps-memberInfo.png');
+    }
+    &.icon-audio {
+      background-image: url('../../images/icon-cps-audio.png');
+    }
+    &.icon-video {
+      background-image: url('../../images/icon-cps-video.png');
+    }
+    &.icon-notice {
+      background-image: url('../../images/icon-cps-notice.png');
+    }
+    &.icon-coupon {
+      background-image: url('../../images/icon-cps-coupon.png');
+    }
+  }
+
+  &-name,
+  &-use {
+    margin-top: 4px;
+    line-height: 16px;
+  }
+
+  &-name {
+    color: #323233;
+  }
+
+  &-use {
+    color: #7d7e80;
+  }
+}

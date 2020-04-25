@@ -1,0 +1,136 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1;
+  font-size: 16px;
+  color: $text;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+/*滚动条*/
+::-webkit-scrollbar {
+  $w: 6px;
+  $mw: 3px;
+  width: $w;
+  height: $w;
+
+  @include screen-mob {
+    width: $mw;
+    height: $mw;
+  }
+
+  &-thumb {
+    background: rgba(0, 0, 0, .1);
+    border-radius: 20px;
+
+    &:hover {
+      background: rgba($color, .5);
+    }
+
+    &:active {
+      background: rgba($color, .8);
+    }
+  }
+
+  &-corner {
+    display: none;
+  }
+}
+
+a {
+  text-decoration: none;
+
+  &:link {
+    transition: color .3s ease-in-out;
+  }
+}
+
+input {
+  outline: 0;
+
+  &:-webkit-autofill {
+    box-shadow: 0 0 0 1000px #fff inset !important;
+    -webkit-text-fill-color: #333 !important;
+  }
+}
+
+.xiayoutao {
+  margin-right: 5px;
+  font-family: "xiayoutao" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 强提示
+.text-strong {
+  font-weight: 600;
+  font-size: 1.2em;
+  color: #f50;
+}
+
+/* 弹窗样式 */
+.dialog-common {
+  .el-dialog {
+    @include screen-pc {
+      width: 400px;
+    }
+
+    .el-upload-dragger {
+      @include screen-pc {
+        width: 360px;
+      }
+    }
+  }
+}
+
+.dialog-lg {
+  .el-dialog {
+    @include screen-pc {
+      width: 600px;
+    }
+
+    .el-upload-dragger {
+      @include screen-pc {
+        width: 560px;
+      }
+    }
+  }
+}
+
+.dialog-sm {
+  .el-dialog {
+    @include screen-pc {
+      width: 300px;
+    }
+
+    .el-upload-dragger {
+      @include screen-pc {
+        width: 260px;
+      }
+    }
+  }
+}
+
+.disabled-input {
+  width: 100%;
+  text-align: left;
+  cursor: not-allowed;
+}
