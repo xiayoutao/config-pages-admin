@@ -2,7 +2,7 @@ import store from '@/store';
 
 // 发送消息
 export function postMessage (theWindow, data, delay = 0, origin) {
-  origin = origin || store.state.previewOrigin;
+  origin = origin || store.state.global.previewOrigin;
   setTimeout(() => {
     theWindow.postMessage(data, origin);
   }, delay);
