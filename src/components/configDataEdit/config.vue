@@ -65,12 +65,6 @@ export default {
     handleChangeBgColor (color) {
       this.dataForm.bgColor = color;
     },
-    handleBgColorItem (index) {
-      if (index === 0) {
-        this.dataForm.bgColor = this.bgColorDefault;
-      }
-      this.bgColorActive = index;
-    },
     openBgColorDialog () {
       this.dataForm.bgColor = '#f00';
     }
@@ -82,6 +76,11 @@ export default {
       },
       deep: true,
     },
+    bgColorActive (val) {
+      if (val === 0) {
+        this.dataForm.bgColor = this.bgColorDefault;
+      }
+    }
   }
 };
 </script>
