@@ -129,6 +129,12 @@ export default {
       if (data.type === 'updateHeight') { // 更新iframe高度
         this.iframeHeight = data.height;
       } else if (data.type === 'updateLayouts') { // 更新布局
+        data.layouts.forEach(item => {
+          this.compUse[item.name] = {
+            use: item.use,
+            max: item.max,
+          };
+        });
         this.layouts = [...data.layouts];
       } else if (data.type === 'updateSelectedIndex') { // 更新选中组件
         this.selectedIndex = data.index;
@@ -178,6 +184,7 @@ export default {
           y: Math.max(data.y - this.layoutIframeClientRectTop, 0) + this.$refs.compLayout.scrollTop,
           component: { ...this.dragComponent.data },
           data: this.compDefaultData[this.dragComponent.name],
+          ...this.compUse[this.dragComponent.name],
         });
       } else {
         this.postMessage({

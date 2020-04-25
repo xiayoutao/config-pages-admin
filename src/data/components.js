@@ -10,8 +10,6 @@ export const compList = [
   { name: 'x-video', label: '视频', icon: 'icon-video', },
   { name: 'x-member-enter', label: '进入会员中心', icon: 'icon-memberEnter', },
   { name: 'x-member-info', label: '会员信息', icon: 'icon-memberInfo', },
-  { name: 'x-coupon', label: '优惠券', icon: 'icon-coupon', },
-  { name: 'x-goods', label: '商品', icon: 'icon-goods', },
 ];
 
 // 组件使用情况
@@ -26,8 +24,6 @@ export const compUse = {
   'x-video': { use: 0, max: 1 },
   'x-member-enter': { use: 0, max: 1 },
   'x-member-info': { use: 0, max: 1 },
-  'x-coupon': { use: 0, max: 10 },
-  'x-goods': { use: 0, max: 20 },
 };
 
 // 组件默认值
@@ -40,10 +36,8 @@ export const compDefaultData = {
   'x-image-nav': { nav: [], },
   'x-audio': { type: 0, title: '', url: '', loop: false, },
   'x-video': { poster: '', url: '', },
-  'x-coupon': {},
   'x-member-enter': { title: '会员中心', actionText: '查看', },
   'x-member-info': { background: '', showType: 0, },
-  'x-goods': {},
 };
 
 // 组件展示列表每个组件的宽高
