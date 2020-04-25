@@ -57,48 +57,48 @@ module.exports = {
   configureWebpack: config => {
     if (isProduction) {
       config.optimization = {
-        splitChunks: {
-          chunks: 'async',
-          minSize: 30000,
-          maxSize: 0,
-          minChunks: 1,
-          maxAsyncRequests: 5,
-          maxInitialRequests: 3,
-          automaticNameDelimiter: '~',
-          name: true,
-          cacheGroups: {
-            vendors: {
-              test: /[\\/]node_modules[\\/]/,
-              priority: -10
-            },
-            default: {
-              minChunks: 2,
-              priority: -20,
-              reuseExistingChunk: true
-            },
-            echarts: {
-              name: 'vuedraggable',
-              priority: 100,
-              test: /[\\/]node_modules[\\/]vuedraggable[\\/]/,
-              chunks: 'all',
-              reuseExistingChunk: true,
-            },
-            'qiniu-js': {
-              name: 'qiniu-js',
-              priority: 100,
-              test: /[\\/]node_modules[\\/]qiniu-js[\\/]/,
-              chunks: 'all',
-              reuseExistingChunk: true,
-            },
-            'element-ui': {
-              name: 'element-ui', // 单独将 element-ui 拆包
-              priority: 1000, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
-              test: /[\\/]node_modules[\\/]element-ui[\\/]/,
-              chunks: 'all',
-              reuseExistingChunk: true,
-            }
-          }
-        },
+        // splitChunks: {
+        //   chunks: 'async',
+        //   minSize: 30000,
+        //   maxSize: 0,
+        //   minChunks: 1,
+        //   maxAsyncRequests: 5,
+        //   maxInitialRequests: 3,
+        //   automaticNameDelimiter: '~',
+        //   name: true,
+        //   cacheGroups: {
+        //     vendors: {
+        //       test: /[\\/]node_modules[\\/]/,
+        //       priority: -10
+        //     },
+        //     default: {
+        //       minChunks: 2,
+        //       priority: -20,
+        //       reuseExistingChunk: true
+        //     },
+        //     echarts: {
+        //       name: 'vuedraggable',
+        //       priority: 100,
+        //       test: /[\\/]node_modules[\\/]vuedraggable[\\/]/,
+        //       chunks: 'all',
+        //       reuseExistingChunk: true,
+        //     },
+        //     'qiniu-js': {
+        //       name: 'qiniu-js',
+        //       priority: 100,
+        //       test: /[\\/]node_modules[\\/]qiniu-js[\\/]/,
+        //       chunks: 'all',
+        //       reuseExistingChunk: true,
+        //     },
+        //     'element-ui': {
+        //       name: 'element-ui', // 单独将 element-ui 拆包
+        //       priority: 1000, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
+        //       test: /[\\/]node_modules[\\/]element-ui[\\/]/,
+        //       chunks: 'all',
+        //       reuseExistingChunk: true,
+        //     }
+        //   }
+        // },
         minimizer: [
           // 压缩es6
           new TerserPlugin({
