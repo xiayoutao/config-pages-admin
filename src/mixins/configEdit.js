@@ -7,6 +7,9 @@ export default {
     },
     label () {
       return this.data.label;
+    },
+    tips () {
+      return this.data.tips;
     }
   },
   watch: {

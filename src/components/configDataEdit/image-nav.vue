@@ -1,6 +1,9 @@
 <template>
 <div class="component-config">
-  <div class="config-title">{{ label }}</div>
+  <div class="config-header">
+    <div class="config-title">{{ label }}</div>
+    <div class="config-tips" v-if="tips">{{ tips }}</div>
+  </div>
   <div class="config-tips">
     <p>最多添加 10 个导航，拖动选中的导航可对其排序</p>
   </div>

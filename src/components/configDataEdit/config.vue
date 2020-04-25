@@ -1,6 +1,8 @@
 <template>
 <div class="component-config">
-  <div class="config-title">页面设置</div>
+  <div class="config-header">
+    <div class="config-title">页面设置</div>
+  </div>
   <div class="config-group">
     <div class="config-group-header">
       <span class="is-required">*</span>

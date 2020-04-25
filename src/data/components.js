@@ -10,6 +10,7 @@ export const compList = [
   { name: 'x-video', label: '视频', icon: 'icon-video', },
   { name: 'x-member-enter', label: '进入会员中心', icon: 'icon-memberEnter', },
   { name: 'x-member-info', label: '会员信息', icon: 'icon-memberInfo', },
+  { name: 'x-richtext', label: '富文本', tips: '小程序富文本展示以实际效果为准，左侧预览仅供参考', icon: 'icon-richtext', },
 ];
 
 // 组件使用情况
@@ -24,6 +25,7 @@ export const compUse = {
   'x-video': { use: 0, max: 1 },
   'x-member-enter': { use: 0, max: 1 },
   'x-member-info': { use: 0, max: 1 },
+  'x-richtext': { use: 0, max: 1 },
 };
 
 // 组件默认值
@@ -38,6 +40,7 @@ export const compDefaultData = {
   'x-video': { poster: '', url: '', },
   'x-member-enter': { title: '会员中心', actionText: '查看', },
   'x-member-info': { background: '', showType: 0, },
+  'x-richtext': { background: '#f9f9f9', fullscreen: false, },
 };
 
 // 组件展示列表每个组件的宽高

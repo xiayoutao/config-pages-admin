@@ -1,6 +1,9 @@
 <template>
 <div class="component-config">
-  <div class="config-title">{{ label }}</div>
+  <div class="config-header">
+    <div class="config-title">{{ label }}</div>
+    <div class="config-tips" v-if="tips">{{ tips }}</div>
+  </div>
   <div class="config-group flex">
     <div class="config-group-header import">
       <span class="is-required">*</span>

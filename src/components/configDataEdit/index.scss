@@ -19,11 +19,14 @@
   }
 }
 
+.config-header {
+  padding: 20px 16px;
+  border-bottom: 1px solid #f2f4f6;
+}
+
 .config-title {
   display: flex;
   align-items: center;
-  height: 40px;
-  padding: 9px 12px;
   font-size: 18px;
   font-weight: 700;
   color: #1a1a1a;
@@ -32,8 +35,15 @@
 .config-tips {
   display: flex;
   align-items: center;
-  height: 32px;
-  padding: 9px 12px;
+  font-size: 12px;
+  line-height: 20px;
+  color: #969799;
+}
+
+.config-tips {
+  display: flex;
+  align-items: center;
+  margin: 12px 0 0;
   font-size: 12px;
   color: #969799;
 }
@@ -114,6 +124,10 @@
       font-size: 12px;
       color: $--color-danger;
     }
+  }
+
+  .editor {
+    height: 450px;
   }
 }
 

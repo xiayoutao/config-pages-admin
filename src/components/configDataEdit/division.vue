@@ -1,6 +1,9 @@
 <template>
 <div class="component-config">
-  <div class="config-title">{{ label }}</div>
+  <div class="config-header">
+    <div class="config-title">{{ label }}</div>
+    <div class="config-tips" v-if="tips">{{ tips }}</div>
+  </div>
   <div class="config-group">
     <div class="config-group-header">
       <p>空白高度</p>
