@@ -58,8 +58,10 @@ export default {
       this.$emit('on-click', index);
     },
     handleDelete (index) {
+      const deleteLayout = { ...this.dataList[index] };
       this.dataList.splice(index, 1);
       this.$emit('on-change', this.dataList);
+      this.$emit('on-update-use', deleteLayout);
     },
   },
   watch: {

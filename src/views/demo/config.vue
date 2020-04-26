@@ -30,7 +30,7 @@
   </div>
   <div class="comp-config">
     <div class="comp-config-tab" v-show="activeTab === 'components'">
-      <preview-components :data="layouts" @on-click="handleClickSingle" @on-change="handleChangeLayouts"></preview-components>
+      <preview-components :data="layouts" @on-click="handleClickSingle" @on-change="handleChangeLayouts" @on-update-use="handleUpdateUse"></preview-components>
     </div>
     <div class="comp-config-tab" v-show="activeTab === 'config'">
       <edit-x-config :data="pageConfig" @change="handleChangePageConfig"></edit-x-config>
@@ -141,6 +141,8 @@ export default {
         if (typeof data.index === 'number') {
           this.activeTab = '';
         }
+      } else if (data.type === 'deleteLayout') {
+        this.handleUpdateUse(data.deleteLayout);
       }
     },
     // 开始拖拽
@@ -202,6 +204,11 @@ export default {
       this.postMessage({
         type: 'clearSelected',
       });
+    },
+    // 更新组件使用情况
+    handleUpdateUse (data) {
+      // console.log('handleUpdateUse', data);
+      this.compUse[data.name].use = data.use - 1;
     },
     // 更改单个组件数据
     handleUpdateCpsData (singleLayout, index) {
