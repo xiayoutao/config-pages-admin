@@ -198,6 +198,7 @@ $just-trans: all 0.2s ease-in-out;
  * router-tab框架样式重写
  */
 .router-tab-header {
+  height: 36px;
   &.is-scroll {
     padding: 0 25px;
   }
