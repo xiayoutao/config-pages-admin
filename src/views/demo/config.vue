@@ -35,7 +35,7 @@
     <div class="comp-config-tab" v-show="activeTab === 'config'">
       <edit-x-config :data="pageConfig" @change="handleChangePageConfig"></edit-x-config>
     </div>
-    <div class="comp-config-tab" v-if="typeof selectedIndex === 'number' && selectedIndex <= layouts.length - 1">
+    <div class="comp-config-tab" v-if="!isDragging && typeof selectedIndex === 'number' && selectedIndex <= layouts.length - 1 && layouts.length > 0">
       <template v-for="(item, index) in layouts">
         <component :is="'edit-' + item.name" :key="index" :index="selectedIndex" :data="layouts[selectedIndex]" @change="handleUpdateCpsData" v-if="selectedIndex === index"></component>
       </template>
@@ -70,14 +70,14 @@ export default {
       isDragging: false,
       iframeHeight: 603,
       activeTab: 'config', // 当前活动tab标签（右侧显示内容）
-      compItemBox, // 左侧组件列表中每个组件的宽高
-      compList, // 组件列表,
-      compUse, // 组件使用情况,
-      compDefaultData, // 组件默认值
+      compItemBox: {...compItemBox}, // 左侧组件列表中每个组件的宽高
+      compList: [...compList], // 组件列表,
+      compUse: {...compUse}, // 组件使用情况,
+      compDefaultData: {...compDefaultData}, // 组件默认值
       dragComponent: {}, // 正在拖拽的组件
       selectedIndex: null, // 当前选中的组件
       layouts: [], // 布局的数据
-      pageConfig, // 页面默认配置信息
+      pageConfig: {...pageConfig}, // 页面默认配置信息
     };
   },
   computed: {
@@ -129,20 +129,12 @@ export default {
       if (data.type === 'updateHeight') { // 更新iframe高度
         this.iframeHeight = data.height;
       } else if (data.type === 'updateLayouts') { // 更新布局
-        data.layouts.forEach(item => {
-          this.compUse[item.name] = {
-            use: item.use,
-            max: item.max,
-          };
-        });
         this.layouts = [...data.layouts];
       } else if (data.type === 'updateSelectedIndex') { // 更新选中组件
         this.selectedIndex = data.index;
         if (typeof data.index === 'number') {
           this.activeTab = '';
         }
-      } else if (data.type === 'deleteLayout') {
-        this.handleUpdateUse(data.deleteLayout);
       }
     },
     // 开始拖拽
@@ -181,12 +173,13 @@ export default {
     getDragPosition (data) {
       // console.log(data);
       if (data.x >= this.layoutShowOffsetX) {
+        const useData = {...this.compUse[this.dragComponent.name]};
         this.postMessage({
           type: 'layoutMoveOver',
           y: Math.max(data.y - this.layoutIframeClientRectTop, 0) + this.$refs.compLayout.scrollTop,
           component: { ...this.dragComponent.data },
           data: this.compDefaultData[this.dragComponent.name],
-          ...this.compUse[this.dragComponent.name],
+          disabled: useData.use >= useData.max,
         });
       } else {
         this.postMessage({
@@ -256,6 +249,12 @@ export default {
         return this.layouts[this.selectedIndex].name === name;
       }
       return false;
+    },
+    resetCpsUse (data) {
+      Object.keys(data).forEach(item => {
+        data[item].use = 0;
+      });
+      return data;
     }
   },
   watch: {
@@ -266,6 +265,16 @@ export default {
         });
       }
     },
+    layouts: {
+      handler (val) {
+        let newCompUse = this.resetCpsUse(compUse);
+        val.forEach(item => {
+          let use = newCompUse[item.name].use || 0;
+          this.compUse[item.name].use = ++use;
+        });
+      },
+      deep: true,
+    }
   }
 };
 </script>
@@ -298,8 +307,8 @@ export default {
   width: 360px;
 
   &-tab {
+    display: flex;
     height: 100%;
-    padding: 8px;
   }
 }
 

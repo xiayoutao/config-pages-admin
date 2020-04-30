@@ -19,6 +19,12 @@
   }
 }
 
+.component-config {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .config-header {
   padding: 20px 16px;
   border-bottom: 1px solid #f2f4f6;
@@ -35,15 +41,8 @@
 .config-tips {
   display: flex;
   align-items: center;
-  font-size: 12px;
-  line-height: 20px;
-  color: #969799;
-}
-
-.config-tips {
-  display: flex;
-  align-items: center;
   margin: 12px 0 0;
+  padding: 0 12px;
   font-size: 12px;
   color: #969799;
 }

@@ -76,10 +76,11 @@ export default {
         FormDataModel.login().then(({ data }) => {
           let resultData = this.$httpResponseHandle(data);
           if (resultData) {
-            this.$messageCallback('success', '登录成功，页面跳转中...');
-            this.$cookie.set('user', JSON.stringify(resultData.user));
-            this.$cookie.set('token', resultData.token);
-            location.href = '/';
+            this.$messageCallback('success', '登录成功，页面跳转中...', () => {
+              this.$cookie.set('user', JSON.stringify(resultData.user));
+              this.$cookie.set('token', resultData.token);
+              location.href = '/';
+            });
           }
         });
       });

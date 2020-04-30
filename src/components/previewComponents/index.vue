@@ -77,6 +77,7 @@ export default {
 
 <style lang="scss" scoped>
 .preview-cps {
+  flex: 1;
   display: flex;
   flex-direction: column;
   margin: 12px 12px 0;
