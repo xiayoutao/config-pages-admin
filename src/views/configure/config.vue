@@ -41,7 +41,7 @@
       </template>
     </div>
     <div class="comp-operate">
-      <el-button type="primary" size="medium" style="width: 100%;" @click="handleSubmit">保存</el-button>
+      <el-button type="primary" size="medium" style="width: 100%;" @click="handleSubmit">保存页面</el-button>
     </div>
   </div>
 </div>
