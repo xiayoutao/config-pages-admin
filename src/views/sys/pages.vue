@@ -54,8 +54,18 @@ export default {
       headData: [
         { key: 'id', label: 'ID', width: 80, headerAlign: 'center', align: 'center', },
         {
+          key: 'userid',
+          label: '用户',
+          width: 180,
+          headerAlign: 'center',
+          align: 'center',
+          render (data) {
+            return _this.userObject[data];
+          }
+        },
+        {
           key: 'layouts',
-          label: '组件使用情况',
+          label: '组件',
           headerAlign: 'center',
           align: 'center',
           render (data) {
@@ -73,16 +83,6 @@ export default {
               strCompUse += (index === 0 ? '' : '、') + item + ' * ' + compUse[item];
             });
             return strCompUse;
-          }
-        },
-        {
-          key: 'userid',
-          label: '用户',
-          width: 180,
-          headerAlign: 'center',
-          align: 'center',
-          render (data) {
-            return _this.userObject[data];
           }
         },
       ],

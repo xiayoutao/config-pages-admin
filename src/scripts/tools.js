@@ -8,3 +8,23 @@ export function postMessage (theWindow, data, delay = 0, origin) {
     theWindow.postMessage(data, origin);
   }, delay);
 }
+
+export function checkIFrameLoaded (iframe, callback) {
+  if (iframe.attachEvent) {
+    iframe.attachEvent('onload', () => {
+      // iframe加载完毕以后执行操作
+      console.log('iframe已加载完毕');
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
+  } else {
+    iframe.onload = () => {
+      // iframe加载完毕以后执行操作
+      console.log('iframe已加载完毕');
+      if (typeof callback === 'function') {
+        callback();
+      }
+    };
+  }
+}

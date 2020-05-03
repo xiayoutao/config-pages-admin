@@ -15,6 +15,7 @@
         <p>{{ pageConfig.title }}</p>
       </div>
       <div ref="layoutMobileBody" class="iphone-body">
+        <div class="loading" element-loading-text="拼命加载中" v-loading="loading" v-if="loading"></div>
         <iframe
           ref="layoutIframe"
           :class="{'preview-iframe': isDragging}"
@@ -57,7 +58,7 @@ import {
   compDefaultData,
   compItemBox,
 } from '@/data/components.js';
-import { postMessage } from '@/scripts/tools.js';
+import { postMessage, checkIFrameLoaded } from '@/scripts/tools.js';
 import PreviewTabs from '@/components/previewTabs/index.vue';
 import PreviewComponents from '@/components/previewComponents/index.vue';
 import configDataEditCps from '@/components/configDataEdit/index.js';
@@ -70,6 +71,7 @@ export default {
   },
   data () {
     return {
+      loading: false, // iframe加载
       timesamp: 0, // 拖拽移动时间戳，用来优化dragover事件性能
       layoutMainWidth: 600,
       isDragging: false,
@@ -104,20 +106,25 @@ export default {
     });
     this.initLayoutMainWidth();
     this.setIframeHeight(); // 设置iframe高度
-    const iframe = this.$refs.layoutIframe;
-    if (iframe.attachEvent) {
-      iframe.attachEvent('onload', () => {
-        // iframe加载完毕以后执行操作
-        console.log('iframe已加载完毕');
-        this.getPageLayout();
-      });
-    } else {
-      iframe.onload = () => {
-        // iframe加载完毕以后执行操作
-        console.log('iframe已加载完毕');
-        this.getPageLayout();
-      };
-    }
+    this.loading = true;
+    checkIFrameLoaded(this.$refs.layoutIframe, () => {
+      this.loading = false;
+      this.getPageLayout();
+    });
+    // const iframe = this.$refs.layoutIframe;
+    // if (iframe.attachEvent) {
+    //   iframe.attachEvent('onload', () => {
+    //     // iframe加载完毕以后执行操作
+    //     console.log('iframe已加载完毕');
+    //     this.getPageLayout();
+    //   });
+    // } else {
+    //   iframe.onload = () => {
+    //     // iframe加载完毕以后执行操作
+    //     console.log('iframe已加载完毕');
+    //     this.getPageLayout();
+    //   };
+    // }
     // this.postMessage({
     //   type: 'layouts',
     //   layouts: this.layouts,
