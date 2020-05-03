@@ -72,7 +72,7 @@ export default {
 
 .nav-list {
   padding: 0 12px;
-  
+
   .nav-item {
     display: flex;
     margin-bottom: 12px;

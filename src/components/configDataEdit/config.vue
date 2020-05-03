@@ -74,6 +74,9 @@ export default {
   watch: {
     dataForm: {
       handler (val) {
+        if (val.bgColor && val.bgColor !== this.bgColorDefault) {
+          this.bgColorActive = 1;
+        }
         this.$emit('change', val, this.index);
       },
       deep: true,

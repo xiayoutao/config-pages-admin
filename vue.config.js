@@ -35,8 +35,8 @@ module.exports = {
     port: 7000,
     proxy: {
       '/adminApi': {
-        // target: 'http://127.0.0.1:1338',
-        target: 'https://api.xiayoutao.wang',
+        target: 'http://127.0.0.1:1338',
+        // target: 'https://api.xiayoutao.wang',
         ws: true,
         changeOrigin: true,
       },

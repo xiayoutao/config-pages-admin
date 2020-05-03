@@ -40,12 +40,17 @@
         <component :is="'edit-' + item.name" :key="index" :index="selectedIndex" :data="layouts[selectedIndex]" @change="handleUpdateCpsData" v-if="selectedIndex === index"></component>
       </template>
     </div>
+    <div class="comp-operate">
+      <el-button type="primary" size="medium" style="width: 100%;" @click="handleSubmit">保存</el-button>
+    </div>
   </div>
 </div>
 </template>
 
 <script>
+import Pages from '@/models/sys/pages';
 import pageConfig from '@/data/pageConfig.js';
+import { getUUID } from '@/scripts/utils.js';
 import {
   compUse,
   compList,
@@ -77,7 +82,7 @@ export default {
       dragComponent: {}, // 正在拖拽的组件
       selectedIndex: null, // 当前选中的组件
       layouts: [], // 布局的数据
-      pageConfig: {...pageConfig}, // 页面默认配置信息
+      pageConfig: { ...pageConfig }, // 页面默认配置信息
     };
   },
   computed: {
@@ -99,16 +104,48 @@ export default {
     });
     this.initLayoutMainWidth();
     this.setIframeHeight(); // 设置iframe高度
-    this.postMessage({
-      type: 'layouts',
-      layouts: this.layouts,
-    }, 500);
-    this.postMessage({
-      type: 'config',
-      config: this.pageConfig,
-    }, 500);
+    const iframe = this.$refs.layoutIframe;
+    if (iframe.attachEvent) {
+      iframe.attachEvent('onload', () => {
+        // iframe加载完毕以后执行操作
+        console.log('iframe已加载完毕');
+        this.getPageLayout();
+      });
+    } else {
+      iframe.onload = () => {
+        // iframe加载完毕以后执行操作
+        console.log('iframe已加载完毕');
+        this.getPageLayout();
+      };
+    }
+    // this.postMessage({
+    //   type: 'layouts',
+    //   layouts: this.layouts,
+    // }, 500);
+    // this.postMessage({
+    //   type: 'config',
+    //   config: this.pageConfig,
+    // }, 500);
   },
   methods: {
+    async getPageLayout () {
+      let FormDataModel = new Pages();
+      FormDataModel.info().then(({ data }) => {
+        let resultData = this.$httpResponseHandle(data);
+        this.pageConfig = {...resultData.config};
+        this.layouts = [...resultData.layouts];
+
+        this.postMessage({
+          type: 'layouts',
+          layouts: this.layouts,
+        });
+
+        this.postMessage({
+          type: 'config',
+          config: this.pageConfig,
+        });
+      });
+    },
     initLayoutMainWidth () {
       this.layoutMainWidth = this.$refs.compLayout.clientWidth;
       window.addEventListener('resize', (event) => {
@@ -130,6 +167,8 @@ export default {
         this.iframeHeight = data.height;
       } else if (data.type === 'updateLayouts') { // 更新布局
         this.layouts = [...data.layouts];
+      } else if (data.type === 'updateConfig') {
+        this.pageConfig = {...data.config};
       } else if (data.type === 'updateSelectedIndex') { // 更新选中组件
         this.selectedIndex = data.index;
         if (typeof data.index === 'number') {
@@ -255,6 +294,24 @@ export default {
         data[item].use = 0;
       });
       return data;
+    },
+    // 提交数据
+    handleSubmit () {
+      if (this.layouts.length === 0) {
+        this.$messageCallback('error', '页面不能为空，请添加组件');
+        return false;
+      }
+      let FormDataModel = new Pages();
+      FormDataModel.save({
+        config: this.pageConfig,
+        layouts: this.layouts,
+      }).then(({ data }) => {
+        let resultData = this.$httpResponseHandle(data);
+        console.log(resultData);
+        if (resultData) {
+          this.$messageCallback('success', '操作成功');
+        }
+      });
     }
   },
   watch: {
@@ -305,11 +362,24 @@ export default {
 .comp-config {
   right: 0;
   width: 360px;
+  padding-bottom: 60px;
 
   &-tab {
     display: flex;
     height: 100%;
   }
+}
+
+.comp-operate {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 60px;
+  padding: 0 12px;
+  border-top: 1px solid #f3f3f3;
 }
 
 .comp-layout {

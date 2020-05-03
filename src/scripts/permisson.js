@@ -19,6 +19,8 @@ export default {
   configAdd: 'sys:config:add',
   configUpdate: 'sys:config:update',
   configDelete: 'sys:config:delete',
+  // 页面管理
+  pagesShow: 'sys:pages:show',
   // 基本信息
   baseSave: 'love:base:save',
   // 相册管理

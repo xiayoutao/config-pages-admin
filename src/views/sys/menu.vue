@@ -45,18 +45,20 @@ export default {
       dataForm: {},
       headData: [
         { key: 'name', label: '名称', headerAlign: 'center', align: 'center' },
-        { key: 'icon', label: '图标', headerAlign: 'center', align: 'center' },
+        { key: 'icon', label: '图标', headerAlign: 'center', align: 'center', width: '100px', },
         {
           key: 'type',
           label: '类型',
           headerAlign: 'center',
-          align: 'center'
+          align: 'center',
+          width: '100px',
         },
         {
           key: 'sort',
           label: '排序号',
           headerAlign: 'center',
-          align: 'center'
+          align: 'center',
+          width: '100px',
         },
         {
           key: 'path',

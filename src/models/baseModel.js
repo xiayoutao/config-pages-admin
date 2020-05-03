@@ -54,7 +54,7 @@ class baseModel {
     return await $http({
       url: $http.adornUrl(url),
       method: 'post',
-      data: data ? $http.adornData(data) : null
+      data: data ? $http.adornData(data) : null,
     });
   }
 
