@@ -9,6 +9,9 @@ export function postMessage (theWindow, data, delay = 0, origin) {
   }, delay);
 }
 
+/**
+ * 判断iframe是否加载完毕
+ */
 export function checkIFrameLoaded (iframe, callback) {
   if (iframe.attachEvent) {
     iframe.attachEvent('onload', () => {
