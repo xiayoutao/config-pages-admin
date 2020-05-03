@@ -50,7 +50,7 @@
 <script>
 import Pages from '@/models/sys/pages';
 import pageConfig from '@/data/pageConfig.js';
-import { getUUID } from '@/scripts/utils.js';
+import { getUUID, isEmptyObject } from '@/scripts/utils.js';
 import {
   compUse,
   compList,
@@ -132,7 +132,9 @@ export default {
       let FormDataModel = new Pages();
       FormDataModel.info().then(({ data }) => {
         let resultData = this.$httpResponseHandle(data);
-        this.pageConfig = {...resultData.config};
+        if (!isEmptyObject(resultData.config)) {
+          this.pageConfig = {...resultData.config};
+        }
         this.layouts = [...resultData.layouts];
 
         this.postMessage({
@@ -307,7 +309,6 @@ export default {
         layouts: this.layouts,
       }).then(({ data }) => {
         let resultData = this.$httpResponseHandle(data);
-        console.log(resultData);
         if (resultData) {
           this.$messageCallback('success', '操作成功');
         }

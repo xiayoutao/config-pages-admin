@@ -32,6 +32,17 @@ export function filterObjectNull (obj, filterKeys) {
 }
 
 /**
+ * 判断是否为空对象
+ * @param {*} data
+ */
+export function isEmptyObject (data) {
+  if (data instanceof Array) {
+    return false; // 如果是数组返回false
+  }
+  return !data || JSON.stringify(data) === '{}';
+}
+
+/**
  * 截取字符串前面n位字符
  * @param {*} str 需要截取的字符串
  * @param {*} len 截取字符串长度
