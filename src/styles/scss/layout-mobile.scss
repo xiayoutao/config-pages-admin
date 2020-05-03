@@ -31,25 +31,12 @@
   }
 
   .iphone-body {
-    // position: absolute;
-    // top: 64px;
-    // left: 0;
-    // right: 0;
-    // bottom: 0;
-    // display: flex;
-    // flex-direction: column;
-    // width: 1600px;
-
     .loading {
       position: relative;
       z-index: 100;
       width: 375px;
       height: 603px;
       margin: 0 auto;
-    }
-
-    .main {
-      flex: 1;
     }
   }
 }
