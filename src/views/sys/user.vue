@@ -16,8 +16,8 @@
       <el-table-column v-for="(item, index) in headData" :key="index" :prop="item.key" :width="item.width" :label="item.label" :header-align="item.headerAlign" :align="item.align">
         <template slot-scope="scope">
           <template v-if="item.key === 'flag'">
-            <el-tag v-if="scope.row.flag === flags.enabled" size="small">正常</el-tag>
-            <el-tag v-if="scope.row.flag === flags.disabled" size="small" type="danger">禁用</el-tag>
+            <el-tag v-if="scope.row.flag === userFlags.enabled" size="small">正常</el-tag>
+            <el-tag v-if="scope.row.flag === userFlags.disabled" size="small" type="danger">禁用</el-tag>
           </template>
           <template v-else>
             <span v-if="item.render">{{ item.render(scope.row[item.key]) }}</span>
@@ -43,9 +43,10 @@
 </template>
 
 <script>
-import Admin from '@/models/sys/admin';
+import { userFlags, getUserList, deleteUser } from '@/apis/sys/user.js';
 import AddOrUpdate from './user-add-or-update';
 import UpdatePwd from './user-update-pwd';
+
 export default {
   data () {
     let _this = this;
@@ -95,42 +96,29 @@ export default {
       dataListLoading: false, // 是否显示数据正在加载中
       dataListSelections: [], // 选择的数据项
       addOrUpdateVisible: false, // 添加或修改弹窗显示状态
-      updatePwdVisible: false // 修改密码弹窗显示状态
+      updatePwdVisible: false, // 修改密码弹窗显示状态
+      userFlags,
     };
-  },
-  computed: {
-    flags () {
-      return Admin.flags;
-    }
   },
   activated () {
     this.getDataList();
   },
   methods: {
     // 获取数据列表
-    getDataList (isSearch) {
-      this.dataListLoading = true;
-      if (isSearch) {
-        this.pageIndex = 1;
+    async getDataList () {
+      const data = await getUserList({
+        page: this.pageIndex,
+        limit: this.pageSize,
+        userid: this.dataForm.userid
+      });
+      this.dataListLoading = false;
+      if (!this.isEmptyObject(data)) {
+        this.dataList = data.list;
+        this.totalPage = data.totalCount;
+      } else {
+        this.dataList = [];
+        this.totalPage = 0;
       }
-      let adminModel = new Admin();
-      adminModel
-        .list({
-          page: this.pageIndex,
-          limit: this.pageSize,
-          userid: this.dataForm.userid
-        })
-        .then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.dataList = resultData.list;
-            this.totalPage = resultData.totalCount;
-          } else {
-            this.dataList = [];
-            this.totalPage = 0;
-          }
-          this.dataListLoading = false;
-        });
     },
     // 每页数
     sizeChangeHandle (val) {
@@ -178,16 +166,15 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }
-      ).then(() => {
-        let adminModel = new Admin().model;
-        adminModel.delete(userIds).then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.$messageCallback('success', '操作成功', () => {
-              this.getDataList();
-            });
-          }
+      ).then(async () => {
+        const data = await deleteUser({
+          userid: userIds,
         });
+        if (!this.isEmptyObject(data)) {
+          this.$messageCallback('success', '操作成功', () => {
+            this.getDataList();
+          });
+        }
       });
     }
   },

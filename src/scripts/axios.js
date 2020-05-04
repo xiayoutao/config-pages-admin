@@ -40,7 +40,7 @@ http.interceptors.response.use(response => {
     clearLoginInfo();
     location.href = '/login.html';
   }
-  return response;
+  return response.data;
 }, error => {
   store.commit('common/setAjaxLoading', false);
   Message.error('请求接口出错，请重试');
@@ -82,6 +82,24 @@ http.adornData = (data = {}, openDefultdata = true, contentType = 'json') => {
   };
   data = openDefultdata ? merge(defaults, data) : data;
   return contentType === 'json' ? JSON.stringify(data) : qs.stringify(data);
+};
+
+http.handleData = options => {
+  options = Object.assign({
+    processing: true, // 是否处理数据
+    successCode: 0, // 成功返回回调状态
+    code: 0, // 接口返回状态
+    result: {}, // 请求接口回调数据
+  }, options);
+  console.log(options);
+  if (options.processing) {
+    if (options.code === options.successCode) {
+      return options.result || true;
+    }
+    messageCallback('error', options.msg);
+    return false;
+  }
+  return options.result;
 };
 
 /**

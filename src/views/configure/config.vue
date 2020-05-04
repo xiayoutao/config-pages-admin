@@ -49,9 +49,12 @@
 </template>
 
 <script>
-import Pages from '@/models/sys/pages';
+import {
+  getPageInfo,
+  savePage,
+} from '@/apis/sys/pages.js';
 import pageConfig from '@/data/pageConfig.js';
-import { getUUID, isEmptyObject } from '@/scripts/utils.js';
+import { getUUID, } from '@/scripts/utils.js';
 import {
   compUse,
   compList,
@@ -105,44 +108,22 @@ export default {
       this.receiveMessage(event.data);
     });
     this.initLayoutMainWidth();
-    this.setIframeHeight(); // 设置iframe高度
     this.loading = true;
     checkIFrameLoaded(this.$refs.layoutIframe, () => {
       this.loading = false;
+      this.setIframeHeight(); // 设置iframe高度
       this.getPageLayout();
     });
-    // const iframe = this.$refs.layoutIframe;
-    // if (iframe.attachEvent) {
-    //   iframe.attachEvent('onload', () => {
-    //     // iframe加载完毕以后执行操作
-    //     console.log('iframe已加载完毕');
-    //     this.getPageLayout();
-    //   });
-    // } else {
-    //   iframe.onload = () => {
-    //     // iframe加载完毕以后执行操作
-    //     console.log('iframe已加载完毕');
-    //     this.getPageLayout();
-    //   };
-    // }
-    // this.postMessage({
-    //   type: 'layouts',
-    //   layouts: this.layouts,
-    // }, 500);
-    // this.postMessage({
-    //   type: 'config',
-    //   config: this.pageConfig,
-    // }, 500);
   },
   methods: {
+    // 获取页面布局
     async getPageLayout () {
-      let FormDataModel = new Pages();
-      FormDataModel.info().then(({ data }) => {
-        let resultData = this.$httpResponseHandle(data);
-        if (!isEmptyObject(resultData.config)) {
-          this.pageConfig = {...resultData.config};
+      const data = await getPageInfo();
+      if (!this.isEmptyObject(data)) {
+        if (!this.isEmptyObject(data.config)) {
+          this.pageConfig = {...data.config};
         }
-        this.layouts = [...resultData.layouts];
+        this.layouts = [...data.layouts];
 
         this.postMessage({
           type: 'layouts',
@@ -153,8 +134,9 @@ export default {
           type: 'config',
           config: this.pageConfig,
         });
-      });
+      }
     },
+    // 获取中间部门宽度
     initLayoutMainWidth () {
       this.layoutMainWidth = this.$refs.compLayout.clientWidth;
       window.addEventListener('resize', (event) => {
@@ -219,8 +201,7 @@ export default {
     },
     // 获取拖拽的位置
     getDragPosition (data) {
-      // console.log(data);
-      if (data.x >= this.layoutShowOffsetX) {
+      if (data.x >= this.layoutShowOffsetX && data.x <= this.layoutShowOffsetX + 375) {
         const useData = {...this.compUse[this.dragComponent.name]};
         this.postMessage({
           type: 'layoutMoveOver',
@@ -298,6 +279,7 @@ export default {
       }
       return false;
     },
+    // 充值组件使用个数
     resetCpsUse (data) {
       Object.keys(data).forEach(item => {
         data[item].use = 0;
@@ -305,21 +287,18 @@ export default {
       return data;
     },
     // 提交数据
-    handleSubmit () {
+    async handleSubmit () {
       if (this.layouts.length === 0) {
         this.$messageCallback('error', '页面不能为空，请添加组件');
         return false;
       }
-      let FormDataModel = new Pages();
-      FormDataModel.save({
+      const data = await savePage({
         config: this.pageConfig,
         layouts: this.layouts,
-      }).then(({ data }) => {
-        let resultData = this.$httpResponseHandle(data);
-        if (resultData) {
-          this.$messageCallback('success', '操作成功');
-        }
       });
+      if (data) {
+        this.$messageCallback('success', '操作成功');
+      }
     }
   },
   watch: {

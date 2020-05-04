@@ -1,18 +1,14 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import store from '@/store';
-
 import {
   RouterTabRoutes
 } from 'vue-router-tab';
-
-import { httpResponseHandle } from '@/scripts/axios';
-
 import {
   treeDataTranslate,
 } from '@/scripts/treeUtils';
-
-import Menu from '@/models/sys/menu';
+import { isEmptyObject } from '@/scripts/utils.js';
+import { getMenuAccess } from '@/apis/sys/menu.js';
 
 const importPage = view => () => import(`@/views${view}.vue`);
 const importLayout = view => () => import(`@cps/layout/Frame-${view}.vue`);
@@ -56,32 +52,27 @@ const VueRouter = new Router({
   routes: mainRoutes
 });
 
-VueRouter.beforeEach((to, from, next) => {
+VueRouter.beforeEach(async (to, from, next) => {
   if (VueRouter.options.isAddDynamicRoutes) {
     next();
   } else if (!VueRouter.options.isAddDynamicRoutes && to.path !== from.path) { // 已经添加好动态路由，并且from和to的path不一致
-    let menuModel = new Menu();
-    menuModel.access().then(({
-      data
-    }) => {
-      let resultData = httpResponseHandle(data);
-      if (resultData) {
-        fnAddDynamicRoutes(resultData.list);
-        VueRouter.options.isAddDynamicRoutes = true;
-        const menuListLevel = treeDataTranslate(resultData.list, 'mid');
-        store.commit('common/updateMenuList', menuListLevel);
-        sessionStorage.setItem('menuList', JSON.stringify(resultData.list));
-        sessionStorage.setItem('permissions', resultData.permissions);
-        next({
-          ...to,
-          replace: true
-        });
-      } else {
-        sessionStorage.setItem('menuList', '[]');
-        sessionStorage.setItem('permissions', '');
-        next();
-      }
-    });
+    const data = await getMenuAccess();
+    if (!isEmptyObject(data)) {
+      fnAddDynamicRoutes(data.list);
+      VueRouter.options.isAddDynamicRoutes = true;
+      const menuListLevel = treeDataTranslate(data.list, 'mid');
+      store.commit('common/updateMenuList', menuListLevel);
+      sessionStorage.setItem('menuList', JSON.stringify(data.list));
+      sessionStorage.setItem('permissions', data.permissions);
+      next({
+        ...to,
+        replace: true
+      });
+    } else {
+      sessionStorage.setItem('menuList', '[]');
+      sessionStorage.setItem('permissions', '');
+      next();
+    }
     next();
   }
   next();

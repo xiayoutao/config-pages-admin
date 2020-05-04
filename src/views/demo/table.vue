@@ -35,15 +35,10 @@
     </el-table>
     <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="$store.state.common.paginationOptions.pageSizes" :page-size="$store.state.common.paginationOptions.pageSize" :total="totalPage" :layout="$store.state.common.paginationOptions.layout">
     </el-pagination>
-    <!-- 弹窗, 新增 / 修改 -->
-    <add-or-update ref="addOrUpdate" v-if="addOrUpdateVisible" @close="addOrUpdateVisible = false" @refreshDataList="getDataList"></add-or-update>
   </div>
 </template>
 
 <script>
-import Table from '@/models/demo/table';
-import AddOrUpdate from './table-add-or-update';
-
 export default {
   data () {
     return {
@@ -61,11 +56,6 @@ export default {
   activated () {
     this.getDataList();
   },
-  computed: {
-    sexs () {
-      return Table.sexs;
-    }
-  },
   methods: {
     // 获取数据列表
     getDataList (isSearch) {
@@ -73,23 +63,6 @@ export default {
       if (isSearch) {
         this.pageIndex = 1;
       }
-      let tableModel = new Table();
-      tableModel
-        .list({
-          page: this.pageIndex,
-          limit: this.pageSize
-        })
-        .then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.dataList = resultData.list;
-            this.totalPage = resultData.totalCount;
-          } else {
-            this.dataList = [];
-            this.totalPage = 0;
-          }
-          this.dataListLoading = false;
-        });
     },
     // 新增 / 修改
     addOrUpdateHandle (id) {
@@ -100,16 +73,16 @@ export default {
     },
     // 导出数据
     exportHandle () {
-      let tableModel = new Table();
-      tableModel.xlsx(this.dataListSelections).then(({ data, headers }) => {
-        console.log(headers);
-        // let resultData = this.$httpResponseHandle(data);
-        let contentType = headers['content-type'];
-        const blob = new Blob([data], {
-          type:
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'
-        });
-      });
+      // let tableModel = new Table();
+      // tableModel.xlsx(this.dataListSelections).then(({ data, headers }) => {
+      //   console.log(headers);
+      //   // let resultData = this.$httpResponseHandle(data);
+      //   let contentType = headers['content-type'];
+      //   const blob = new Blob([data], {
+      //     type:
+      //       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'
+      //   });
+      // });
     },
     // 每页数
     sizeChangeHandle (val) {
@@ -144,20 +117,11 @@ export default {
           type: 'warning'
         }
       ).then(() => {
-        let tableModel = new Table();
-        tableModel.delete(ids).then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.$messageCallback('success', '操作成功', () => {
-              this.getDataList();
-            });
-          }
+        this.$messageCallback('success', '操作成功', () => {
+          this.getDataList();
         });
       });
     }
   },
-  components: {
-    AddOrUpdate
-  }
 };
 </script>

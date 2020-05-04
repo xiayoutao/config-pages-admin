@@ -35,8 +35,12 @@
 </template>
 
 <script>
-import Config from '@/models/sys/config';
+import {
+  getConfigList,
+  deleteConfig,
+} from '@/apis/sys/config.js';
 import AddOrUpdate from './config-add-or-update';
+
 export default {
   data () {
     return {
@@ -62,29 +66,24 @@ export default {
   },
   methods: {
     // 获取数据列表
-    getDataList (isSearch) {
+    async getDataList (isSearch) {
       this.dataListLoading = true;
       if (isSearch) {
         this.pageIndex = 1;
       }
-      let configModel = new Config();
-      configModel
-        .list({
-          page: this.pageIndex,
-          limit: this.pageSize,
-          paramKey: this.dataForm.paramKey
-        })
-        .then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.dataList = resultData.list;
-            this.totalPage = resultData.totalCount;
-          } else {
-            this.dataList = [];
-            this.totalPage = 0;
-          }
-          this.dataListLoading = false;
-        });
+      const data = await getConfigList({
+        page: this.pageIndex,
+        limit: this.pageSize,
+        paramKey: this.dataForm.paramKey,
+      });
+      this.dataListLoading = false;
+      if (!this.isEmptyObject(data)) {
+        this.dataList = data.list;
+        this.totalPage = data.totalCount;
+      } else {
+        this.dataList = [];
+        this.totalPage = 0;
+      }
     },
     // 每页数
     sizeChangeHandle (val) {
@@ -123,16 +122,15 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }
-      ).then(() => {
-        let configModel = new Config();
-        configModel.delete(ids).then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.$messageCallback('success', '操作成功', () => {
-              this.getDataList();
-            });
-          }
+      ).then(async () => {
+        const data = await deleteConfig({
+          ids,
         });
+        if (data) {
+          this.$messageCallback('success', '操作成功', () => {
+            this.getDataList();
+          });
+        }
       });
     }
   },

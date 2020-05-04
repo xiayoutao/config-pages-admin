@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import Admin from '@/models/sys/admin';
-import Pages from '@/models/sys/pages';
+import { getAllUser } from '@/apis/sys/user.js';
+import { getPageList, deletePage } from '@/apis/sys/pages.js';
 import { compList } from '@/data/components.js';
 import PagesShow from './pages-show.vue';
 
@@ -102,7 +102,6 @@ export default {
       });
       return obj;
     },
-
   },
   activated () {
     this.getUserList();
@@ -110,42 +109,34 @@ export default {
   },
   methods: {
     // 获取数据列表
-    getDataList (isSearch) {
+    async getDataList (isSearch) {
       this.dataListLoading = true;
       if (isSearch) {
         this.pageIndex = 1;
       }
-      let pagesModel = new Pages();
-      pagesModel
-        .list({
-          page: this.pageIndex,
-          limit: this.pageSize,
-          userid: this.dataForm.userid
-        })
-        .then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.dataList = resultData.list;
-            this.totalPage = resultData.totalCount;
-          } else {
-            this.dataList = [];
-            this.totalPage = 0;
-          }
-          this.dataListLoading = false;
-        });
+      const data = await getPageList({
+        page: this.pageIndex,
+        limit: this.pageSize,
+        userid: this.dataForm.userid
+      });
+      this.dataListLoading = false;
+      if (!this.isEmptyObject(data)) {
+        this.dataList = data.list;
+        this.totalPage = data.totalCount;
+      } else {
+        this.dataList = [];
+        this.totalPage = 0;
+      }
     },
     // 获取菜单列表
-    getUserList () {
-      let adminModel = new Admin();
-      adminModel.select().then(({ data }) => {
-        let resultData = this.$httpResponseHandle(data);
-        if (resultData) {
-          this.userList = [];
-          resultData.forEach(item => {
-            this.userList.push(item);
-          });
-        }
-      });
+    async getUserList () {
+      const data = await getAllUser();
+      if (!this.isEmptyObject(data)) {
+        this.userList = [];
+        data.forEach(item => {
+          this.userList.push(item);
+        });
+      }
     },
     // 每页数
     sizeChangeHandle (val) {

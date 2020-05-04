@@ -11,9 +11,9 @@
       </el-form-item>
       <el-form-item>
         <el-select v-model="dataForm.result" placeholder="操作结果" clearable style="width: 120px;">
-          <el-option :value="results.success" label="成功"></el-option>
-          <el-option :value="results.fail" label="失败"></el-option>
-          <el-option :value="results.error" label="错误"></el-option>
+          <el-option :value="logsResults.success" label="成功"></el-option>
+          <el-option :value="logsResults.fail" label="失败"></el-option>
+          <el-option :value="logsResults.error" label="错误"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -48,8 +48,14 @@
 </template>
 
 <script>
-import Admin from '@/models/sys/admin';
-import Logs from '@/models/sys/logs';
+import {
+  logsResults,
+  getLogsList,
+  deleteLogs,
+} from '@/apis/sys/logs.js';
+import {
+  getAllUser,
+} from '@/apis/sys/user.js';
 
 export default {
   data () {
@@ -58,7 +64,7 @@ export default {
       dataForm: {
         userid: null,
         category: null,
-        result: null
+        result: null,
       },
       headData: [
         { key: 'category', label: '操作栏目', headerAlign: 'center', align: 'center' },
@@ -80,13 +86,9 @@ export default {
       totalPage: 0,
       dataListLoading: false,
       dataListSelections: [],
-      userList: []
+      userList: [],
+      logsResults,
     };
-  },
-  computed: {
-    results () {
-      return Logs.results;
-    }
   },
   activated () {
     this.getUserList();
@@ -94,46 +96,38 @@ export default {
   },
   methods: {
     // 获取数据列表
-    getDataList (isSearch) {
+    async getDataList (isSearch) {
       this.dataListLoading = true;
       if (isSearch) {
         this.pageIndex = 1;
       }
-      let logsModel = new Logs();
-      logsModel
-        .list({
-          page: this.pageIndex,
-          limit: this.pageSize,
-          type: this.dataForm.type,
-          level: this.dataForm.level,
-          userid: this.dataForm.userid,
-          category: this.dataForm.category,
-          result: this.dataForm.result
-        })
-        .then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.dataList = resultData.list;
-            this.totalPage = resultData.totalCount;
-          } else {
-            this.dataList = [];
-            this.totalPage = 0;
-          }
-          this.dataListLoading = false;
-        });
+      const data = await getLogsList({
+        page: this.pageIndex,
+        limit: this.pageSize,
+        type: this.dataForm.type,
+        level: this.dataForm.level,
+        userid: this.dataForm.userid,
+        category: this.dataForm.category,
+        result: this.dataForm.result,
+      });
+      this.dataListLoading = false;
+      if (!this.isEmptyObject(data)) {
+        this.dataList = data.list;
+        this.totalPage = data.totalCount;
+      } else {
+        this.dataList = [];
+        this.totalPage = 0;
+      }
     },
     // 获取菜单列表
-    getUserList () {
-      let adminModel = new Admin();
-      adminModel.select().then(({ data }) => {
-        let resultData = this.$httpResponseHandle(data);
-        if (resultData) {
-          this.userList = [];
-          resultData.forEach(item => {
-            this.userList.push(item);
-          });
-        }
-      });
+    async getUserList () {
+      const data = await getAllUser();
+      if (!this.isEmptyObject(data)) {
+        this.userList = [];
+        data.forEach(item => {
+          this.userList.push(item);
+        });
+      }
     },
     // 每页数
     sizeChangeHandle (val) {
@@ -150,8 +144,6 @@ export default {
     selectionChangeHandle (val) {
       this.dataListSelections = val;
     },
-    // 查看
-    showHandle (id) {},
     // 删除
     deleteHandle (id) {
       var ids = id
@@ -167,18 +159,19 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }
-      ).then(() => {
-        let logsModel = new Logs();
-        logsModel.delete(ids).then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.$messageCallback('success', '操作成功', () => {
-              this.getDataList();
-            });
-          }
+      ).then(async () => {
+        const data = await deleteLogs({
+          ids,
         });
+        if (data) {
+          this.$messageCallback('success', '操作成功', () => {
+            this.getDataList();
+          });
+        }
       });
-    }
+    },
+    // 查看
+    showHandle (id) {},
   }
 };
 </script>

@@ -1,5 +1,9 @@
 import store from '@/store';
 
+import {
+  messageCallback,
+} from './common';
+
 // 发送消息
 export function postMessage (theWindow, data, delay = 0, origin) {
   origin = origin || store.state.previewOrigin;
@@ -30,4 +34,20 @@ export function checkIFrameLoaded (iframe, callback) {
       }
     };
   }
+}
+
+// 处理响应结果
+export function handleResultData (res, options) {
+  options = Object.assign({
+    processing: true, // 是否处理数据
+    successCode: 0, // 成功返回回调状态
+  }, options);
+  if (options.processing) {
+    if (res.code === options.successCode) {
+      return res.result || true;
+    }
+    messageCallback('error', res.msg);
+    return false;
+  }
+  return res;
 }

@@ -10,8 +10,8 @@
       <el-table-column v-for="(item, index) in headData" :key="index" :prop="item.key" :width="item.width" :label="item.label" :header-align="item.headerAlign" :align="item.align">
         <template slot-scope="scope">
           <template v-if="item.key === 'type'">
-            <el-tag v-if="scope.row.type === types.catalog" size="small">目录</el-tag>
-            <el-tag v-else-if="scope.row.type === types.menu" size="small" type="success">菜单</el-tag>
+            <el-tag v-if="scope.row.type === menuTypes.catalog" size="small">目录</el-tag>
+            <el-tag v-else-if="scope.row.type === menuTypes.menu" size="small" type="success">菜单</el-tag>
           </template>
           <template v-else-if="item.key === 'icon'">
             <span :class="$iconfont + scope.row.icon" style="margin-right:0;"></span>
@@ -35,13 +35,15 @@
 </template>
 
 <script>
-import Menu from '@/models/sys/menu';
+import { menuTypes, getMenuList, deleteMenu } from '@/apis/sys/menu.js';
 import { treeDataTranslate } from '@/scripts/treeUtils';
 import AddOrUpdate from './menu-add-or-update';
+
 export default {
   data () {
     let _this = this;
     return {
+      menuTypes,
       dataForm: {},
       headData: [
         { key: 'name', label: '名称', headerAlign: 'center', align: 'center' },
@@ -78,24 +80,18 @@ export default {
       addOrUpdateVisible: false
     };
   },
-  computed: {
-    types () {
-      return Menu.types;
-    }
-  },
   activated () {
     this.getDataList();
   },
   methods: {
     // 获取数据列表
-    getDataList () {
+    async getDataList () {
       this.dataListLoading = true;
-      let menuModel = new Menu();
-      menuModel.list().then(({ data }) => {
-        let resultData = this.$httpResponseHandle(data);
-        this.dataList = treeDataTranslate(resultData, 'mid');
-        this.dataListLoading = false;
-      });
+      const data = await getMenuList();
+      this.dataListLoading = false;
+      if (!this.isEmptyObject(data)) {
+        this.dataList = treeDataTranslate(data, 'mid');
+      }
     },
     // 新增 / 修改
     addOrUpdateHandle (id) {
@@ -110,16 +106,15 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        let menuModel = new Menu();
-        menuModel.delete(id).then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.$messageCallback('success', '操作成功', () => {
-              this.getDataList();
-            });
-          }
+      }).then(async () => {
+        const data = await deleteMenu({
+          id,
         });
+        if (data) {
+          this.$messageCallback('success', '操作成功', () => {
+            this.getDataList();
+          });
+        }
       });
     }
   },

@@ -1,14 +1,8 @@
 import '@babel/polyfill';
 import Vue from 'vue';
 import store from '@/store';
-
 import 'element-ui/lib/theme-chalk/index.css';
-// import ElementUI from 'element-ui';
-// Vue.use(ElementUI, {
-//   size: 'small'
-// });
 import './element-ui';
-
 import RouterTab from 'vue-router-tab';
 import 'vue-router-tab/dist/lib/vue-router-tab.css';
 Vue.use(RouterTab);
@@ -29,6 +23,14 @@ Vue.config.productionTip = false;
 if (process.env.NODE_ENV !== 'production') {
   require('@/mockjs');
 }
+
+Vue.mixin({
+  data () {
+    return {
+      ajaxLoading: false,
+    };
+  }
+});
 
 new Vue({
   store,

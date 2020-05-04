@@ -33,8 +33,9 @@
 </template>
 
 <script>
-import Role from '@/models/sys/role';
+import { getRoleList, deleteRole } from '@/apis/sys/role.js';
 import AddOrUpdate from './role-add-or-update';
+
 export default {
   data () {
     let _this = this;
@@ -79,29 +80,24 @@ export default {
   },
   methods: {
     // 获取数据列表
-    getDataList (isSearch) {
+    async getDataList (isSearch) {
       this.dataListLoading = true;
       if (isSearch) {
         this.pageIndex = 1;
       }
-      let roleModel = new Role();
-      roleModel
-        .list({
-          page: this.pageIndex,
-          limit: this.pageSize,
-          roleName: this.dataForm.roleName
-        })
-        .then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.dataList = resultData.list;
-            this.totalPage = resultData.totalCount;
-          } else {
-            this.dataList = [];
-            this.totalPage = 0;
-          }
-          this.dataListLoading = false;
-        });
+      const data = await getRoleList({
+        page: this.pageIndex,
+        limit: this.pageSize,
+        roleName: this.dataForm.roleName
+      });
+      this.dataListLoading = false;
+      if (!this.isEmptyObject(data)) {
+        this.dataList = data.list;
+        this.totalPage = data.totalCount;
+      } else {
+        this.dataList = [];
+        this.totalPage = 0;
+      }
     },
     // 每页数
     sizeChangeHandle (val) {
@@ -140,16 +136,15 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }
-      ).then(() => {
-        let roleModel = new Role();
-        roleModel.delete(ids).then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.$messageCallback('success', '操作成功', () => {
-              this.getDataList();
-            });
-          }
+      ).then(async () => {
+        const data = await deleteRole({
+          roleId: ids,
         });
+        if (data) {
+          this.$messageCallback('success', '操作成功', () => {
+            this.getDataList();
+          });
+        }
       });
     }
   },

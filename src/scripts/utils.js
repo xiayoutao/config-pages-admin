@@ -37,7 +37,7 @@ export function filterObjectNull (obj, filterKeys) {
  */
 export function isEmptyObject (data) {
   if (data instanceof Array) {
-    return false; // 如果是数组返回false
+    return false; // 如果是数组返回false，表示非空对象
   }
   return !data || JSON.stringify(data) === '{}';
 }

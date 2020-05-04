@@ -4,11 +4,11 @@
       <div class="title">
         <h1>后台管理系统</h1>
       </div>
-      <el-form ref="dataForm" class="login-form" :model="dataForm" :show-message="validateShowMessage" status-icon @keyup.enter.native="dataFormSubmit()">
-        <el-form-item prop="userid" :error="validateErrors.userid">
+      <el-form ref="dataForm" class="login-form" :model="dataForm" :rules="rules" status-icon @keyup.enter.native="dataFormSubmit()">
+        <el-form-item prop="userid">
           <el-input v-model="dataForm.userid" size="large" autocomplete="off" placeholder="请输入用户名"></el-input>
         </el-form-item>
-        <el-form-item prop="pwd" :error="validateErrors.pwd">
+        <el-form-item prop="pwd">
           <el-input v-model="dataForm.pwd" type="password" size="large" autocomplete="off" placeholder="密码"></el-input>
         </el-form-item>
         <el-form-item>
@@ -22,9 +22,16 @@
 </template>
 
 <script>
-import Admin from '@/models/sys/admin';
-import { getUUID } from '@/scripts/utils';
+import { login } from '@/apis/common/index.js';
+import {
+  getUUID,
+  isEmptyObject,
+} from '@/scripts/utils.js';
 import Validate from '@/mixins/validate';
+import {
+  userid,
+  password
+} from '@/scripts/pattern';
 
 export default {
   mixins: [Validate],
@@ -38,7 +45,17 @@ export default {
         uuid: '',
         captcha: ''
       },
-      captchaPath: '' // 验证码图片路径
+      captchaPath: '', // 验证码图片路径
+      rules: {
+        userid: [
+          { required: true, message: '用户名不能为空', },
+          { pattern: userid, message: '用户名要求3到12位（字母，数字，下划线，减号）', }
+        ],
+        pwd: [
+          { required: true, message: '密码不能为空', },
+          { pattern: password, message: '密码要求3到12位（字母，数字，下划线，减号）', }
+        ],
+      }
     };
   },
   computed: {
@@ -49,20 +66,12 @@ export default {
       return this.$store.state.copyright;
     },
     userId: {
-      get () {
-        return this.$store.state.user.id;
-      },
-      set (val) {
-        this.$store.commit('user/updateId', val);
-      }
+      get () { return this.$store.state.user.id; },
+      set (val) { this.$store.commit('user/updateId', val); }
     },
     userName: {
-      get () {
-        return this.$store.state.user.name;
-      },
-      set (val) {
-        this.$store.commit('user/updateName', val);
-      }
+      get () { return this.$store.state.user.name;},
+      set (val) { this.$store.commit('user/updateName', val);}
     }
   },
   activated () {
@@ -70,36 +79,22 @@ export default {
   },
   methods: {
     // 提交表单
-    dataFormSubmit () {
-      this.validateShowMessage = true;
-      this.validateForm(FormDataModel => {
-        FormDataModel.login().then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
+    async dataFormSubmit () {
+      this.$refs.dataForm.validate(async (valid) => {
+        if (valid) {
+          const data = await login(this.dataForm);
+          if (!isEmptyObject(data)) {
             this.$messageCallback('success', '登录成功，页面跳转中...', () => {
-              this.$cookie.set('user', JSON.stringify(resultData.user));
-              this.$cookie.set('token', resultData.token);
+              this.$cookie.set('user', JSON.stringify(data.user));
+              this.$cookie.set('token', data.token);
               location.href = '/';
             });
           }
-        });
+        } else {
+          return false;
+        }
       });
     },
-    /**
-     * 校验表单数据
-     * @param {function} success 验证成功执行的方法
-     */
-    validateForm (success) {
-      let FormDataModel = new Admin(this.dataForm);
-      FormDataModel.validate(['userid', 'pwd'])
-        .then(() => {
-          this.$validateFormMsg.call(this, this.$refs.dataForm.fields);
-          success && success(FormDataModel);
-        })
-        .catch(errors => {
-          this.$validateFormMsg.call(this, this.$refs.dataForm.fields, errors);
-        });
-    }
   }
 };
 </script>

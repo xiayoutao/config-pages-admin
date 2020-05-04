@@ -19,70 +19,68 @@
 </template>
 
 <script>
-import Config from '@/models/sys/config';
-import Validate from '@/mixins/validate';
+import {
+  getConfigInfo,
+  insertConfig,
+  updateConfig
+} from '@/apis/sys/config.js';
 
 export default {
-  mixins: [Validate],
   data () {
     return {
       visible: false,
-      dataForm: {},
-      id: null
+      id: null,
+      dataForm: {
+        paramKey: null,
+        paramValue: null,
+        remark: null,
+      },
     };
   },
   methods: {
     init (id) {
       this.id = id;
       this.visible = true;
-      this.$nextTick(() => {
-        let configModel = new Config();
-        if (id) {
-          configModel.info(id).then(({ data }) => {
-            let resultData = this.$httpResponseHandle(data);
-            if (resultData) {
-              this.initData(resultData);
-            }
-          });
-        } else {
-          let dataForm = configModel.toData();
-          this.initData(dataForm);
+      this.$nextTick(async () => {
+        if (!id) {
+          return;
+        }
+        const data = await getConfigInfo({
+          id,
+        });
+        if (!this.isEmptyObject(data)) {
+          this.dataForm = { ...data };
         }
       });
     },
-    // 设置dataForm对象属性
-    initData (dataForm) {
-      let keys = Object.keys(dataForm);
-      keys.forEach(item => {
-        this.$set(this.dataForm, item, dataForm[item]);
-      });
-    },
     // 表单提交
-    dataFormSubmit () {
-      this.validateShowMessage = true;
-      this.validateForm(FormDataModel => {
-        FormDataModel.save(this.id).then(({ data }) => {
-          let resultData = this.$httpResponseHandle(data);
-          if (resultData) {
-            this.$messageCallback('success', '操作成功');
-            this.$emit('refreshDataList');
-            this.visible = false;
-          }
-        });
+    async dataFormSubmit () {
+      if (this.ajaxLoading) {
+        return false;
+      }
+      this.ajaxLoading = true;
+      this.$refs.dataForm.validate((valid) => {
+        if (valid) {
+          this.$nextTick(async () => {
+            let data;
+            if (this.mid) {
+              data = await updateConfig(this.dataForm);
+            } else {
+              data = await insertConfig(this.dataForm);
+            }
+            if (data) {
+              this.$emit('refreshDataList');
+              this.$messageCallback('success', '操作成功', () => {
+                this.ajaxLoading = false;
+                this.visible = false;
+              });
+            }
+          });
+        } else {
+          return false;
+        }
       });
     },
-    validateForm (success) {
-      let FormDataModel = new Config(this.dataForm).model;
-      FormDataModel.validate(['paramKey', 'paramValue', 'remark'])
-        .then(() => {
-          this.$validateFormMsg.call(this, this.$refs.dataForm.fields);
-          success && success(FormDataModel);
-        })
-        .catch(errors => {
-          console.log('验证失败', errors);
-          this.$validateFormMsg.call(this, this.$refs.dataForm.fields, errors);
-        });
-    }
   }
 };
 </script>
