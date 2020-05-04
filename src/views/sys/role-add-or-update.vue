@@ -117,24 +117,21 @@ export default {
         return false;
       }
       this.ajaxLoading = true;
-      this.$refs.dataForm.validate((valid) => {
+      this.$refs.dataForm.validate(async (valid) => {
         if (valid) {
-          this.treeCheckChange(); // 勾选的菜单发生变化，设置dataForm.menuIds
-          this.$nextTick(async () => {
-            let data;
-            if (this.roleId) {
-              data = await updateRole(this.dataForm);
-            } else {
-              data = await insertRole(this.dataForm);
-            }
-            if (data) {
-              this.$emit('refreshDataList');
-              this.$messageCallback('success', '操作成功', () => {
-                this.ajaxLoading = false;
-                this.visible = false;
-              });
-            }
-          });
+          let data;
+          if (this.roleId) {
+            data = await updateRole(this.dataForm);
+          } else {
+            data = await insertRole(this.dataForm);
+          }
+          if (data) {
+            this.$emit('refreshDataList');
+            this.$messageCallback('success', '操作成功', () => {
+              this.ajaxLoading = false;
+              this.visible = false;
+            });
+          }
         } else {
           return false;
         }

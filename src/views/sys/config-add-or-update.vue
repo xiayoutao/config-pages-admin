@@ -59,23 +59,21 @@ export default {
         return false;
       }
       this.ajaxLoading = true;
-      this.$refs.dataForm.validate((valid) => {
+      this.$refs.dataForm.validate(async (valid) => {
         if (valid) {
-          this.$nextTick(async () => {
-            let data;
-            if (this.mid) {
-              data = await updateConfig(this.dataForm);
-            } else {
-              data = await insertConfig(this.dataForm);
-            }
-            if (data) {
-              this.$emit('refreshDataList');
-              this.$messageCallback('success', '操作成功', () => {
-                this.ajaxLoading = false;
-                this.visible = false;
-              });
-            }
-          });
+          let data;
+          if (this.id) {
+            data = await updateConfig(this.dataForm);
+          } else {
+            data = await insertConfig(this.dataForm);
+          }
+          if (data) {
+            this.$emit('refreshDataList');
+            this.$messageCallback('success', '操作成功', () => {
+              this.ajaxLoading = false;
+              this.visible = false;
+            });
+          }
         } else {
           return false;
         }

@@ -1,8 +1,8 @@
 import API from '@/apis/urls.js';
 import http from '@/scripts/axios.js';
 
-export const types = {
-  image: 0, // 图片累心
+export const fileTypes = {
+  image: 0, // 图片
   audio: 1, // 音频
   video: 2 // 视频（暂时没用到）
 };

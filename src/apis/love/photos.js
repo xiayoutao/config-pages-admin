@@ -1,17 +1,6 @@
 import API from '@/apis/urls.js';
 import http from '@/scripts/axios.js';
 
-export const types = {
-  image: 0, // 图片累心
-  audio: 1, // 音频
-  video: 2 // 视频（暂时没用到）
-};
-
-export const mineTypes = {
-  image: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
-  audio: ['audio/mp3']
-};
-
 // 获取照片列表
 export async function getPhotoList (data) {
   const res = await http({

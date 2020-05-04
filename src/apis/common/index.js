@@ -14,9 +14,9 @@ export async function login (data) {
 }
 
 // 获取七牛上传凭证
-export async function qiniuUptoken (data) {
+export async function getQiniuUptoken (data) {
   const res = await http({
-    url: http.adornUrl(API.qiniuUptoken),
+    url: http.adornUrl(API.getQiniuUptoken),
     method: 'post',
     data: http.adornData(data),
   });
