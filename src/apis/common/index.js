@@ -13,6 +13,17 @@ export async function login (data) {
   });
 }
 
+// 退出
+export async function logout () {
+  const res = await http({
+    url: http.adornUrl(API.logout),
+    method: 'post',
+  });
+  return http.handleData({
+    ...res,
+  });
+}
+
 // 获取七牛上传凭证
 export async function getQiniuUptoken (data) {
   const res = await http({

@@ -11,6 +11,7 @@ import {
 export function clearLoginInfo () {
   VueCookie.delete('token');
   VueCookie.delete('user');
+  sessionStorage.clear();
 }
 
 /**

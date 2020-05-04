@@ -1,6 +1,7 @@
 export default {
   getQiniuUptoken: '/qiniu/uptoken',
   login: '/common/login', // 登录
+  logout: '/common/logout', // 退出
   // 用户管理
   getUserList: '/admin/list', // 获取用户列表
   getAllUser: '/admin/select', // 获取所有用户

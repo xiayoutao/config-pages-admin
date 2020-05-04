@@ -7,6 +7,9 @@
 
 <script>
 import { clearLoginInfo } from '@/scripts/common';
+import {
+  logout,
+} from '@/apis/common/index.js';
 
 export default {
   name: 'SiteLink',
@@ -29,17 +32,11 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      })
-        .then(() => {
-          this.$http({
-            url: this.$http.adornUrl('/common/logout'),
-            method: 'post'
-          }).then(({ data }) => {
-            clearLoginInfo();
-            location.href = '/login.html';
-          });
-        })
-        .catch(() => {});
+      }).then(async () => {
+        const data = await logout();
+        clearLoginInfo();
+        location.href = '/login.html';
+      }).catch(() => {});
     },
   },
 };
