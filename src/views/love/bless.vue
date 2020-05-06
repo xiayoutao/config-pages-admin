@@ -1,10 +1,14 @@
 <template>
   <div class="app-page mod-bless">
     <el-table :data="dataList" border v-loading="dataListLoading" :empty-text="this.$store.state.common.tableEmptyText" style="width: 100%;">
-      <el-table-column prop="nickname" header-align="center" align="center" label="用户昵称" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="avatar" header-align="center" align="center" label="用户头像" show-overflow-tooltip>
+      <el-table-column header-align="center" align="center" label="用户昵称" show-overflow-tooltip>
         <template slot-scope="scope">
-          <img width="30" height="30" v-imgurl="scope.row.avatar">
+          <span>{{ scope.row['user.nickname'] }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column header-align="center" align="center" label="用户头像" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <img width="30" height="30" v-imgurl="$store.state.common.imageServer + scope.row['user.avatar']">
         </template>
       </el-table-column>
       <el-table-column prop="addtime" header-align="center" align="center" width="300" label="祝福时间">
