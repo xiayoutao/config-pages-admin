@@ -69,7 +69,12 @@ export default {
           headerAlign: 'center',
           align: 'center',
           render (data) {
-            return data === 1 ? '男' : '女';
+            if (data === 1) {
+              return '男';
+            } else if (data === 0) {
+              return '女';
+            }
+            return '--';
           }
         },
         {
