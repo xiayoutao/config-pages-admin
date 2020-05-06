@@ -7,7 +7,7 @@ export const fileTypes = {
   video: 2 // 视频（暂时没用到）
 };
 
-export const mineTypes = {
+export const mimeTypes = {
   image: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
   audio: ['audio/mp3']
 };

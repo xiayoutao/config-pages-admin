@@ -1,6 +1,6 @@
 <template>
   <el-dialog class="dialog-sm" title="修改排序" :close-on-click-modal="false" @close="$emit('close')" :visible.sync="visible">
-    <el-form ref="dataForm" :model="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-form ref="dataForm" :model="dataForm" :rules="rules" label-width="80px" @keyup.enter.native="dataFormSubmit()">
       <el-form-item label="排序" prop="sort">
         <el-input-number v-model="dataForm.sort" controls-position="right" :min="0" label="排序号"></el-input-number>
       </el-form-item>
@@ -25,7 +25,12 @@ export default {
       dataForm: {
         id: null,
         sort: 50,
-        appid: null,
+      },
+      rules: {
+        sort: [
+          { required: true, message: '排序号不能为空', },
+          { type: 'number', min: 0, message: '排序号必须大于等于0', },
+        ],
       }
     };
   },

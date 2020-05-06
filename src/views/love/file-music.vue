@@ -17,7 +17,7 @@
       </el-table-column>
       <el-table-column header-align="center" align="center" width="160" label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="playHandle(scope.row.urlkey)">播放</el-button>
+          <el-button type="text" size="small" @click="playHandle(scope.row.name, scope.row.urlkey)">播放</el-button>
           <el-button v-permisson="permisson.musicDelete" type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
@@ -128,10 +128,10 @@ export default {
         }
       });
     },
-    playHandle (url) {
+    playHandle (title, url) {
       this.audioVisible = true;
       this.$nextTick(() => {
-        this.$refs.audioPlayer.init('', this.$store.state.common.cdnUrl + url);
+        this.$refs.audioPlayer.init(title, this.$store.state.common.cdnUrl + url);
       });
     },
     audioPause () {

@@ -42,7 +42,6 @@
 
 <script>
 import {
-  mineTypes,
   getPhotoList,
   deletePhoto,
 } from '@/apis/love/photos.js';

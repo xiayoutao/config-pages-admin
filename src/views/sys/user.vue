@@ -80,6 +80,12 @@ export default {
           align: 'center'
         },
         {
+          key: 'role.roleName',
+          label: '角色',
+          headerAlign: 'center',
+          align: 'center'
+        },
+        {
           key: 'regtime',
           label: '注册时间',
           headerAlign: 'center',

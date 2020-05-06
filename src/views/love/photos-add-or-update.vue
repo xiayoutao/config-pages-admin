@@ -1,6 +1,6 @@
 <template>
-  <el-dialog class="dialog-common" :title="!id ? '新增' : '修改'" :close-on-click-modal="false" @close="$emit('close')" :visible.sync="visible">
-    <el-form ref="dataForm" :model="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+  <el-dialog class="dialog-common" width="540px" :title="!id ? '新增' : '修改'" :close-on-click-modal="false" @close="$emit('close')" :visible.sync="visible">
+    <el-form ref="dataForm" :model="dataForm" :rules="rules" label-width="80px" @keyup.enter.native="dataFormSubmit()">
       <el-form-item label="标题" prop="title">
         <el-input v-model="dataForm.title" placeholder="图片标题"></el-input>
       </el-form-item>
@@ -8,7 +8,7 @@
         <el-input-number v-model="dataForm.sort" controls-position="right" :min="0" label="排序号"></el-input-number>
       </el-form-item>
       <el-form-item label="选择图片" prop="url">
-        <el-select v-model="dataForm.url" placeholder="选择图片" style="width: 100%;">
+        <el-select v-model="dataForm.url" placeholder="选择图片">
           <el-option v-for="(item, index) in fileList" :key="index" :label="item.name" :value="item.url">
             <span style="float:left;">{{ item.name }}</span>
             <img v-imgurl="item.url + '?imageView2/1/w/50/h/50'" style="float:right;width:30px;height:30px;">
@@ -16,7 +16,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="">
-        <img v-imgurl="dataForm.url + '?imageView2/1/w/360/h/420'" v-if="dataForm.url" style="max-width: 100%;">
+        <img v-imgurl="dataForm.url + '?imageView2/1/w/360/h/420'" v-if="dataForm.url" style="max-width:100%; max-height:360px;">
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -28,7 +28,8 @@
 
 <script>
 import {
-  mineTypes,
+  fileTypes,
+  getAllFile,
 } from '@/apis/love/file.js';
 import {
   insertPhoto,
@@ -41,8 +42,27 @@ export default {
     return {
       visible: false,
       id: null,
-      dataForm: {},
-      fileList: []
+      fileTypes,
+      fileList: [],
+      dataForm: {
+        title: null,
+        url: null,
+        sort: 50,
+      },
+      rules: {
+        title: [
+          { required: true, message: '标题不能为空', },
+          { max: 90, message: '标题不能超过90个字符', },
+        ],
+        url: [
+          { required: true, message: '照片地址不能为空', },
+          { max: 400, message: '照片地址不能超过400个字符', },
+        ],
+        sort: [
+          { required: true, message: '排序号不能为空', },
+          { type: 'number', min: 0, message: '排序号必须大于等于0', },
+        ],
+      }
     };
   },
   methods: {
@@ -62,29 +82,22 @@ export default {
         }
       });
     },
-    initData (dataForm) {
-      let keys = Object.keys(dataForm);
-      keys.forEach(item => {
-        this.$set(this.dataForm, item, dataForm[item]);
-      });
-    },
     // 获取图片列表
-    getFileList () {
-      let fileModel = new File();
+    async getFileList () {
       // 0图片，1音频，2视频
-      fileModel.select(0).then(({ data }) => {
-        let resultData = this.$httpResponseHandle(data);
-        if (resultData) {
-          this.fileList = [];
-          resultData.forEach(item => {
-            this.fileList.push({
-              id: item.id,
-              url: this.$store.state.common.cdnUrl + item.urlkey,
-              name: item.name
-            });
-          });
-        }
+      const data = await getAllFile({
+        type: this.fileTypes.audio,
       });
+      if (!this.isEmptyObject(data)) {
+        this.fileList = [];
+        data.forEach(item => {
+          this.fileList.push({
+            id: item.id,
+            url: this.$store.state.common.cdnUrl + item.urlkey,
+            name: item.name
+          });
+        });
+      }
     },
     // 表单提交
     dataFormSubmit () {

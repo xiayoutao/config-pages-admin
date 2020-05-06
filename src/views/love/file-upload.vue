@@ -13,7 +13,7 @@
 <script>
 import * as qiniu from 'qiniu-js';
 import {
-  mineTypes,
+  mimeTypes,
   fileTypes,
   getFileList,
   uploadFile,
@@ -34,7 +34,7 @@ export default {
       },
       mimeType: [],
       fileTypes,
-      mineTypes,
+      mimeTypes,
     };
   },
   methods: {

@@ -24,8 +24,8 @@ export default {
           title,
           disc: '',
           src: url,
-          width: '100%',
           loop: false,
+          width: '100%',
           ended () {
             _this.$message({
               type: 'success',
