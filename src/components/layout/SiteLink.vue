@@ -32,9 +32,9 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(async () => {
+      }).then(() => {
         console.log('退出');
-        const data = await logout();
+        logout();
         location.href = '/login.html';
         clearLoginInfo();
       }).catch(() => {});
