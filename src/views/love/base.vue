@@ -8,7 +8,7 @@
         <el-input v-model="dataForm.brideName" placeholder="新娘姓名"></el-input>
       </el-form-item>
       <el-form-item label="婚礼日期" prop="weddingDate">
-        <el-date-picker v-model="dataForm.weddingDate" type="date" value-format="timestamp" format="yyyy-MM-dd" placeholder="选择日期" style="width:200px;"></el-date-picker>
+        <el-date-picker v-model="dataForm.weddingDate" type="date" value-format="datetime" format="yyyy-MM-dd" placeholder="选择日期" style="width:200px;"></el-date-picker>
       </el-form-item>
       <el-form-item label="农历" prop="lunarDate">
         <el-input v-model="dataForm.lunarDate" placeholder="农历"></el-input>
@@ -118,8 +118,6 @@ export default {
           if (item === 'moreimg' || item === 'bgmusic') {
             itemData =
               data[item] !== '' ? data[item].split(',') : [];
-          } else if (item === 'weddingDate') {
-            itemData = data[item] * 1000;
           } else {
             itemData = data[item];
           }
