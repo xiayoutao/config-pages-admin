@@ -28,7 +28,6 @@
       <el-table-column header-align="center" align="center" width="150" label="操作">
         <template slot-scope="scope">
           <el-button v-permisson="permisson.pagesShow" type="text" size="small" @click="showHandle(scope.row.uuid)">预览</el-button>
-          <!-- <router-link v-permisson="permisson.pagesShow">预览</router-link> -->
         </template>
       </el-table-column>
     </el-table>

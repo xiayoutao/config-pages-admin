@@ -102,6 +102,7 @@ export default {
   methods: {
     // 获取数据列表
     async getDataList () {
+      this.dataList = [];
       const data = await getUserList({
         page: this.pageIndex,
         limit: this.pageSize,
