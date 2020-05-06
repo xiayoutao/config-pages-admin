@@ -35,8 +35,8 @@ export default {
       }).then(async () => {
         console.log('退出');
         const data = await logout();
-        clearLoginInfo();
         location.href = '/login.html';
+        clearLoginInfo();
       }).catch(() => {});
     },
   },
