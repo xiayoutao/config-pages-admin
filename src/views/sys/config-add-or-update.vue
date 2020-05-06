@@ -50,6 +50,8 @@ export default {
         });
         if (!this.isEmptyObject(data)) {
           this.dataForm = { ...data };
+        } else {
+          this.visible = true;
         }
       });
     },
@@ -67,12 +69,11 @@ export default {
           } else {
             data = await insertConfig(this.dataForm);
           }
+          this.ajaxLoading = false;
           if (data) {
+            this.visible = false;
             this.$emit('refreshDataList');
-            this.$messageCallback('success', '操作成功', () => {
-              this.ajaxLoading = false;
-              this.visible = false;
-            });
+            this.$messageCallback('success', '操作成功');
           }
         } else {
           return false;

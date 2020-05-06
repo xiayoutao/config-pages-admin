@@ -9,7 +9,8 @@
   window.SITE_CONFIG['defaultPage'] = '/home';
 
   // api接口请求地址
-  window.SITE_CONFIG['baseUrl'] = 'https://api.xiayoutao.wang/adminApi';
+  window.SITE_CONFIG['serverBaseUrl'] = 'https://api.xiayoutao.wang';
+  window.SITE_CONFIG['baseUrl'] = 'https://api.xiayoutao.wang';
   window.SITE_CONFIG['cdnUrl'] = 'http://qiniu.xiayoutao.wang/';
   window.SITE_CONFIG['upload'] = '//up-z2.qiniup.com/';
   window.SITE_CONFIG['previewOrigin'] = 'http://h5.xiayoutao.wang';

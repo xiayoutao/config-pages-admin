@@ -53,7 +53,7 @@ http.interceptors.response.use(response => {
  */
 http.adornUrl = (actionName) => {
   // 非生产环境 && 开启代理, 接口前缀统一使用[/adminApi/]前缀做代理拦截!
-  return (process.env.NODE_ENV !== 'production' ? '/adminApi' : window.SITE_CONFIG.baseUrl) + actionName;
+  return window.SITE_CONFIG.baseUrl + '/adminApi' + actionName;
 };
 
 /**

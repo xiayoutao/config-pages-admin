@@ -2,14 +2,17 @@ export default {
   getQiniuUptoken: '/qiniu/uptoken',
   login: '/common/login', // 登录
   logout: '/common/logout', // 退出
-  // 用户管理
-  getUserList: '/admin/list', // 获取用户列表
-  getAllUser: '/admin/select', // 获取所有用户
-  insertUser: '/admin/add', // 新增用户
-  deleteUser: '/admin/delete', // 删除用户
-  updateUser: '/admin/update', // 更新用户信息
-  updateUserPwd: '/admin/updatePwd', // 修改用户密码
-  getUserInfo: '/admin/info', // 获取用户信息
+  // 管理员
+  getAdminList: '/admin/list', // 获取用户列表
+  getAllAdmin: '/admin/select', // 获取所有用户
+  insertAdmin: '/admin/add', // 新增用户
+  deleteAdmin: '/admin/delete', // 删除用户
+  updateAdmin: '/admin/update', // 更新用户信息
+  updateAdminPwd: '/admin/updatePwd', // 修改用户密码
+  getAdminInfo: '/admin/info', // 获取用户信息
+  // 用户给
+  getUserList: '/user/list', // 获取用户列表
+  getUserInfo: '/user/info', // 获取用户信息
   // 配置管理
   getConfigList: '/config/list', // 获取配置列表
   insertConfig: '/config/add', // 新增配置

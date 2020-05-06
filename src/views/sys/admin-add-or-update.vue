@@ -22,8 +22,8 @@
       </el-form-item>
       <el-form-item label="状态" prop="flag" size="mini">
         <el-radio-group v-model="dataForm.flag">
-          <el-radio-button :label="userFlags.enabled">正常</el-radio-button>
-          <el-radio-button :label="userFlags.disabled">禁用</el-radio-button>
+          <el-radio-button :label="adminFlags.enabled">正常</el-radio-button>
+          <el-radio-button :label="adminFlags.disabled">禁用</el-radio-button>
         </el-radio-group>
       </el-form-item>
     </el-form>
@@ -36,11 +36,11 @@
 
 <script>
 import {
-  userFlags,
-  getUserInfo,
-  insertUser,
-  updateUser,
-} from '@/apis/sys/user.js';
+  adminFlags,
+  getAdminInfo,
+  insertAdmin,
+  updateAdmin,
+} from '@/apis/sys/admin.js';
 import { getAllRole } from '@/apis/sys/role.js';
 import {
   mobile,
@@ -55,7 +55,7 @@ export default {
       visible: false,
       userid: null,
       roleList: [],
-      userFlags,
+      adminFlags,
       dataForm: {
         roleId: null,
         userid: null,
@@ -97,7 +97,7 @@ export default {
       this.$nextTick(async () => {
         this.$refs.dataForm.resetFields();
         if (userid) {
-          const data = await getUserInfo({
+          const data = await getAdminInfo({
             userid,
           });
           if (!this.isEmptyObject(data)) {
@@ -121,24 +121,23 @@ export default {
     },
     // 表单提交
     dataFormSubmit () {
-      if (this.ajaxLoading) {
-        return false;
-      }
-      this.ajaxLoading = true;
       this.$refs.dataForm.validate(async (valid) => {
         if (valid) {
           let data;
-          if (this.userid) {
-            data = await updateUser(this.dataForm);
-          } else {
-            data = await insertUser(this.dataForm);
+          if (this.ajaxLoading) {
+            return false;
           }
+          this.ajaxLoading = true;
+          if (this.userid) {
+            data = await updateAdmin(this.dataForm);
+          } else {
+            data = await insertAdmin(this.dataForm);
+          }
+          this.ajaxLoading = false;
           if (data) {
+            this.visible = false;
             this.$emit('refreshDataList');
-            this.$messageCallback('success', '操作成功', () => {
-              this.ajaxLoading = false;
-              this.visible = false;
-            });
+            this.$messageCallback('success', '操作成功');
           }
         } else {
           return false;

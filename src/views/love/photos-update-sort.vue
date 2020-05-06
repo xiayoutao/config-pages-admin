@@ -55,19 +55,18 @@ export default {
     },
     // 表单提交
     async dataFormSubmit () {
-      if (this.ajaxLoading) {
-        return false;
-      }
-      this.ajaxLoading = true;
       this.$refs.dataForm.validate(async (valid) => {
         if (valid) {
+          if (this.ajaxLoading) {
+            return false;
+          }
+          this.ajaxLoading = true;
           let data = await updatePhotoSort(this.dataForm);
+          this.ajaxLoading = false;
           if (data) {
+            this.visible = false;
             this.$emit('refreshDataList');
-            this.$messageCallback('success', '操作成功', () => {
-              this.ajaxLoading = false;
-              this.visible = false;
-            });
+            this.$messageCallback('success', '操作成功');
           }
         } else {
           return false;

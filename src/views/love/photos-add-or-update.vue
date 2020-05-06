@@ -101,24 +101,23 @@ export default {
     },
     // 表单提交
     dataFormSubmit () {
-      if (this.ajaxLoading) {
-        return false;
-      }
-      this.ajaxLoading = true;
       this.$refs.dataForm.validate(async (valid) => {
         if (valid) {
+          if (this.ajaxLoading) {
+            return false;
+          }
+          this.ajaxLoading = true;
           let data;
           if (this.id) {
             data = await updatePhoto(this.dataForm);
           } else {
             data = await insertPhoto(this.dataForm);
           }
+          this.ajaxLoading = false;
           if (data) {
+            this.visible = false;
             this.$emit('refreshDataList');
-            this.$messageCallback('success', '操作成功', () => {
-              this.ajaxLoading = false;
-              this.visible = false;
-            });
+            this.$messageCallback('success', '操作成功');
           }
         } else {
           return false;

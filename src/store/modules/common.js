@@ -7,6 +7,7 @@ export default {
     menuActiveName: '',
     // 表格无数据显示内容
     tableEmptyText: '暂时没有内容显示',
+    serverBaseUrl: window.SITE_CONFIG.serverBaseUrl,
     cdnUrl: window.SITE_CONFIG.cdnUrl,
     upload: window.SITE_CONFIG.upload,
     // 分页器配置信息

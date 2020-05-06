@@ -1,9 +1,11 @@
 export default {
+  // 管理员
+  adminAdd: 'sys:admin:add',
+  adminUpdate: 'sys:admin:update',
+  adminPwd: 'sys:admin:pwd',
+  adminDelete: 'sys:admin:delete',
   // 用户管理
-  userAdd: 'sys:user:add',
-  userUpdate: 'sys:user:update',
-  userPwd: 'sys:user:pwd',
-  userDelete: 'sys:user:delete',
+  userShow: 'sys:user:show',
   // 权限管理
   roleAdd: 'sys:role:add',
   roleUpdate: 'sys:role:update',

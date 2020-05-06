@@ -1,6 +1,6 @@
 <template>
   <el-dialog class="dialog-sm" title="修改密码" :close-on-click-modal="false" @close="$emit('close')" :visible.sync="visible">
-    <el-form ref="dataForm" :model="dataForm" label-width="80px" @keyup.enter.native="dataFormSubmit()">
+    <el-form ref="dataForm" :model="dataForm" :rules="rules" label-width="80px" @keyup.enter.native="dataFormSubmit()">
       <el-form-item label="新密码" prop="pwd">
         <el-input v-model="dataForm.pwd" type="password" placeholder="新密码"></el-input>
       </el-form-item>
@@ -14,8 +14,8 @@
 
 <script>
 import {
-  updateUserPwd,
-} from '@/apis/sys/user.js';
+  updateAdminPwd,
+} from '@/apis/sys/admin.js';
 import {
   password,
 } from '@/scripts/pattern';
@@ -31,7 +31,6 @@ export default {
       rules: {
         pwd: [
           { required: true, message: '密码不能为空', },
-          { pattern: password, message: '密码要求3到12位（字母，数字，下划线，减号）', },
         ],
       }
     };
@@ -42,19 +41,19 @@ export default {
       this.dataForm.userid = userid;
     },
     // 表单提交
-    async dataFormSubmit () {
-      if (this.ajaxLoading) {
-        return false;
-      }
-      this.ajaxLoading = true;
+    dataFormSubmit () {
       this.$refs.dataForm.validate(async (valid) => {
         if (valid) {
-          const data = await updateUserPwd(this.dataForm);
+          if (this.ajaxLoading) {
+            return false;
+          }
+          this.ajaxLoading = true;
+          const data = await updateAdminPwd(this.dataForm);
+          this.ajaxLoading = false;
+          console.log(data);
           if (data) {
-            this.$messageCallback('success', '操作成功', () => {
-              this.ajaxLoading = false,
-              this.visible = false;
-            });
+            this.visible = false;
+            this.$messageCallback('success', '操作成功');
           }
         } else {
           return false;

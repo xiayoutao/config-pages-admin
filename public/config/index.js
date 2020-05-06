@@ -9,6 +9,7 @@
   window.SITE_CONFIG['defaultPage'] = '/home';
 
   // api接口请求地址
+  window.SITE_CONFIG['serverBaseUrl'] = 'http://127.0.0.1:1338';
   window.SITE_CONFIG['baseUrl'] = '';
   window.SITE_CONFIG['cdnUrl'] = 'http://test.xiayoutao.wang/';
   window.SITE_CONFIG['upload'] = '//up-z2.qiniup.com/';

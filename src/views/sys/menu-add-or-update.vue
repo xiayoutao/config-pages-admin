@@ -63,6 +63,7 @@ export default {
   data () {
     const _this = this;
     const validatePid = (rule, value, callback) => {
+      console.log(_this.dataForm.type, menuTypes.menu, value);
       if (_this.dataForm.type === menuTypes.menu) {
         if (!value) {
           callback(new Error('请选择父级菜单'));
@@ -176,7 +177,6 @@ export default {
   },
   methods: {
     init (mid) {
-      this.dataForm = {};
       this.mid = mid;
       this.$set(this.dataForm, 'mid', mid || 0);
       this.getMenuList();
@@ -188,6 +188,8 @@ export default {
           });
           if (!this.isEmptyObject(data)) {
             this.dataForm = { ...data };
+          } else {
+            this.visible = true;
           }
         }
       });
@@ -228,7 +230,7 @@ export default {
       this.ajaxLoading = true;
       this.$refs.dataForm.validate((valid) => {
         if (valid) {
-          this.treeCheckChange(); // 勾选的菜单发生变化，设置dataForm.menuIds
+          // this.treeCheckChange(); // 勾选的菜单发生变化，设置dataForm.menuIds
           this.$nextTick(async () => {
             let data;
             if (this.mid) {
@@ -236,12 +238,11 @@ export default {
             } else {
               data = await insertMenu(this.dataForm);
             }
+            this.ajaxLoading = false;
             if (data) {
+              this.visible = false;
               this.$emit('refreshDataList');
-              this.$messageCallback('success', '操作成功', () => {
-                this.ajaxLoading = false;
-                this.visible = false;
-              });
+              this.$messageCallback('success', '操作成功');
             }
           });
         } else {
