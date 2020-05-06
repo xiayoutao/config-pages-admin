@@ -58,7 +58,7 @@ export default {
           align: 'center',
           render (data) {
             if (data && data.indexOf('http') < 0) {
-              return _this.$store.state.common.serverBaseUrl + data;
+              return _this.$store.state.common.imageServer + data;
             } else {
               return data;
             }
