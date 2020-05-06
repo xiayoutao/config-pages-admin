@@ -59,8 +59,9 @@ export default {
           render (data) {
             if (data && data.indexOf('http') < 0) {
               return _this.$store.state.common.serverBaseUrl + data;
+            } else {
+              return data;
             }
-            return data;
           }
         },
         {
