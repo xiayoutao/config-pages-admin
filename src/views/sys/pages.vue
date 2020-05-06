@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { getAllUser } from '@/apis/sys/user.js';
+import { getAllAdmin } from '@/apis/sys/admin.js';
 import { getPageList, deletePage } from '@/apis/sys/pages.js';
 import { compList } from '@/data/components.js';
 import PagesShow from './pages-show.vue';
@@ -103,7 +103,7 @@ export default {
     },
   },
   activated () {
-    this.getUserList();
+    this.getAllAdmin();
     this.getDataList();
   },
   methods: {
@@ -128,8 +128,8 @@ export default {
       }
     },
     // 获取菜单列表
-    async getUserList () {
-      const data = await getAllUser();
+    async getAllAdmin () {
+      const data = await getAllAdmin();
       if (!this.isEmptyObject(data)) {
         this.userList = [];
         data.forEach(item => {
