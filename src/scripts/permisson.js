@@ -23,6 +23,7 @@ export default {
   configDelete: 'sys:config:delete',
   // 页面管理
   pagesShow: 'sys:pages:show',
+  pagesQRcode: 'sys:pages:qrcode',
   // 基本信息
   baseSave: 'love:base:save',
   // 相册管理

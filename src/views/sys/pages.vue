@@ -28,12 +28,14 @@
       <el-table-column header-align="center" align="center" width="150" label="操作">
         <template slot-scope="scope">
           <el-button v-permisson="permisson.pagesShow" type="text" size="small" @click="showHandle(scope.row.uuid)">预览</el-button>
+          <el-button v-permisson="permisson.pagesQRcode" type="text" size="small" @click="createQRcodeHandle(scope.row.uuid)">生成二维码</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="$store.state.common.paginationOptions.pageSizes" :page-size="$store.state.common.paginationOptions.pageSize" :total="totalPage" :layout="$store.state.common.paginationOptions.layout">
     </el-pagination>
-    <pages-show ref="pagesShow" v-if="pagesShowVisible" @close="addOrUpdateVisible = false"></pages-show>
+    <pages-show ref="pagesShow" v-if="pagesShowVisible" @close="pagesShowVisible = false"></pages-show>
+    <pages-qrcode ref="pagesQRcode" v-if="pagesQRcodeVisible" @close="pagesQRcodeVisible = false"></pages-qrcode>
   </div>
 </template>
 
@@ -42,6 +44,7 @@ import { getAllAdmin } from '@/apis/sys/admin.js';
 import { getPageList, deletePage } from '@/apis/sys/pages.js';
 import { compList } from '@/data/components.js';
 import PagesShow from './pages-show.vue';
+import PagesQrcode from './pages-qrcode.vue';
 
 export default {
   data () {
@@ -91,6 +94,7 @@ export default {
       dataListLoading: false,
       userList: [],
       pagesShowVisible: false,
+      pagesQRcodeVisible: false,
     };
   },
   computed: {
@@ -153,10 +157,17 @@ export default {
       this.$nextTick(() => {
         this.$refs.pagesShow.init(uuid);
       });
+    },
+    createQRcodeHandle (uuid) {
+      this.pagesQRcodeVisible = true;
+      this.$nextTick(() => {
+        this.$refs.pagesQRcode.init(uuid);
+      });
     }
   },
   components: {
     PagesShow,
+    PagesQrcode,
   }
 };
 </script>
