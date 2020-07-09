@@ -1,5 +1,6 @@
-import axios from 'axios';
-import qs from 'qs';
+/* eslint-disable no-undef */
+// import axios from 'axios';
+import { stringify } from 'qs';
 import merge from 'lodash/merge';
 import {
   Message
@@ -81,7 +82,7 @@ http.adornData = (data = {}, openDefultdata = true, contentType = 'json') => {
     't': new Date().getTime()
   };
   data = openDefultdata ? merge(defaults, data) : data;
-  return contentType === 'json' ? JSON.stringify(data) : qs.stringify(data);
+  return contentType === 'json' ? JSON.stringify(data) : stringify(data);
 };
 
 http.handleData = options => {

@@ -119,7 +119,7 @@ export default {
         this.totalPage = 0;
       }
     },
-    // 获取菜单列表
+    // 获取用户列表
     async getUserList () {
       const data = await getAllUser();
       if (!this.isEmptyObject(data)) {

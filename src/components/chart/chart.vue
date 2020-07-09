@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import echarts from 'echarts/dist/echarts.min';
+/* eslint-disable no-undef */
+// import echarts from 'echarts/dist/echarts.min';
 export default {
   props: {
     options: {

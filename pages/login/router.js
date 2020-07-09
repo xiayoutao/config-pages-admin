@@ -1,11 +1,12 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+/* eslint-disable no-undef */
+// import Vue from 'vue';
+// import VueRouter from 'vue-router';
 
-Vue.use(Router);
+Vue.use(VueRouter);
 
 const importPage = view => () => import(`@/views/${view}.vue`);
 
-export default new Router({
+export default new VueRouter({
   mode: 'history',
   scrollBehavior: () => ({
     x: 0,

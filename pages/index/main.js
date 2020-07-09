@@ -1,11 +1,14 @@
+/* eslint-disable no-undef */
 import '@babel/polyfill';
-import Vue from 'vue';
+
+// import Vue from 'vue';
 import store from '@/store';
-import 'element-ui/lib/theme-chalk/index.css';
-import './element-ui';
 import RouterTab from 'vue-router-tab';
 import 'vue-router-tab/dist/lib/vue-router-tab.css';
 Vue.use(RouterTab);
+
+import 'element-ui/lib/theme-chalk/index.css';
+// import './element-ui';
 
 import VueCookie from 'vue-cookie';
 Vue.use(VueCookie);

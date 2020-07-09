@@ -1,5 +1,6 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+/* eslint-disable no-undef */
+// import Vue from 'vue';
+// import Vuex from 'vuex';
 
 Vue.use(Vuex);
 

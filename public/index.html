@@ -15,6 +15,17 @@
   <script src="<%= BASE_URL %>config/index.js"></script>
   <script src="<%= BASE_URL %>config/init.js"></script>
   <% } %>
+  <% if (process.env.npm_config_production) { %>
+  <script src="//cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.min.js"></script>
+  <% }else { %>
+  <script src="//cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+  <% } %>
+  <script src="//cdn.bootcdn.net/ajax/libs/vuex/3.2.0/vuex.min.js"></script>
+  <script src="//cdn.bootcdn.net/ajax/libs/vue-router/3.2.0/vue-router.min.js"></script>
+  <script src="//cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+  <script src="//cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js"></script>
+  <script src="//cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js"></script>
+  <script src="//cdn.bootcdn.net/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
 </head>
 
 <body>

@@ -134,4 +134,3 @@ export function insertStr (source, index, newStr) {
   if (typeof source !== 'string') return console.error('只能对字符串进行插入操作');
   return source.slice(0, index) + newStr + source.slice(index);
 }
-

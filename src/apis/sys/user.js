@@ -6,6 +6,19 @@ export const adminFlags = {
   disabled: 0, // 禁用
 };
 
+// 有问题的
+export async function getAllUser (data) {
+  const res = await http({
+    url: http.adornUrl(API.getUserList),
+    method: 'post',
+    data: http.adornData(data),
+  });
+  console.log(res);
+  return http.handleData({
+    ...res,
+  });
+}
+
 // 获取用户列表（分页）
 export async function getUserList (data) {
   const res = await http({

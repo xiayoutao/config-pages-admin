@@ -1,5 +1,6 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+/* eslint-disable no-undef */
+// import Vue from 'vue';
+// import VueRouter from 'vue-router';
 import store from '@/store';
 import {
   RouterTabRoutes
@@ -40,9 +41,9 @@ const mainRoutes = [{
   }]
 }];
 
-Vue.use(Router);
+Vue.use(VueRouter);
 
-const VueRouter = new Router({
+const Routers = new VueRouter({
   mode: 'history',
   scrollBehavior: () => ({
     x: 0,
@@ -52,14 +53,14 @@ const VueRouter = new Router({
   routes: mainRoutes
 });
 
-VueRouter.beforeEach(async (to, from, next) => {
-  if (VueRouter.options.isAddDynamicRoutes) {
+Routers.beforeEach(async (to, from, next) => {
+  if (Routers.options.isAddDynamicRoutes) {
     next();
-  } else if (!VueRouter.options.isAddDynamicRoutes && to.path !== from.path) { // 已经添加好动态路由，并且from和to的path不一致
+  } else if (!Routers.options.isAddDynamicRoutes && to.path !== from.path) { // 已经添加好动态路由，并且from和to的path不一致
     const data = await getMenuAccess();
     if (!isEmptyObject(data)) {
       fnAddDynamicRoutes(data.list);
-      VueRouter.options.isAddDynamicRoutes = true;
+      Routers.options.isAddDynamicRoutes = true;
       const menuListLevel = treeDataTranslate(data.list, 'mid');
       store.commit('common/updateMenuList', menuListLevel);
       sessionStorage.setItem('menuList', JSON.stringify(data.list));
@@ -114,7 +115,7 @@ function fnAddDynamicRoutes (menuList = [], routes = []) {
     fnAddDynamicRoutes(temp, routes);
   } else {
     mainRoutes[0].children = [...routes, ...RouterTabRoutes];
-    VueRouter.addRoutes([
+    Routers.addRoutes([
       ...mainRoutes
     ]);
     sessionStorage.setItem('dynamicRoutes', JSON.stringify(mainRoutes[0].children || '[]'));
@@ -122,4 +123,4 @@ function fnAddDynamicRoutes (menuList = [], routes = []) {
   }
 }
 
-export default VueRouter;
+export default Routers;
