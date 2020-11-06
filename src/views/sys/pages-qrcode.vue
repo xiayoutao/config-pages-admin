@@ -32,7 +32,6 @@ export default {
           console.log(url);
           this.qrcode = url;
         }).catch(err => {
-          console.log(err);
           console.error(err);
         });
       });

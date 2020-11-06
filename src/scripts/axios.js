@@ -88,11 +88,10 @@ http.adornData = (data = {}, openDefultdata = true, contentType = 'json') => {
 http.handleData = options => {
   options = Object.assign({
     processing: true, // 是否处理数据
-    successCode: 0, // 成功返回回调状态
-    code: 0, // 接口返回状态
+    successCode: 1, // 成功返回回调状态
+    code: 1, // 接口返回状态
     result: {}, // 请求接口回调数据
   }, options);
-  console.log(options);
   if (options.processing) {
     if (options.code === options.successCode) {
       return options.result || true;
@@ -107,7 +106,7 @@ http.handleData = options => {
  * 统一处理请求返回
  */
 export function httpResponseHandle (respData) {
-  if (respData && respData.code === 0) {
+  if (respData && respData.code === 1) {
     return respData.result ? respData.result : true; // 如果没有result值，则返回true （一般是操作性的接口才会出现result没有值）
   } else if (respData.code === 99999) {
     // location.href = 'login.html';
