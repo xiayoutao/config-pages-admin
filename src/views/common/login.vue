@@ -4,15 +4,19 @@
       <div class="title">
         <h1>后台管理系统</h1>
       </div>
-      <el-form ref="dataForm" class="login-form" :model="dataForm" :rules="rules" status-icon @keyup.enter.native="dataFormSubmit()">
+      <el-form ref="dataForm" class="login-form" :model="dataForm" :rules="rules" status-icon size="large" @keyup.enter.native="dataFormSubmit()">
         <el-form-item prop="userid">
-          <el-input v-model="dataForm.userid" size="large" autocomplete="off" placeholder="请输入用户名"></el-input>
+          <el-input v-model="dataForm.userid" autocomplete="off" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item prop="pwd">
-          <el-input v-model="dataForm.pwd" type="password" size="large" autocomplete="off" placeholder="密码"></el-input>
+          <el-input v-model="dataForm.pwd" type="password" autocomplete="off" placeholder="密码"></el-input>
+        </el-form-item>
+        <el-form-item prop="captcha">
+          <el-input v-model="dataForm.captcha" autocomplete="off" placeholder="验证码" style="width: 132px;"></el-input>
+          <img :src="captchaUrl" style="float: right; height: 40px; vertical-align: middle;" @click="handleResetCaptcha">
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="large" :loading="ajaxLoading" @click="dataFormSubmit()" style="width: 100%;">登录</el-button>
+          <el-button type="primary" :loading="ajaxLoading" @click="dataFormSubmit()" style="width: 100%;">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -45,16 +49,18 @@ export default {
         uuid: '',
         captcha: ''
       },
-      captchaPath: '', // 验证码图片路径
+      time: new Date().getTime(),
+      captchaPath: '/adminApi/common/captcha', // 验证码图片路径
       rules: {
         userid: [
-          { required: true, message: '用户名不能为空', },
-          { pattern: userid, message: '用户名要求3到12位（字母，数字，下划线，减号）', }
+          { required: true, message: '用户名不能为空' },
+          { pattern: userid, message: '用户名要求3到12位（字母，数字，下划线，减号）' }
         ],
         pwd: [
-          { required: true, message: '密码不能为空', },
-          { pattern: password, message: '密码要求3到12位（字母，数字，下划线，减号）', }
+          { required: true, message: '密码不能为空' },
+          { pattern: password, message: '密码要求3到12位（字母，数字，下划线，减号）' }
         ],
+        captcha: [{ required: true, message: '验证码不能为空' }],
       }
     };
   },
@@ -72,6 +78,9 @@ export default {
     userName: {
       get () { return this.$store.state.user.name;},
       set (val) { this.$store.commit('user/updateName', val);}
+    },
+    captchaUrl () {
+      return `${this.captchaPath}?t=${this.time}`;
     }
   },
   activated () {
@@ -95,6 +104,9 @@ export default {
         }
       });
     },
+    handleResetCaptcha () {
+      this.time = new Date().getTime();
+    }
   }
 };
 </script>

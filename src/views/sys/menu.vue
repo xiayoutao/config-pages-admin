@@ -68,12 +68,12 @@ export default {
           headerAlign: 'center',
           align: 'center'
         },
-        {
-          key: 'perms',
-          label: '授权标识',
-          headerAlign: 'center',
-          align: 'center'
-        }
+        // {
+        //   key: 'perms',
+        //   label: '授权标识',
+        //   headerAlign: 'center',
+        //   align: 'center'
+        // }
       ],
       dataList: [],
       dataListLoading: true,
@@ -94,21 +94,21 @@ export default {
       }
     },
     // 新增 / 修改
-    addOrUpdateHandle (id) {
+    addOrUpdateHandle (mid) {
       this.addOrUpdateVisible = true;
       this.$nextTick(() => {
-        this.$refs.addOrUpdate.init(id);
+        this.$refs.addOrUpdate.init(mid);
       });
     },
     // 删除
-    deleteHandle (id) {
-      this.$confirm(`确定对[id=${id}]进行[删除]操作?`, '提示', {
+    deleteHandle (mid) {
+      this.$confirm(`确定对[id=${mid}]进行[删除]操作?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async () => {
         const data = await deleteMenu({
-          id,
+          mid,
         });
         if (data) {
           this.$messageCallback('success', '操作成功', () => {

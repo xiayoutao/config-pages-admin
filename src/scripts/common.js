@@ -24,7 +24,7 @@ export function messageCallback (type, msg, callback) {
   Message({
     type: type,
     message: msg,
-    duration: 2000,
+    duration: 1500,
     onClose: () => {
       callback && callback();
     }
