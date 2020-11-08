@@ -38,7 +38,16 @@ export const wordLevels = [
  * 文字类型
  */
 export const wordTypes = [
-  { label: '字母', value: 0 },
-  { label: '拼音', value: 1 },
-  { label: '汉字', value: 2 },
+  { label: '汉字', value: 0 },
+  { label: '字母', value: 1 },
+  { label: '拼音', value: 2 },
+];
+
+/**
+ * 拼音类型
+ */
+export const pinTypes = [
+  { label: '声母', value: 1 },
+  { label: '韵母', value: 2 },
+  { label: '整体音节', value: 3 },
 ];

@@ -2,11 +2,22 @@
 <div class="app-page mod-words">
   <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList(true)">
     <el-form-item>
+      <el-select v-model="dataForm.type" placeholder="类型" clearable style="width: 160px;">
+        <el-option v-for="(item, index) in wordTypes" :key="index" :value="item.value" :label="item.label"></el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item>
+      <el-select v-model="dataForm.level" placeholder="难易程度" clearable style="width: 160px;">
+        <el-option v-for="(item, index) in wordLevels" :key="index" :value="item.value" :label="item.label"></el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item>
       <el-input v-model="dataForm.word" placeholder="文字" clearable></el-input>
     </el-form-item>
     <el-form-item>
       <el-button @click="getDataList(true)">查询</el-button>
       <el-button v-permisson="permisson.wordUpdate" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+      <el-button v-permisson="permisson.wordUpdate" type="success" @click="batchAddHandle()">批量新增</el-button>
       <el-button v-permisson="permisson.wordDelete" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
     </el-form-item>
   </el-form>
@@ -14,9 +25,12 @@
     <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
     <el-table-column align="center" prop="word" label="文字"></el-table-column>
     <el-table-column align="center" prop="type" label="类型" :formatter="$formatter.getWordType"></el-table-column>
-    <el-table-column align="center" prop="level" label="等级" :formatter="$formatter.getWordLevel"></el-table-column>
+    <el-table-column align="center" prop="pinType" label="拼音类型" :formatter="$formatter.getPinType"></el-table-column>
+    <el-table-column align="center" prop="level" label="难易程度" :formatter="$formatter.getWordLevel"></el-table-column>
+    <el-table-column align="center" prop="remark" label="备注" show-overflow-tooltip min-width="250"></el-table-column>
     <el-table-column header-align="center" align="center" width="150" label="操作">
       <template slot-scope="scope">
+        <el-button v-permisson="permisson.wordUpdate" type="text" size="small" @click="playHandle(scope.row)">播放</el-button>
         <el-button v-permisson="permisson.wordUpdate" type="text" size="small" @click="addOrUpdateHandle(scope.row)">编辑</el-button>
         <el-button v-permisson="permisson.wordDelete" type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
       </template>
@@ -34,6 +48,9 @@
   </el-pagination>
   <!-- 弹窗, 新增 / 修改 -->
   <add-or-update ref="addOrUpdate" v-if="addOrUpdateVisible" @close="addOrUpdateVisible = false" @refreshDataList="getDataList"></add-or-update>
+  <audio id="audio" controls>
+    <source :src="audioSrc" type="audio/mpeg">
+  </audio>
 </div>
 </template>
 
@@ -43,6 +60,14 @@ import {
   getWordList,
   deleteWord,
 } from '@/apis/app';
+import {
+  wordTypes,
+  wordLevels,
+} from '@/constants';
+import {
+  getChineseTTS,
+  getEnglishTTS,
+} from '@/scripts/utils';
 import AddOrUpdate from './word-add-or-update';
 
 export default {
@@ -54,12 +79,16 @@ export default {
   },
   data () {
     return {
+      wordTypes,
+      wordLevels,
+      audioSrc: '',
       dataForm: {
+        type: null,
+        level: null,
         word: ''
       },
       dataList: [],
       dataListLoading: false,
-      dataListSelections: [],
       addOrUpdateVisible: false,
     };
   },
@@ -74,9 +103,9 @@ export default {
         this.pageIndex = 1;
       }
       const data = await getWordList({
+        ...this.dataForm,
         page: this.pageIndex,
         limit: this.pageSize,
-        paramKey: this.dataForm.paramKey,
       });
       this.dataListLoading = false;
       if (!this.isEmptyObject(data)) {
@@ -92,6 +121,12 @@ export default {
       this.addOrUpdateVisible = true;
       this.$nextTick(() => {
         this.$refs.addOrUpdate.init(dataForm);
+      });
+    },
+    batchAddHandle () {
+      this.addOrUpdateVisible = true;
+      this.$nextTick(() => {
+        this.$refs.addOrUpdate.batch();
       });
     },
     // 删除
@@ -113,6 +148,20 @@ export default {
           });
         }
       });
+    },
+    playHandle (dataForm) {
+      if (dataForm.type === 0) { // 汉字
+        console.log(getChineseTTS(dataForm.word));
+        this.audioSrc = getChineseTTS(dataForm.word);
+      } else if (dataForm.type === 1) { // 字母
+        console.log(getEnglishTTS(dataForm.word));
+        this.audioSrc = getEnglishTTS(dataForm.word);
+      }
+      var audio = document.createElement('audio');
+      audio.src = this.audioSrc;
+      audio.loop = true;
+      document.body.appendChild(audio);
+      audio.play();
     }
   },
 };

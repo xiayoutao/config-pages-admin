@@ -25,6 +25,18 @@ export async function insertWord (data) {
   });
 }
 
+// 批量新增文字
+export async function batchInsertWord (data) {
+  const res = await http({
+    url: http.adornUrl(API.batchInsertWord),
+    method: 'post',
+    data: http.adornData(data),
+  });
+  return http.handleData({
+    ...res,
+  });
+}
+
 // 删除文字
 export async function deleteWord (data) {
   const res = await http({

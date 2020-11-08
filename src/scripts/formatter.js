@@ -23,3 +23,8 @@ export function getWordLevel (row, column, cellValue) {
 export function getWordType (row, column, cellValue) {
   return getStatusName(cellValue, constants.wordTypes);
 }
+
+// 拼音类型
+export function getPinType (row, column, cellValue) {
+  return getStatusName(cellValue, constants.pinTypes);
+}

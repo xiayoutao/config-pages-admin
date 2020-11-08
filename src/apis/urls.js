@@ -66,5 +66,6 @@ export const getPhotoInfo = '/photos/info';
 // 文字管理
 export const getWordList = '/word/list'; // 获取文字列表
 export const insertWord = '/word/add'; // 新增文字
+export const batchInsertWord = '/word/batchAdd'; // 批量添加
 export const deleteWord = '/word/delete'; // 删除文字
 export const updateWord = '/word/update'; // 更新文字
