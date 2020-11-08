@@ -48,9 +48,6 @@
   </el-pagination>
   <!-- 弹窗, 新增 / 修改 -->
   <add-or-update ref="addOrUpdate" v-if="addOrUpdateVisible" @close="addOrUpdateVisible = false" @refreshDataList="getDataList"></add-or-update>
-  <audio id="audio" controls>
-    <source :src="audioSrc" type="audio/mpeg">
-  </audio>
 </div>
 </template>
 
@@ -154,14 +151,14 @@ export default {
         console.log(getChineseTTS(dataForm.word));
         this.audioSrc = getChineseTTS(dataForm.word);
       } else if (dataForm.type === 1) { // 字母
-        console.log(getEnglishTTS(dataForm.word));
-        this.audioSrc = getEnglishTTS(dataForm.word);
+        let audio = new Audio();
+        audio.src = getEnglishTTS(dataForm.word);
+        audio.play();
       }
-      var audio = document.createElement('audio');
-      audio.src = this.audioSrc;
-      audio.loop = true;
-      document.body.appendChild(audio);
-      audio.play();
+      // var audio = document.createElement('audio');
+      // audio.src = this.audioSrc;
+      // audio.loop = true;
+      // document.body.appendChild(audio);
     }
   },
 };
