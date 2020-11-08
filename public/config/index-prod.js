@@ -5,7 +5,7 @@
 (function () {
   window.SITE_CONFIG = {};
   window.SITE_CONFIG['version'] = 'v1.0.0';
-  window.SITE_CONFIG['copyright'] = '©2019&nbsp;&nbsp;&nbsp;&nbsp;夏尤涛';
+  window.SITE_CONFIG['copyright'] = '©2020&nbsp;&nbsp;&nbsp;&nbsp;夏尤涛';
   window.SITE_CONFIG['defaultPage'] = '/home';
 
   // api接口请求地址
