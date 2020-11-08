@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { checkIFrameLoaded } from '@/scripts/tools.js';
+import { checkIFrameLoaded } from '@/scripts/tools';
 
 export default {
   data () {

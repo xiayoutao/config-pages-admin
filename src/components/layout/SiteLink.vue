@@ -9,7 +9,7 @@
 import { clearLoginInfo } from '@/scripts/common';
 import {
   logout,
-} from '@/apis/common/index.js';
+} from '@/apis/common';
 
 export default {
   name: 'SiteLink',

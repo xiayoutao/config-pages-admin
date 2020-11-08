@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/styles/scss/resetElementUI.scss';
-@import '@/styles/scss/app.scss';
-@import '@/styles/scss/global.scss';
+@import '@/assets/styles/scss/resetElementUI.scss';
+@import '@/assets/styles/scss/app.scss';
+@import '@/assets/styles/scss/global.scss';
 </style>

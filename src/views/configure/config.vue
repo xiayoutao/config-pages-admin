@@ -52,16 +52,16 @@
 import {
   getPageInfo,
   savePage,
-} from '@/apis/sys/pages.js';
-import pageConfig from '@/data/pageConfig.js';
-import { getUUID, } from '@/scripts/utils.js';
+} from '@/apis/app';
+import pageConfig from '@/constants/pageConfig';
+import { getUUID, } from '@/scripts/utils';
 import {
   compUse,
   compList,
   compDefaultData,
   compItemBox,
-} from '@/data/components.js';
-import { postMessage, checkIFrameLoaded } from '@/scripts/tools.js';
+} from '@/constants/components';
+import { postMessage, checkIFrameLoaded } from '@/scripts/tools';
 import PreviewTabs from '@/components/previewTabs/index.vue';
 import PreviewComponents from '@/components/previewComponents/index.vue';
 import configDataEditCps from '@/components/configDataEdit/index.js';
@@ -324,8 +324,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/scss/comp-list.scss';
-@import '@/styles/scss/layout-mobile.scss';
+@import '@/assets/styles/scss/comp-list.scss';
+@import '@/assets/styles/scss/layout-mobile.scss';
 
 .mod-comp {
   height: 100%;

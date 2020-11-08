@@ -13,14 +13,16 @@
 <script>
 import * as qiniu from 'qiniu-js';
 import {
-  mimeTypes,
-  fileTypes,
   getFileList,
   uploadFile,
-} from '@/apis/love/file.js';
+} from '@/apis/love';
+import {
+  mimeTypes,
+  fileTypes,
+} from '@/constants';
 import {
   getQiniuUptoken,
-} from '@/apis/common/index.js';
+} from '@/apis/common';
 
 export default {
   data () {

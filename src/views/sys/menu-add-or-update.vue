@@ -47,17 +47,19 @@
 
 <script>
 import {
-  menuTypes,
-  menuIcons,
   getMenuList,
   getMenuInfo,
   insertMenu,
   updateMenu
-} from '@/apis/sys/menu.js';
+} from '@/apis/system.js';
+import {
+  menuTypes,
+} from '@/constants';
 import {
   treeDataTranslate,
 } from '@/scripts/treeUtils';
 import Icons from '@/scripts/icons';
+const menuIcons = Icons.getNameList();
 
 export default {
   data () {

@@ -36,12 +36,14 @@
 
 <script>
 import {
-  adminFlags,
   getAdminInfo,
   insertAdmin,
   updateAdmin,
-} from '@/apis/sys/admin.js';
-import { getAllRole } from '@/apis/sys/role.js';
+  getAllRole,
+} from '@/apis/system';
+import {
+  adminFlags,
+} from '@/constants';
 import {
   mobile,
   email,

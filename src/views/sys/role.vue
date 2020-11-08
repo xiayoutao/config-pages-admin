@@ -25,7 +25,15 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="$store.state.common.paginationOptions.pageSizes" :page-size="$store.state.common.paginationOptions.pageSize" :total="totalPage" :layout="$store.state.common.paginationOptions.layout">
+    <el-pagination
+      :background="paginationBg"
+      :page-size="pageSize"
+      :layout="paginationLayout"
+      :current-page="pageIndex"
+      :page-sizes="paginationPageSizes"
+      :total="totalPage"
+      @size-change="sizeChangeHandle"
+      @current-change="currentChangeHandle">
     </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update ref="addOrUpdate" v-if="addOrUpdateVisible" @close="addOrUpdateVisible = false" @refreshDataList="getDataList"></add-or-update>
@@ -33,10 +41,20 @@
 </template>
 
 <script>
-import { getRoleList, deleteRole } from '@/apis/sys/role.js';
+import listPageMixin from '@/mixins/listPage';
+import {
+  getRoleList,
+  deleteRole,
+} from '@/apis/system.js';
 import AddOrUpdate from './role-add-or-update';
 
 export default {
+  mixins: [
+    listPageMixin,
+  ],
+  components: {
+    AddOrUpdate
+  },
   data () {
     let _this = this;
     return {
@@ -99,21 +117,6 @@ export default {
         this.totalPage = 0;
       }
     },
-    // 每页数
-    sizeChangeHandle (val) {
-      this.pageSize = val;
-      this.pageIndex = 1;
-      this.getDataList();
-    },
-    // 当前页
-    currentChangeHandle (val) {
-      this.pageIndex = val;
-      this.getDataList();
-    },
-    // 多选
-    selectionChangeHandle (val) {
-      this.dataListSelections = val;
-    },
     // 新增 / 修改
     addOrUpdateHandle (roleId) {
       this.addOrUpdateVisible = true;
@@ -148,8 +151,5 @@ export default {
       });
     }
   },
-  components: {
-    AddOrUpdate
-  }
 };
 </script>

@@ -45,7 +45,7 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        data: '@import "~@/styles/scss/variables.scss";'
+        data: '@import "~@/assets/styles/scss/variables.scss";'
       },
       postcss: {
         plugins: [

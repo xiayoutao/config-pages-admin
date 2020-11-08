@@ -1,5 +1,5 @@
-import API from '@/apis/urls.js';
-import http from '@/scripts/axios.js';
+import * as API from '@/apis/urls';
+import http from '@/scripts/axios';
 
 export const adminFlags = {
   enabled: 1, // 启用

@@ -73,14 +73,14 @@
 <script>
 /* eslint-disable no-undef */
 import {
-  fileTypes,
   getAllFile,
-} from '@/apis/love/file.js';
-import {
   getBaseInfo,
   insertBaseInfo,
   updateBaseInfo,
-} from '@/apis/love/base.js';
+} from '@/apis/love';
+import {
+  fileTypes,
+} from '@/constants';
 
 export default {
   data () {

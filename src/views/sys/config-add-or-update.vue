@@ -23,7 +23,7 @@ import {
   getConfigInfo,
   insertConfig,
   updateConfig
-} from '@/apis/sys/config.js';
+} from '@/apis/system.js';
 
 export default {
   data () {

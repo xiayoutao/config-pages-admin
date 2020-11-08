@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item prop="captcha">
           <el-input v-model="dataForm.captcha" autocomplete="off" placeholder="验证码" style="width: 132px;"></el-input>
-          <img :src="captchaUrl" style="float: right; height: 40px; vertical-align: middle;" @click="handleResetCaptcha">
+          <img class="img-captcha" :src="captchaUrl" @click="handleResetCaptcha">
         </el-form-item>
         <el-form-item>
           <el-button type="primary" :loading="ajaxLoading" @click="dataFormSubmit()" style="width: 100%;">登录</el-button>
@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import { login } from '@/apis/common/index.js';
+import { login } from '@/apis/common';
 import {
   getUUID,
   isEmptyObject,
-} from '@/scripts/utils.js';
+} from '@/scripts/utils';
 import Validate from '@/mixins/validate';
 import {
   userid,
@@ -98,6 +98,8 @@ export default {
               this.$cookie.set('token', data.token);
               location.href = '/';
             });
+          } else {
+            this.handleResetCaptcha();
           }
         } else {
           return false;
@@ -126,8 +128,8 @@ export default {
     top: 50%;
     left: 50%;
     width: 18rem;
-    height: 22rem;
-    margin: -11rem 0 0 -9rem;
+    height: 24rem;
+    margin: -12rem 0 0 -9rem;
 
     .title {
       position: relative;
@@ -148,6 +150,13 @@ export default {
     .el-input__inner {
       width: 100%;
     }
+  }
+
+  .img-captcha {
+    float: right;
+    height: 40px;
+    vertical-align: middle;
+    cursor: pointer;
   }
 
   .copyright,

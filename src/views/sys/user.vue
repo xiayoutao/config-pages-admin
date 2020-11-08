@@ -26,7 +26,15 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="$store.state.common.paginationOptions.pageSizes" :page-size="$store.state.common.paginationOptions.pageSize" :total="totalPage" :layout="$store.state.common.paginationOptions.layout">
+    <el-pagination
+      :background="paginationBg"
+      :page-size="pageSize"
+      :layout="paginationLayout"
+      :current-page="pageIndex"
+      :page-sizes="paginationPageSizes"
+      :total="totalPage"
+      @size-change="sizeChangeHandle"
+      @current-change="currentChangeHandle">
     </el-pagination>
     <!-- 弹窗, 查看 -->
     <user-detail ref="userDetail" v-if="userDetailVisible" @close="userDetailVisible = false"></user-detail>
@@ -34,10 +42,17 @@
 </template>
 
 <script>
-import { getUserList } from '@/apis/sys/user.js';
+import listPageMixin from '@/mixins/listPage';
+import { getUserList } from '@/apis/user';
 import UserDetail from './user-detail.vue';
 
 export default {
+  mixins: [
+    listPageMixin,
+  ],
+  components: {
+    UserDetail,
+  },
   data () {
     let _this = this;
     return {
@@ -123,17 +138,6 @@ export default {
         this.totalPage = 0;
       }
     },
-    // 每页数
-    sizeChangeHandle (val) {
-      this.pageSize = val;
-      this.pageIndex = 1;
-      this.getDataList();
-    },
-    // 当前页
-    currentChangeHandle (val) {
-      this.pageIndex = val;
-      this.getDataList();
-    },
     // 查看
     showHandle (openid) {
       this.userDetailVisible = true;
@@ -142,8 +146,5 @@ export default {
       });
     },
   },
-  components: {
-    UserDetail,
-  }
 };
 </script>

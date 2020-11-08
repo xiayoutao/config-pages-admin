@@ -33,7 +33,15 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="$store.state.common.paginationOptions.pageSizes" :page-size="$store.state.common.paginationOptions.pageSize" :total="totalPage" :layout="$store.state.common.paginationOptions.layout">
+    <el-pagination
+      :background="paginationBg"
+      :page-size="pageSize"
+      :layout="paginationLayout"
+      :current-page="pageIndex"
+      :page-sizes="paginationPageSizes"
+      :total="totalPage"
+      @size-change="sizeChangeHandle"
+      @current-change="currentChangeHandle">
     </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update ref="addOrUpdate" v-if="addOrUpdateVisible" @close="addOrUpdateVisible = false" @refreshDataList="getDataList"></add-or-update>
@@ -43,14 +51,29 @@
 </template>
 
 <script>
-import { adminFlags, getAdminList, deleteAdmin } from '@/apis/sys/admin.js';
+import listPageMixin from '@/mixins/listPage';
+import {
+  getAdminList,
+  deleteAdmin,
+} from '@/apis/system';
+import {
+  adminFlags,
+} from '@/constants';
 import AddOrUpdate from './admin-add-or-update';
 import UpdatePwd from './admin-update-pwd';
 
 export default {
+  mixins: [
+    listPageMixin,
+  ],
+  components: {
+    AddOrUpdate,
+    UpdatePwd
+  },
   data () {
     let _this = this;
     return {
+      adminFlags,
       dataForm: {
         userid: null
       },
@@ -97,13 +120,9 @@ export default {
         }
       ],
       dataList: [], // 数据列表
-      pageIndex: 1, // 当前页
-      totalPage: 0, // 总数
       dataListLoading: false, // 是否显示数据正在加载中
-      dataListSelections: [], // 选择的数据项
       addOrUpdateVisible: false, // 添加或修改弹窗显示状态
       updatePwdVisible: false, // 修改密码弹窗显示状态
-      adminFlags,
     };
   },
   activated () {
@@ -125,21 +144,6 @@ export default {
         this.dataList = [];
         this.totalPage = 0;
       }
-    },
-    // 每页数
-    sizeChangeHandle (val) {
-      this.pageSize = val;
-      this.pageIndex = 1;
-      this.getDataList();
-    },
-    // 当前页
-    currentChangeHandle (val) {
-      this.pageIndex = val;
-      this.getDataList();
-    },
-    // 多选
-    selectionChangeHandle (val) {
-      this.dataListSelections = val;
     },
     // 修改密码
     updatePwdHandle (userid) {
@@ -184,9 +188,5 @@ export default {
       });
     }
   },
-  components: {
-    AddOrUpdate,
-    UpdatePwd
-  }
 };
 </script>

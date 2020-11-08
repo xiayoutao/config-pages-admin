@@ -19,8 +19,12 @@
 </template>
 
 <script>
-import { updateRole, insertRole, getRoleInfo } from '@/apis/sys/role.js';
-import { getMenuAccess } from '@/apis/sys/menu.js';
+import {
+  updateRole,
+  insertRole,
+  getRoleInfo,
+  getMenuList,
+} from '@/apis/system.js';
 import { treeDataTranslate } from '@/scripts/treeUtils';
 import {
   menuIds,
@@ -95,14 +99,10 @@ export default {
     },
     // 获取菜单列表
     async getMenuList () {
-      // 0图片，1音频，2视频
-      const data = await getMenuAccess();
-      if (!this.isEmptyObject(data)) {
-        this.menuList = [];
-        (data.list || []).forEach(item => {
-          this.menuList.push(item);
-        });
-      }
+      const menuList = await getMenuList();
+      this.menuList = menuList.map(item => {
+        return { ...item };
+      });
     },
     // Tree组件节点选中状态发生变化
     treeCheckChange () {
@@ -142,7 +142,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .mod-role {
   .role-list__input {
     > .el-input__inner {

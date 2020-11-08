@@ -16,7 +16,7 @@
 import {
   getPhotoInfo,
   updatePhotoSort,
-} from '@/apis/love/photos.js';
+} from '@/apis/love';
 
 export default {
   data () {

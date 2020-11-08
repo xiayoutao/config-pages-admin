@@ -15,7 +15,7 @@
 <script>
 import {
   updateAdminPwd,
-} from '@/apis/sys/admin.js';
+} from '@/apis/system.js';
 import {
   password,
 } from '@/scripts/pattern';

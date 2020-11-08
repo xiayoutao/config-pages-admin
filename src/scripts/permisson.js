@@ -24,6 +24,9 @@ export default {
   // 页面管理
   pagesShow: 'sys:pages:show',
   pagesQRcode: 'sys:pages:qrcode',
+  // 菜单管理
+  wordUpdate: 'app:word:update',
+  wordDelete: 'app:word:delete',
   // 基本信息
   baseSave: 'love:base:save',
   // 相册管理

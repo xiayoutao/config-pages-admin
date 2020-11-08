@@ -93,7 +93,7 @@ export default {
       display: block;
       width: 150px;
       height: 150px;
-      background: url('../../images/no-data.png') no-repeat center;
+      background: url('~@/assets/images/no-data.png') no-repeat center;
       background-size: 100% 100%;
     }
 
@@ -122,7 +122,7 @@ export default {
       width: 20px;
       height: 20px;
       margin-right: 10px;
-      background: url('../../images/icon-drag.png') no-repeat center;
+      background: url('~@/assets/images/icon-drag.png') no-repeat center;
       background-size: 20px;
     }
 
@@ -140,7 +140,7 @@ export default {
       width: 20px;
       height: 20px;
       margin-top: -10px;
-      background: url('../../images/icon-delete.png') no-repeat center;
+      background: url('~@/assets/images/icon-delete.png') no-repeat center;
       background-size: 20px;
       cursor: pointer;
     }

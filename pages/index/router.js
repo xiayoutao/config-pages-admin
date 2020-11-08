@@ -8,8 +8,8 @@ import {
 import {
   treeDataTranslate,
 } from '@/scripts/treeUtils';
-import { isEmptyObject } from '@/scripts/utils.js';
-import { getMenuAccess } from '@/apis/sys/menu.js';
+import { isEmptyObject } from '@/scripts/utils';
+import { getMenuAccess } from '@/apis/system';
 
 const importPage = view => () => import(`@/views${view}.vue`);
 const importLayout = view => () => import(`@cps/layout/Frame-${view}.vue`);

@@ -46,14 +46,20 @@
 
 <script>
 import {
-  fileTypes,
   getFileList,
   deleteFile,
-} from '@/apis/love/file.js';
+} from '@/apis/love';
+import {
+  fileTypes,
+} from '@/constants';
 import Upload from './file-upload';
 import ImageViewer from '@cps/viewer';
 
 export default {
+  components: {
+    Upload,
+    ImageViewer
+  },
   data () {
     return {
       fileTypes,
@@ -162,9 +168,5 @@ export default {
       deep: true
     }
   },
-  components: {
-    Upload,
-    ImageViewer
-  }
 };
 </script>

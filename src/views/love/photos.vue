@@ -44,7 +44,7 @@
 import {
   getPhotoList,
   deletePhoto,
-} from '@/apis/love/photos.js';
+} from '@/apis/love';
 import AddOrUpdate from './photos-add-or-update.vue';
 import UpdateSort from './photos-update-sort.vue';
 import ImageViewer from '@/components/viewer';

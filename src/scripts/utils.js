@@ -134,3 +134,18 @@ export function insertStr (source, index, newStr) {
   if (typeof source !== 'string') return console.error('只能对字符串进行插入操作');
   return source.slice(0, index) + newStr + source.slice(index);
 }
+
+/**
+ * 获取状态名称
+ * @param {*} data
+ * @param {*} status
+ */
+export function getStatusName (data, statusList) {
+  let statusMsg = data;
+  statusList.forEach(item => {
+    if (data !== '' && data === item.value) {
+      statusMsg = item.label;
+    }
+  });
+  return statusMsg;
+}

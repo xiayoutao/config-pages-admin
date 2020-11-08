@@ -35,7 +35,7 @@
 import {
   getMsgList,
   deleteMsg,
-} from '@/apis/love/message.js';
+} from '@/apis/love';
 
 export default {
   data () {

@@ -40,13 +40,21 @@
 </template>
 
 <script>
-import { getAllAdmin } from '@/apis/sys/admin.js';
-import { getPageList, deletePage } from '@/apis/sys/pages.js';
-import { compList } from '@/data/components.js';
-import PagesShow from './pages-show.vue';
-import PagesQrcode from './pages-qrcode.vue';
+import listPageMixin from '@/mixins/listPage';
+import { getAllAdmin } from '@/apis/system';
+import { getPageList, deletePage } from '@/apis/app';
+import { compList } from '@/constants/components';
+import PagesShow from './pages-show';
+import PagesQrcode from './pages-qrcode';
 
 export default {
+  mixins: [
+    listPageMixin,
+  ],
+  components: {
+    PagesShow,
+    PagesQrcode,
+  },
   data () {
     let _this = this;
     return {
@@ -141,17 +149,6 @@ export default {
         });
       }
     },
-    // 每页数
-    sizeChangeHandle (val) {
-      this.pageSize = val;
-      this.pageIndex = 1;
-      this.getDataList();
-    },
-    // 当前页
-    currentChangeHandle (val) {
-      this.pageIndex = val;
-      this.getDataList();
-    },
     showHandle (uuid) {
       this.pagesShowVisible = true;
       this.$nextTick(() => {
@@ -165,9 +162,5 @@ export default {
       });
     }
   },
-  components: {
-    PagesShow,
-    PagesQrcode,
-  }
 };
 </script>

@@ -15,6 +15,7 @@ import {
 import {
   isEmptyObject,
 } from '@/scripts/utils.js';
+import * as formatter from '@/scripts/formatter.js'; // Table组件 formatter方法
 
 export default {
   install (Vue, options) {
@@ -28,6 +29,7 @@ export default {
     Vue.prototype.$validateFormMsg = validateFormMsg;
     Vue.prototype.$createUrlByKey = createUrlByKey;
     Vue.prototype.$createImageUrl = createImageUrl;
+    Vue.prototype.$formatter = formatter;
 
     Vue.directive('imgurl', imgurl);
 

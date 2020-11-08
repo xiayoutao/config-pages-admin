@@ -31,10 +31,12 @@
 
 <script>
 import {
-  fileTypes,
   getFileList,
   deleteFile,
-} from '@/apis/love/file.js';
+} from '@/apis/love';
+import {
+  fileTypes,
+} from '@/constants';
 import Upload from './file-upload';
 import AudioPlayer from '@/components/audio'; // 样式会影响到全局
 

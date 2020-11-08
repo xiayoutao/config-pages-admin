@@ -66,11 +66,11 @@ export default {
     }
 
     .icon-page {
-      background-image: url('../../images/icon-preview-page.png');
+      background-image: url('~@/assets/images/icon-preview-page.png');
     }
 
     .icon-cps {
-      background-image: url('../../images/icon-preview-cps.png');
+      background-image: url('~@/assets/images/icon-preview-cps.png');
     }
 
     &.active {

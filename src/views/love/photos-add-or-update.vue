@@ -28,14 +28,14 @@
 
 <script>
 import {
-  fileTypes,
   getAllFile,
-} from '@/apis/love/file.js';
-import {
   insertPhoto,
   updatePhoto,
   getPhotoInfo,
-} from '@/apis/love/photos.js';
+} from '@/apis/love';
+import {
+  fileTypes,
+} from '@/constants';
 
 export default {
   data () {

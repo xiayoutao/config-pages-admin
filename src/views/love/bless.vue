@@ -22,7 +22,7 @@
 <script>
 import {
   getBlessList,
-} from '@/apis/love/bless.js';
+} from '@/apis/love';
 
 export default {
   data () {
