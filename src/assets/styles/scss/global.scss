@@ -134,3 +134,66 @@ input {
   text-align: left;
   cursor: not-allowed;
 }
+
+.btn {
+  &-primary {
+    &.el-button--text {
+      color: $color;
+
+      &:focus,
+      &:hover {
+        color: rgba($color, .7);
+      }
+    }
+  }
+  &-success {
+    &.el-button--text {
+      color: $success;
+
+      &:focus,
+      &:hover {
+        color: rgba($success, .7);
+      }
+    }
+  }
+  &-warning {
+    &.el-button--text {
+      color: $warning;
+
+      &:focus,
+      &:hover {
+        color: rgba($warning, .7);
+      }
+    }
+  }
+  &-danger {
+    &.el-button--text {
+      color: $danger;
+
+      &:focus,
+      &:hover {
+        color: rgba($danger, .7);
+      }
+    }
+  }
+  &-info {
+    &.el-button--text {
+      color: $info;
+
+      &:focus,
+      &:hover {
+        color: rgba($info, .7);
+      }
+    }
+  }
+  &-grey {
+    &.el-button--text {
+      color: #606266;
+
+      &:focus,
+      &:hover {
+        color: rgba(#606266, .7);
+      }
+    }
+  }
+}

@@ -1,42 +1,41 @@
 <template>
-  <div class="app-page mod-pages">
-    <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList(true)">
-      <el-form-item>
-        <el-select v-model="dataForm.userid" placeholder="操作用户" clearable style="width: 160px;">
-          <el-option v-for="(item, index) in userList" :key="index" :value="item.userid" :label="item.nickname"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button @click="getDataList(true)">查询</el-button>
-      </el-form-item>
-    </el-form>
-    <el-table :data="dataList" border v-loading="dataListLoading" :empty-text="this.$store.state.common.tableEmptyText">
-      <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column
-        v-for="(item, index) in headData"
-        :key="index"
-        :prop="item.key"
-        :width="item.width"
-        :label="item.label"
-        :header-align="item.headerAlign"
-        :align="item.align">
-        <template slot-scope="scope">
-          <span v-if="item.render">{{ item.render(scope.row[item.key]) }}</span>
-          <span v-else>{{ scope.row[item.key] }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column header-align="center" align="center" width="150" label="操作">
-        <template slot-scope="scope">
-          <el-button v-permisson="permisson.pagesShow" type="text" size="small" @click="showHandle(scope.row.uuid)">预览</el-button>
-          <el-button v-permisson="permisson.pagesQRcode" type="text" size="small" @click="createQRcodeHandle(scope.row.uuid)">生成二维码</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="$store.state.common.paginationOptions.pageSizes" :page-size="$store.state.common.paginationOptions.pageSize" :total="totalPage" :layout="$store.state.common.paginationOptions.layout">
-    </el-pagination>
-    <pages-show ref="pagesShow" v-if="pagesShowVisible" @close="pagesShowVisible = false"></pages-show>
-    <pages-qrcode ref="pagesQRcode" v-if="pagesQRcodeVisible" @close="pagesQRcodeVisible = false"></pages-qrcode>
-  </div>
+<div class="app-page mod-pages">
+  <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList(true)">
+    <el-form-item>
+      <el-select v-model="dataForm.userid" placeholder="操作用户" clearable style="width: 160px;">
+        <el-option v-for="(item, index) in userList" :key="index" :value="item.userid" :label="item.nickname"></el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item>
+      <el-button @click="getDataList(true)">查询</el-button>
+    </el-form-item>
+  </el-form>
+  <el-table :data="dataList" border v-loading="dataListLoading" :empty-text="tableEmptyText">
+    <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
+    <el-table-column align="center" prop="userid" label="用户"></el-table-column>
+    <el-table-column align="center" prop="layouts" label="组件">
+      <template slot-scope="scope">{{ getLayouts(scope.row.layouts) }}</template>
+    </el-table-column>
+    <el-table-column header-align="center" align="center" width="150" label="操作">
+      <template slot-scope="scope">
+        <el-button v-permisson="permisson.pagesShow" type="text" class="btn-success" size="small" @click="showHandle(scope.row.uuid)">预览</el-button>
+        <el-button v-permisson="permisson.pagesQRcode" type="text" class="btn-warning" size="small" @click="createQRcodeHandle(scope.row.uuid)">生成二维码</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+  <el-pagination
+    :background="paginationBg"
+    :page-size="pageSize"
+    :layout="paginationLayout"
+    :current-page="pageIndex"
+    :page-sizes="paginationPageSizes"
+    :total="totalPage"
+    @size-change="sizeChangeHandle"
+    @current-change="currentChangeHandle">
+  </el-pagination>
+  <pages-show ref="pagesShow" v-if="pagesShowVisible" @close="pagesShowVisible = false"></pages-show>
+  <pages-qrcode ref="pagesQRcode" v-if="pagesQRcodeVisible" @close="pagesQRcodeVisible = false"></pages-qrcode>
+</div>
 </template>
 
 <script>
@@ -56,46 +55,10 @@ export default {
     PagesQrcode,
   },
   data () {
-    let _this = this;
     return {
       dataForm: {
         userid: null
       },
-      headData: [
-        { key: 'id', label: 'ID', width: 80, headerAlign: 'center', align: 'center', },
-        {
-          key: 'userid',
-          label: '用户',
-          width: 180,
-          headerAlign: 'center',
-          align: 'center',
-          render (data) {
-            return _this.userObject[data];
-          }
-        },
-        {
-          key: 'layouts',
-          label: '组件',
-          headerAlign: 'center',
-          align: 'center',
-          render (data) {
-            let compUse = {};
-            const layouts = JSON.parse(data);
-            layouts.forEach(item => {
-              if (compUse[item.label] > 0) {
-                compUse[item.label] = compUse[item.label] + 1;
-              } else {
-                compUse[item.label] = 1;
-              }
-            });
-            let strCompUse = '';
-            Object.keys(compUse).forEach((item, index) => {
-              strCompUse += (index === 0 ? '' : '、') + item + ' * ' + compUse[item];
-            });
-            return strCompUse;
-          }
-        },
-      ],
       dataList: [],
       pageIndex: 1,
       totalPage: 0,
@@ -160,6 +123,22 @@ export default {
       this.$nextTick(() => {
         this.$refs.pagesQRcode.init(uuid);
       });
+    },
+    getLayouts (dataList) {
+      let compUse = {};
+      const layouts = JSON.parse(dataList);
+      layouts.forEach(item => {
+        if (compUse[item.label] > 0) {
+          compUse[item.label] = compUse[item.label] + 1;
+        } else {
+          compUse[item.label] = 1;
+        }
+      });
+      let strCompUse = '';
+      Object.keys(compUse).forEach((item, index) => {
+        strCompUse += (index === 0 ? '' : '、') + item + ' * ' + compUse[item];
+      });
+      return strCompUse;
     }
   },
 };

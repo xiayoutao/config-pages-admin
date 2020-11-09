@@ -21,19 +21,13 @@
       <el-button v-permisson="permisson.logsDelete" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
     </el-form-item>
   </el-form>
-  <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" :empty-text="this.$store.state.common.tableEmptyText">
+  <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" :empty-text="tableEmptyText">
     <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-    <el-table-column
-      v-for="(item, index) in headData"
-      :key="index" :prop="item.key"
-      :width="item.width"
-      :label="item.label"
-      :header-align="item.headerAlign"
-      :align="item.align">
-      <template slot-scope="scope">
-        <span v-if="item.render">{{ item.render(scope.row[item.key]) }}</span>
-        <span v-else>{{ scope.row[item.key] }}</span>
-      </template>
+    <el-table-column align="center" prop="category" label="操作栏目"></el-table-column>
+    <el-table-column align="center" prop="type" label="操作类型"></el-table-column>
+    <el-table-column align="center" prop="user" label="操作用户"></el-table-column>
+    <el-table-column align="center" prop="logtime" label="操作时间">
+      <template slot-scope="scope">{{ formatDate(scope.row.logtime, 'yyyy-MM-dd hh:mm:ss') }}</template>
     </el-table-column>
     <el-table-column header-align="center" align="center" width="150" label="操作">
       <template slot-scope="scope">
@@ -71,28 +65,12 @@ export default {
     listPageMixin,
   ],
   data () {
-    let _this = this;
     return {
       dataForm: {
         userid: null,
         category: null,
         result: null,
       },
-      headData: [
-        { key: 'category', label: '操作栏目', headerAlign: 'center', align: 'center' },
-        { key: 'type', label: '操作类型', headerAlign: 'center', align: 'center' },
-        { key: 'user', label: '操作用户', headerAlign: 'center', align: 'center' },
-        {
-          key: 'logtime',
-          label: '操作时间',
-          width: 150,
-          headerAlign: 'center',
-          align: 'center',
-          render (data) {
-            return _this.formatDate(data, 'yyyy-MM-dd hh:mm:ss');
-          }
-        },
-      ],
       dataList: [],
       pageIndex: 1,
       totalPage: 0,

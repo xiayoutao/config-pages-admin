@@ -2,6 +2,7 @@
 export const getQiniuUptoken = '/qiniu/uptoken';
 export const login = '/common/login'; // 登录
 export const logout = '/common/logout'; // 退出
+export const getBaiduToken = '/baidu/access_token';
 // 管理员
 export const getAdminList = '/admin/list'; // 获取用户列表
 export const getAllAdmin = '/admin/select'; // 获取所有用户

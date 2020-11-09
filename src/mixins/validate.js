@@ -13,10 +13,10 @@ export default {
   computed: {
     ajaxLoading: {
       get () {
-        return this.$store.state.common.ajaxLoading;
+        return this.$store.state.ajaxLoading;
       },
       set (val) {
-        this.$store.commit('common/setAjaxLoading', val);
+        this.$store.commit('setAjaxLoading', val);
       }
     }
   },

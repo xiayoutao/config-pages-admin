@@ -83,7 +83,7 @@ export function validateFormMsg (fields, errors) {
 export function createUrlByKey (urlkey, type) {
   let imgSize;
   type === 0 ? imgSize = 30 : imgSize = 1200;
-  return store.state.common.cdnUrl + urlkey + `?imageView2/1/w/${imgSize}/h/${imgSize}`;
+  return store.state.cdnUrl + urlkey + `?imageView2/1/w/${imgSize}/h/${imgSize}`;
 }
 
 /**

@@ -1,35 +1,45 @@
 <template>
-  <div class="app-page mod-file">
-    <el-form :inline="true" :model="dataForm">
-      <el-form-item>
-        <el-button v-permisson="permisson.musicUpload" type="primary" @click="uploadHandle()">上传音频</el-button>
-        <el-button v-permisson="permisson.musicDelete" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
-      </el-form-item>
-    </el-form>
-    <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" :empty-text="this.$store.state.common.tableEmptyText" style="width: 100%;">
-      <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="name" header-align="center" align="center" label="文件名" show-overflow-tooltip></el-table-column>
-      <el-table-column header-align="center" align="center" width="450" label="URL地址">
-        <template slot-scope="scope">{{ $store.state.common.cdnUrl + scope.row.urlkey }}</template>
-      </el-table-column>
-      <el-table-column prop="addtime" header-align="center" align="center" width="220" label="上传时间">
-        <template slot-scope="scope">{{ formatDate(scope.row.addtime) }}</template>
-      </el-table-column>
-      <el-table-column header-align="center" align="center" width="160" label="操作">
-        <template slot-scope="scope">
-          <el-button type="text" size="small" @click="playHandle(scope.row.name, scope.row.urlkey)">播放</el-button>
-          <el-button v-permisson="permisson.musicDelete" type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="$store.state.common.paginationOptions.pageSizes" :page-size="$store.state.common.paginationOptions.pageSize" :total="totalPage" :layout="$store.state.common.paginationOptions.layout"></el-pagination>
-    <!-- 弹窗, 上传文件 -->
-    <upload v-if="uploadVisible" ref="upload" @refreshDataList="getDataList"></upload>
-    <audio-player v-if="audioVisible" ref="audioPlayer" @pause="audioPause"></audio-player>
-  </div>
+<div class="app-page mod-file">
+  <el-form :inline="true" :model="dataForm">
+    <el-form-item>
+      <el-button v-permisson="permisson.musicUpload" type="primary" @click="uploadHandle()">上传音频</el-button>
+      <el-button v-permisson="permisson.musicDelete" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+    </el-form-item>
+  </el-form>
+  <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" :empty-text="tableEmptyText" style="width: 100%;">
+    <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
+    <el-table-column prop="name" header-align="center" align="center" label="文件名" show-overflow-tooltip></el-table-column>
+    <el-table-column header-align="center" align="center" width="450" label="URL地址">
+      <template slot-scope="scope">{{ $store.state.common.cdnUrl + scope.row.urlkey }}</template>
+    </el-table-column>
+    <el-table-column prop="addtime" header-align="center" align="center" width="220" label="上传时间">
+      <template slot-scope="scope">{{ formatDate(scope.row.addtime) }}</template>
+    </el-table-column>
+    <el-table-column header-align="center" align="center" width="160" label="操作">
+      <template slot-scope="scope">
+        <el-button type="text" size="small" @click="playHandle(scope.row.name, scope.row.urlkey)">播放</el-button>
+        <el-button v-permisson="permisson.musicDelete" type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+  <el-pagination
+    :background="paginationBg"
+    :page-size="pageSize"
+    :layout="paginationLayout"
+    :current-page="pageIndex"
+    :page-sizes="paginationPageSizes"
+    :total="totalPage"
+    @size-change="sizeChangeHandle"
+    @current-change="currentChangeHandle">
+  </el-pagination>
+  <!-- 弹窗, 上传文件 -->
+  <upload v-if="uploadVisible" ref="upload" @refreshDataList="getDataList"></upload>
+  <audio-player v-if="audioVisible" ref="audioPlayer" @pause="audioPause"></audio-player>
+</div>
 </template>
 
 <script>
+import listPageMixin from '@/mixins/listPage';
 import {
   getFileList,
   deleteFile,
@@ -41,16 +51,18 @@ import Upload from './file-upload';
 import AudioPlayer from '@/components/audio'; // 样式会影响到全局
 
 export default {
+  mixins: [
+    listPageMixin,
+  ],
+  components: {
+    Upload,
+    AudioPlayer
+  },
   data () {
     return {
       fileTypes,
       dataForm: {},
       dataList: [],
-      pageIndex: 1,
-      pageSize: 10,
-      totalPage: 0,
-      dataListLoading: false,
-      dataListSelections: [],
       uploadVisible: false,
       audioVisible: false
     };
@@ -81,21 +93,6 @@ export default {
         this.dataList = [];
         this.totalPage = 0;
       }
-    },
-    // 每页数
-    sizeChangeHandle (val) {
-      this.pageSize = val;
-      this.pageIndex = 1;
-      this.getDataList();
-    },
-    // 当前页
-    currentChangeHandle (val) {
-      this.pageIndex = val;
-      this.getDataList();
-    },
-    // 多选
-    selectionChangeHandle (val) {
-      this.dataListSelections = val;
     },
     // 上传文件
     uploadHandle () {
@@ -151,10 +148,7 @@ export default {
         val.forEach((item, index) => {
           if (item.type === this.fileTypes.image) {
             this.viewerImages.push({
-              msrc:
-                this.$store.state.common.cdnUrl +
-                item.urlkey +
-                '?imageView2/1/w/200/h/200',
+              msrc: this.$store.state.common.cdnUrl + item.urlkey + '?imageView2/1/w/200/h/200',
               src: this.$store.state.common.cdnUrl + item.urlkey
             });
           }
@@ -163,9 +157,5 @@ export default {
       deep: true
     }
   },
-  components: {
-    Upload,
-    AudioPlayer
-  }
 };
 </script>

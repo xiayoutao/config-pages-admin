@@ -21,7 +21,7 @@
       <el-button v-permisson="permisson.wordDelete" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
     </el-form-item>
   </el-form>
-  <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" :empty-text="this.$store.state.common.tableEmptyText">
+  <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" :empty-text="tableEmptyText">
     <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
     <el-table-column align="center" prop="word" label="文字"></el-table-column>
     <el-table-column align="center" prop="type" label="类型" :formatter="$formatter.getWordType"></el-table-column>
@@ -30,9 +30,9 @@
     <el-table-column align="center" prop="remark" label="备注" show-overflow-tooltip min-width="250"></el-table-column>
     <el-table-column header-align="center" align="center" width="150" label="操作">
       <template slot-scope="scope">
-        <el-button v-permisson="permisson.wordUpdate" type="text" size="small" @click="playHandle(scope.row)">播放</el-button>
+        <el-button type="text" class="btn-success" size="small" @click="playAudioHandle(scope.row, scope.$index)" :disabled="playIndex !== null">播放</el-button>
         <el-button v-permisson="permisson.wordUpdate" type="text" size="small" @click="addOrUpdateHandle(scope.row)">编辑</el-button>
-        <el-button v-permisson="permisson.wordDelete" type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
+        <el-button v-permisson="permisson.wordDelete" type="text" class="btn-danger" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -48,10 +48,12 @@
   </el-pagination>
   <!-- 弹窗, 新增 / 修改 -->
   <add-or-update ref="addOrUpdate" v-if="addOrUpdateVisible" @close="addOrUpdateVisible = false" @refreshDataList="getDataList"></add-or-update>
+  <audio id="audioEle" style="display:none;"></audio>
 </div>
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import listPageMixin from '@/mixins/listPage';
 import {
   getWordList,
@@ -66,6 +68,7 @@ import {
   getEnglishTTS,
 } from '@/scripts/utils';
 import AddOrUpdate from './word-add-or-update';
+const { mapState, mapActions } = createNamespacedHelpers('config');
 
 export default {
   mixins: [
@@ -78,7 +81,7 @@ export default {
     return {
       wordTypes,
       wordLevels,
-      audioSrc: '',
+      audioContext: '',
       dataForm: {
         type: null,
         level: null,
@@ -87,12 +90,22 @@ export default {
       dataList: [],
       dataListLoading: false,
       addOrUpdateVisible: false,
+      playIndex: null,
     };
   },
+  computed: {
+    ...mapState([
+      'baiduToken',
+    ]),
+  },
   activated () {
+    this.getBaiduToken();
     this.getDataList();
   },
   methods: {
+    ...mapActions([
+      'getBaiduToken',
+    ]),
     // 获取数据列表
     async getDataList (isSearch) {
       this.dataListLoading = true;
@@ -146,19 +159,21 @@ export default {
         }
       });
     },
-    playHandle (dataForm) {
+    playAudioHandle (dataForm, index) {
+      this.playIndex = index;
+      let audioContext = new Audio();
+      let audioSrc;
       if (dataForm.type === 0) { // 汉字
-        console.log(getChineseTTS(dataForm.word));
-        this.audioSrc = getChineseTTS(dataForm.word);
+        audioSrc = getChineseTTS(dataForm.word, this.baiduToken);
       } else if (dataForm.type === 1) { // 字母
-        let audio = new Audio();
-        audio.src = getEnglishTTS(dataForm.word);
-        audio.play();
+        audioSrc = getEnglishTTS(dataForm.word, this.baiduToken);
+        // audioSrc = `http://qiniu.xiayoutao.wang/${dataForm.word}.mp3`;
       }
-      // var audio = document.createElement('audio');
-      // audio.src = this.audioSrc;
-      // audio.loop = true;
-      // document.body.appendChild(audio);
+      audioContext.src = audioSrc;
+      audioContext.play();
+      audioContext.onended = () => {
+        this.playIndex = null;
+      };
     }
   },
 };

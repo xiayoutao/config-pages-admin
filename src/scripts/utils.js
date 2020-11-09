@@ -136,19 +136,45 @@ export function insertStr (source, index, newStr) {
 }
 
 // 中文发音
-export function getChineseTTS (text) {
+export function getChineseTTS (text, token) {
   if (checkStr(text, 'chinese')) {
-    return `https://fanyi.baidu.com/gettts?lan=zh&text=${encodeURI(text)}&spd=5&source=web`;
+    return getTTS({
+      text,
+      token,
+      vol: 15,
+      spd: 2,
+    });
   }
   return '';
 }
 
-// 字母发音
+// 英文发音
 export function getEnglishTTS (text, token) {
   if (checkStr(text, 'english')) {
-    return `https://fanyi.baidu.com/gettts?lan=en&text=${text}&spd=3&source=web`;
+    return getTTS({
+      text,
+      token,
+      vol: 15,
+      spd: 2,
+    });
   }
   return '';
+}
+
+/**
+ * 文字合成TTS语音
+ */
+export function getTTS (options) {
+  options = options || {};
+  const token = options.token;
+  const text = options.text || '';
+  const cuid = options.cuid || 'xiayoutao'; // 用户唯一标识，用来计算UV值
+  const aue = options.aue || 3; // 3为mp3格式(默认)； 4为pcm-16k；5为pcm-8k；6为wav（内容同pcm-16k）; 注意aue=4或者6是语音识别要求的格式，但是音频内容不是语音识别要求的自然人发音，所以识别效果会受影响
+  const per = options.per || 0; // 发音人选择, 0为普通女声，1为普通男生，3为情感合成-度逍遥，4为情感合成-度丫丫，默认为普通女声
+  const vol = options.vol || 5; // 音量，取值0-15，默认为5中音量
+  const spd = options.spd || 5; // 语速，取值0-9，默认为5中语速
+  const pit = options.pit || 5; // 音调，取值0-9，默认为5中语调
+  return `https://tsn.baidu.com/text2audio?lan=zh&ctp=1&cuid=${cuid}&tok=${token}&tex=${encodeURI(text)}&vol=${vol}&per=${per}&spd=${spd}&pit=${pit}&aue=${aue}`;
 }
 
 /**

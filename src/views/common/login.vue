@@ -1,28 +1,28 @@
 <template>
-  <div class="page-login">
-    <div class="login-box">
-      <div class="title">
-        <h1>后台管理系统</h1>
-      </div>
-      <el-form ref="dataForm" class="login-form" :model="dataForm" :rules="rules" status-icon size="large" @keyup.enter.native="dataFormSubmit()">
-        <el-form-item prop="userid">
-          <el-input v-model="dataForm.userid" autocomplete="off" placeholder="请输入用户名"></el-input>
-        </el-form-item>
-        <el-form-item prop="pwd">
-          <el-input v-model="dataForm.pwd" type="password" autocomplete="off" placeholder="密码"></el-input>
-        </el-form-item>
-        <el-form-item prop="captcha">
-          <el-input v-model="dataForm.captcha" autocomplete="off" placeholder="验证码" style="width: 132px;"></el-input>
-          <img class="img-captcha" :src="captchaUrl" @click="handleResetCaptcha">
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" :loading="ajaxLoading" @click="dataFormSubmit()" style="width: 100%;">登录</el-button>
-        </el-form-item>
-      </el-form>
+<div class="page-login">
+  <div class="login-box">
+    <div class="title">
+      <h1>后台管理系统</h1>
     </div>
-    <!-- <p class="copyright" v-html="copyright"></p> -->
-    <p class="version">{{ version }}</p>
+    <el-form ref="dataForm" class="login-form" :model="dataForm" :rules="rules" status-icon size="large" @keyup.enter.native="dataFormSubmit()">
+      <el-form-item prop="userid">
+        <el-input v-model="dataForm.userid" autocomplete="off" placeholder="请输入用户名"></el-input>
+      </el-form-item>
+      <el-form-item prop="pwd">
+        <el-input v-model="dataForm.pwd" type="password" autocomplete="off" placeholder="密码"></el-input>
+      </el-form-item>
+      <el-form-item prop="captcha">
+        <el-input v-model="dataForm.captcha" autocomplete="off" placeholder="验证码" style="width: 132px;"></el-input>
+        <img class="img-captcha" :src="captchaUrl" @click="handleResetCaptcha">
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" :loading="ajaxLoading" @click="dataFormSubmit()" style="width: 100%;">登录</el-button>
+      </el-form-item>
+    </el-form>
   </div>
+  <!-- <p class="copyright" v-html="copyright"></p> -->
+  <p class="version">{{ version }}</p>
+</div>
 </template>
 
 <script>
@@ -70,14 +70,6 @@ export default {
     },
     copyright () {
       return this.$store.state.copyright;
-    },
-    userId: {
-      get () { return this.$store.state.user.id; },
-      set (val) { this.$store.commit('user/updateId', val); }
-    },
-    userName: {
-      get () { return this.$store.state.user.name;},
-      set (val) { this.$store.commit('user/updateName', val);}
     },
     captchaUrl () {
       return `${this.captchaPath}?t=${this.time}`;

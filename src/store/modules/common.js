@@ -10,13 +10,11 @@ export default {
     imageServer: window.SITE_CONFIG.imageServer,
     cdnUrl: window.SITE_CONFIG.cdnUrl,
     upload: window.SITE_CONFIG.upload,
-    // 分页器配置信息
-    paginationOptions: {
-      layout: 'total, sizes, prev, pager, next, jumper',
-      pageSizes: [5, 10, 15, 20, 30, 50, 100],
-      pageSize: 10
-    },
     ajaxLoading: false, // ajax请求中
+    // 分页器配置信息
+    paginationBg: true,
+    paginationLayout: 'total, sizes, prev, pager, next',
+    paginationPageSizes: [10, 20, 50, 100],
   },
   getters: {},
   mutations: {

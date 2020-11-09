@@ -1,6 +1,13 @@
 $color: #409eff;
-$--color-primary: #409eff;
-$--color-danger: #f00;
+$success: #389D06;
+$warning: #E6A23C;
+$danger: #E64340;
+$info: #909399;
+$--color-primary: $color;
+$--color-success: $success;
+$--color-warning: $warning;
+$--color-danger: $danger;
+$--color-info: $info;
 $text: #2c3e50;
 $tips-text-color: #969799;
 

@@ -37,7 +37,7 @@ http.interceptors.response.use(response => {
   setTimeout(() => {
     store.commit('common/setAjaxLoading', false);
   }, 800); // 延迟0.8秒设置为false
-  if (response.data && response.data.code === 2) { // 401, token失效
+  if (response.data && [2, 3].indexOf(response.data.code) >= 0) { // token失效
     clearLoginInfo();
     location.href = '/login.html';
   }

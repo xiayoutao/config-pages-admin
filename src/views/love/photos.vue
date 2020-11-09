@@ -1,46 +1,56 @@
 <template>
-  <div class="app-page mod-photos">
-    <el-form :inline="true" :model="dataForm">
-      <el-form-item>
-        <el-button v-permisson="permisson.photosAdd" type="primary" @click="addOrUpdateHandle()">添加照片</el-button>
-        <el-button v-permisson="permisson.photosDelete" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
-      </el-form-item>
-    </el-form>
-    <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" :empty-text="this.$store.state.common.tableEmptyText" style="width: 100%;">
-      <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="title" header-align="center" align="center" width="120" label="标题"></el-table-column>
-      <el-table-column prop="url" header-align="center" align="center" width="400" label="URL地址"></el-table-column>
-      <el-table-column header-align="center" align="center" label="预览">
-        <template slot-scope="scope">
-          <el-popover placement="bottom" width="500" trigger="hover">
-            <img style="max-width:100%;min-height:320px;" v-imgurl="$createImageUrl(scope.row.url)">
-            <img slot="reference" width="30" height="30" v-imgurl="$createImageUrl(scope.row.url)">
-          </el-popover>
-        </template>
-      </el-table-column>
-      <el-table-column prop="addtime" header-align="center" align="center" width="180" label="创建时间">
-        <template slot-scope="scope">{{ formatDate(scope.row.addtime) }}</template>
-      </el-table-column>
-      <el-table-column prop="addtime" header-align="center" align="center" width="80" label="排序">
-        <template slot-scope="scope">{{ scope.row.sort }}</template>
-      </el-table-column>
-      <el-table-column header-align="center" align="center" width="200" label="操作">
-        <template slot-scope="scope">
-          <el-button v-permisson="permisson.photosSort" size="mini" round @click="updateSortHandle(scope.row.id)">修改排序</el-button>
-          <el-button v-permisson="permisson.photosUpdate" size="mini" round @click="addOrUpdateHandle(scope.row.id)">编辑</el-button>
-          <el-button v-permisson="permisson.photosDelete" size="mini" round @click="deleteHandle(scope.row.id)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination @size-change="sizeChangeHandle" @current-change="currentChangeHandle" :current-page="pageIndex" :page-sizes="$store.state.common.paginationOptions.pageSizes" :page-size="$store.state.common.paginationOptions.pageSize" :total="totalPage" :layout="$store.state.common.paginationOptions.layout"></el-pagination>
-    <!-- 弹窗, 新增 / 修改 -->
-    <update-sort v-if="updateSortVisible" ref="updateSort" @close="updateSortVisible = false" @refreshDataList="getDataList"></update-sort>
-    <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @close="addOrUpdateVisible = false" @refreshDataList="getDataList"></add-or-update>
-    <image-viewer ref="imageviewer" :list="viewerImages" :options="$store.state.previewerOptions"></image-viewer>
-  </div>
+<div class="app-page mod-photos">
+  <el-form :inline="true" :model="dataForm">
+    <el-form-item>
+      <el-button v-permisson="permisson.photosAdd" type="primary" @click="addOrUpdateHandle()">添加照片</el-button>
+      <el-button v-permisson="permisson.photosDelete" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+    </el-form-item>
+  </el-form>
+  <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" :empty-text="tableEmptyText" style="width: 100%;">
+    <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
+    <el-table-column prop="title" header-align="center" align="center" width="120" label="标题"></el-table-column>
+    <el-table-column prop="url" header-align="center" align="center" width="400" label="URL地址"></el-table-column>
+    <el-table-column header-align="center" align="center" label="预览">
+      <template slot-scope="scope">
+        <el-popover placement="bottom" width="500" trigger="hover">
+          <img style="max-width:100%;min-height:320px;" v-imgurl="$createImageUrl(scope.row.url)">
+          <img slot="reference" width="30" height="30" v-imgurl="$createImageUrl(scope.row.url)">
+        </el-popover>
+      </template>
+    </el-table-column>
+    <el-table-column prop="addtime" header-align="center" align="center" width="180" label="创建时间">
+      <template slot-scope="scope">{{ formatDate(scope.row.addtime) }}</template>
+    </el-table-column>
+    <el-table-column prop="addtime" header-align="center" align="center" width="80" label="排序">
+      <template slot-scope="scope">{{ scope.row.sort }}</template>
+    </el-table-column>
+    <el-table-column header-align="center" align="center" width="200" label="操作">
+      <template slot-scope="scope">
+        <el-button v-permisson="permisson.photosSort" size="mini" round @click="updateSortHandle(scope.row.id)">修改排序</el-button>
+        <el-button v-permisson="permisson.photosUpdate" size="mini" round @click="addOrUpdateHandle(scope.row.id)">编辑</el-button>
+        <el-button v-permisson="permisson.photosDelete" size="mini" round @click="deleteHandle(scope.row.id)">删除</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+  <el-pagination
+    :background="paginationBg"
+    :page-size="pageSize"
+    :layout="paginationLayout"
+    :current-page="pageIndex"
+    :page-sizes="paginationPageSizes"
+    :total="totalPage"
+    @size-change="sizeChangeHandle"
+    @current-change="currentChangeHandle">
+  </el-pagination>
+  <!-- 弹窗, 新增 / 修改 -->
+  <update-sort v-if="updateSortVisible" ref="updateSort" @close="updateSortVisible = false" @refreshDataList="getDataList"></update-sort>
+  <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @close="addOrUpdateVisible = false" @refreshDataList="getDataList"></add-or-update>
+  <image-viewer ref="imageviewer" :list="viewerImages" :options="$store.state.previewerOptions"></image-viewer>
+</div>
 </template>
 
 <script>
+import listPageMixin from '@/mixins/listPage';
 import {
   getPhotoList,
   deletePhoto,
@@ -50,6 +60,14 @@ import UpdateSort from './photos-update-sort.vue';
 import ImageViewer from '@/components/viewer';
 
 export default {
+  mixins: [
+    listPageMixin,
+  ],
+  components: {
+    UpdateSort,
+    AddOrUpdate,
+    ImageViewer
+  },
   data () {
     return {
       dataForm: {},
@@ -162,10 +180,5 @@ export default {
       deep: true
     }
   },
-  components: {
-    UpdateSort,
-    AddOrUpdate,
-    ImageViewer
-  }
 };
 </script>

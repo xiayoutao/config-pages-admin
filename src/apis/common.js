@@ -35,3 +35,13 @@ export async function getQiniuUptoken (data) {
     ...res,
   });
 }
+
+export async function getBaiduToken () {
+  const res = await http({
+    url: http.adornUrl(API.getBaiduToken),
+    method: 'post',
+  });
+  return http.handleData({
+    ...res,
+  });
+}

@@ -1,9 +1,10 @@
-import { mapGetters } from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
+const { mapState } = createNamespacedHelpers('common');
 
 export default {
   data () {
     return {
-      searchFlag: false,
+      dataListLoading: false,
       pageIndex: 1,
       pageSize: 10,
       totalPage: 0,
@@ -12,14 +13,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
+    ...mapState([
+      'tableEmptyText',
       'paginationBg',
       'paginationLayout',
       'paginationPageSizes',
     ]),
-    routeName () {
-      return this.$route.name;
-    }
   },
   methods: {
     // 该方法要页面重新定义
