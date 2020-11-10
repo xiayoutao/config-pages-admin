@@ -1,7 +1,7 @@
 <template>
   <main class="app-main">
     <router-tab>
-      <template v-slot="{ tab: { id, title, icon, closable }, tabs, index}">
+      <template v-slot="{ tab: { id, title, icon, closable }, tabs}">
         <i v-if="icon" :class="iconfont + icon" />
         <span class="tab-title">{{ title || '未命名页签' }}</span>
         <!-- <span class="tab-badge">{{ index }}</span> -->
