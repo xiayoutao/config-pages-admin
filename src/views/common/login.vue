@@ -101,6 +101,12 @@ export default {
     handleResetCaptcha () {
       this.time = new Date().getTime();
     }
+  },
+  watch: {
+    'dataForm.captcha' (val) { // 监听输入的验证码，自动转大写
+      if (val === val.toUpperCase()) return;
+      this.dataForm.captcha = val.toUpperCase();
+    }
   }
 };
 </script>
