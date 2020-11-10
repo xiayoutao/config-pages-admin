@@ -174,7 +174,7 @@ export function getTTS (options) {
   const vol = options.vol || 5; // 音量，取值0-15，默认为5中音量
   const spd = options.spd || 5; // 语速，取值0-9，默认为5中语速
   const pit = options.pit || 5; // 音调，取值0-9，默认为5中语调
-  return `https://tsn.baidu.com/text2audio?lan=zh&ctp=1&cuid=${cuid}&tok=${token}&tex=${encodeURI(text)}&vol=${vol}&per=${per}&spd=${spd}&pit=${pit}&aue=${aue}`;
+  return `https://tsn.baidu.com/text2audio?lan=zh&ctp=1&cuid=${cuid}&tok=${token}&tex=${encodeURIComponent(text)}&vol=${vol}&per=${per}&spd=${spd}&pit=${pit}&aue=${aue}`;
 }
 
 /**
