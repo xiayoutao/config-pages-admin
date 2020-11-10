@@ -24,8 +24,12 @@
   <el-table :data="dataList" border v-loading="dataListLoading" @selection-change="selectionChangeHandle" :empty-text="tableEmptyText">
     <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
     <el-table-column align="center" prop="word" label="文字"></el-table-column>
-    <el-table-column align="center" prop="type" label="类型" :formatter="$formatter.getWordType"></el-table-column>
-    <el-table-column align="center" prop="pinType" label="拼音类型" :formatter="$formatter.getPinType"></el-table-column>
+    <el-table-column align="center" label="类型">
+      <template slot-scope="scope">
+        <el-tag size="mini">{{ $getWordType(scope.row.type) }}</el-tag>
+        <el-tag type="warning" size="mini" effect="plain" v-if="scope.row.type === 2" style="margin-left: 10px;">{{ $getPinType(scope.row.pinType) }}</el-tag>
+      </template>
+    </el-table-column>
     <el-table-column align="center" prop="level" label="难易程度" :formatter="$formatter.getWordLevel"></el-table-column>
     <el-table-column align="center" prop="remark" label="备注" show-overflow-tooltip min-width="250"></el-table-column>
     <el-table-column header-align="center" align="center" width="150" label="操作">
@@ -62,11 +66,16 @@ import {
 import {
   wordTypes,
   wordLevels,
+  pinTypes,
 } from '@/constants';
 import {
   getChineseTTS,
   getEnglishTTS,
 } from '@/scripts/utils';
+// import {
+//   getWordType,
+//   getPinType,
+// } from '@/scripts/getFormatValue';
 import AddOrUpdate from './word-add-or-update';
 const { mapState, mapActions } = createNamespacedHelpers('config');
 

@@ -15,7 +15,8 @@ import {
 import {
   isEmptyObject,
 } from '@/scripts/utils.js';
-import * as formatter from '@/scripts/formatter.js'; // Table组件 formatter方法
+import * as formatter from '@/scripts/formatter'; // Table组件 formatter方法
+import * as getFormatValue from '@/scripts/getFormatValue';
 
 export default {
   install (Vue, options) {
@@ -30,6 +31,10 @@ export default {
     Vue.prototype.$createUrlByKey = createUrlByKey;
     Vue.prototype.$createImageUrl = createImageUrl;
     Vue.prototype.$formatter = formatter;
+
+    Object.keys(getFormatValue).forEach(item => {
+      Vue.prototype['$' + item] = getFormatValue[item];
+    });
 
     Vue.directive('imgurl', imgurl);
 

@@ -182,14 +182,14 @@ export function getTTS (options) {
  * @param {*} data
  * @param {*} status
  */
-export function getStatusName (data, statusList) {
-  let statusMsg = data;
-  statusList.forEach(item => {
+export function getStatusName (data, dataList) {
+  let label = data;
+  dataList.forEach(item => {
     if (data !== '' && data === item.value) {
-      statusMsg = item.label;
+      label = item.label;
     }
   });
-  return statusMsg;
+  return label;
 }
 
 export function checkStr (str, type) {
