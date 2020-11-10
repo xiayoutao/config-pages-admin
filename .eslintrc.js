@@ -34,6 +34,7 @@ module.exports = {
     'eol-last': 0, // 文件以单一的换行符结束
     'no-sequences': 0, // 禁止使用逗号运算符
     'no-unused-expressions': 0, // 禁止无用的表达式
+    'no-prototype-builtins': 0,
     'space-before-function-paren': [1, 'always'], // 函数定义时括号前面要不要有空格
     'space-infix-ops': 2, // 中缀操作符周围要不要有空格，如等号
     'keyword-spacing': 2, // 关键字后面空格
