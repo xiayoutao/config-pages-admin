@@ -34,7 +34,7 @@
     <el-table-column align="center" prop="remark" label="备注" show-overflow-tooltip min-width="250"></el-table-column>
     <el-table-column header-align="center" align="center" width="150" label="操作">
       <template slot-scope="scope">
-        <el-button type="text" class="btn-success" size="small" @click="playAudioHandle(scope.row, scope.$index)" :disabled="playIndex !== null">播放</el-button>
+        <el-button type="text" class="btn-success" size="small" @click="playAudioHandle(scope.row, scope.$index)" :disabled="playIndex !== null" v-if="scope.row.type !== 2">播放</el-button>
         <el-button v-permisson="permisson.wordUpdate" type="text" size="small" @click="addOrUpdateHandle(scope.row)">编辑</el-button>
         <el-button v-permisson="permisson.wordDelete" type="text" class="btn-danger" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
       </template>
@@ -72,10 +72,6 @@ import {
   getChineseTTS,
   getEnglishTTS,
 } from '@/scripts/utils';
-// import {
-//   getWordType,
-//   getPinType,
-// } from '@/scripts/getFormatValue';
 import AddOrUpdate from './word-add-or-update';
 const { mapState, mapActions } = createNamespacedHelpers('config');
 
@@ -176,7 +172,6 @@ export default {
         audioSrc = getChineseTTS(dataForm.word, this.baiduToken);
       } else if (dataForm.type === 1) { // 字母
         audioSrc = getEnglishTTS(dataForm.word, this.baiduToken);
-        // audioSrc = `http://qiniu.xiayoutao.wang/${dataForm.word}.mp3`;
       }
       audioContext.src = audioSrc;
       audioContext.play();
