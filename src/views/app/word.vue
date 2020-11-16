@@ -52,7 +52,6 @@
   </el-pagination>
   <!-- 弹窗, 新增 / 修改 -->
   <add-or-update ref="addOrUpdate" v-if="addOrUpdateVisible" @close="addOrUpdateVisible = false" @refreshDataList="getDataList"></add-or-update>
-  <audio id="audioEle" style="display:none;"></audio>
 </div>
 </template>
 
