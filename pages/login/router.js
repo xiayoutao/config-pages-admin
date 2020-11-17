@@ -25,6 +25,7 @@ const Routers = new VueRouter({
   }]
 });
 
+
 Routers.beforeEach(async (to, from, next) => {
   console.log(to, from);
   next();
