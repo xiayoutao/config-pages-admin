@@ -14,7 +14,7 @@ const Routers = new VueRouter({
   }),
   routes: [{
     path: '*',
-    component: importPage('common/login')
+    component: importPage('common/login'),
   }, {
     path: '/',
     component: importPage('common/login'),
@@ -24,7 +24,6 @@ const Routers = new VueRouter({
     }
   }]
 });
-
 
 Routers.beforeEach(async (to, from, next) => {
   console.log(to, from);

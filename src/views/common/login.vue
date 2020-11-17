@@ -11,10 +11,10 @@
       <el-form-item prop="pwd">
         <el-input v-model="dataForm.pwd" type="password" autocomplete="off" placeholder="密码"></el-input>
       </el-form-item>
-      <el-form-item prop="captcha">
+      <!-- <el-form-item prop="captcha">
         <el-input v-model="dataForm.captcha" autocomplete="off" placeholder="验证码" style="width: 132px;"></el-input>
         <img class="img-captcha" :src="captchaUrl" @click="handleResetCaptcha">
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" :loading="ajaxLoading" @click="dataFormSubmit()" style="width: 100%;">登录</el-button>
       </el-form-item>
