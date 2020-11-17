@@ -13,9 +13,6 @@ export default new VueRouter({
     y: 0
   }),
   routes: [{
-    path: '*',
-    component: importPage('common/login')
-  }, {
     path: '/',
     component: importPage('common/login'),
     meta: {
