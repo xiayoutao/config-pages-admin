@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 
 const importPage = view => () => import(`@/views/${view}.vue`);
 
-export default new VueRouter({
+const Routers = new VueRouter({
   mode: 'history',
   scrollBehavior: () => ({
     x: 0,
@@ -24,3 +24,10 @@ export default new VueRouter({
     }
   }]
 });
+
+
+Routers.beforeEach(async (to, from, next) => {
+  console.log(to, from);
+});
+
+export default Routers;
