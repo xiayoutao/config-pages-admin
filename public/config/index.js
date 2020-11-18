@@ -13,5 +13,5 @@
   window.SITE_CONFIG['baseUrl'] = '';
   window.SITE_CONFIG['cdnUrl'] = 'http://test.xiayoutao.wang/';
   window.SITE_CONFIG['upload'] = '//up-z2.qiniup.com/';
-  window.SITE_CONFIG['previewOrigin'] = 'http://localhost:7000';
+  window.SITE_CONFIG['previewOrigin'] = 'http://localhost:7001';
 })();
