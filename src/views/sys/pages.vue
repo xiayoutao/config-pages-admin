@@ -1,15 +1,15 @@
 <template>
 <div class="app-page mod-pages">
-  <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList(true)">
+  <!-- <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList(true)">
     <el-form-item>
       <el-select v-model="dataForm.userid" placeholder="操作用户" clearable style="width: 160px;">
-        <el-option v-for="(item, index) in userList" :key="index" :value="item.userid" :label="item.nickname"></el-option>
+        <el-option v-for="(item, index) in userList" :key="index" :value="item.userid" :label="item.nickname + ' / ' + item.userid"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item>
       <el-button @click="getDataList(true)">查询</el-button>
     </el-form-item>
-  </el-form>
+  </el-form> -->
   <el-table :data="dataList" border v-loading="dataListLoading" :empty-text="tableEmptyText">
     <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
     <el-table-column align="center" prop="userid" label="用户"></el-table-column>
