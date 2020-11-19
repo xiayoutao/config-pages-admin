@@ -154,6 +154,11 @@ export default {
     },
     // 接收消息
     receiveMessage (data) {
+      try {
+        data = JSON.parse(data);
+      } catch (error) {
+        console.log(error);
+      }
       if (data.type === 'updateHeight') { // 更新iframe高度
         this.iframeHeight = data.height;
       } else if (data.type === 'updateLayouts') { // 更新布局
