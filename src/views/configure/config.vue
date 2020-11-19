@@ -155,7 +155,6 @@ export default {
     // 接收消息
     receiveMessage (data) {
       try {
-        console.log(data);
         if (typeof data === 'string') {
           data = JSON.parse(data);
         }
