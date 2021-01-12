@@ -31,7 +31,7 @@ import {
 } from '@/scripts/pattern';
 
 export default {
-  data () {
+  data() {
     return {
       visible: false,
       menuList: [],
@@ -47,7 +47,7 @@ export default {
         remark: null,
       },
       menuIds: [],
-      tempKey: '-666666', // 用于解决tree半选中状态项不能传给后台接口问题，解决思路：全选值和半选值中间加上tempKey，等到渲染的时候先把tempKey和半选的值都去掉 # 待优化
+      tempKey: '-6666666', // 用于解决tree半选中状态项不能传给后台接口问题，解决思路：全选值和半选值中间加上tempKey，等到渲染的时候先把tempKey和半选的值都去掉 # 待优化
       rules: {
         roleId: [
           { required: true, message: '权限ID不能为空', },
@@ -68,12 +68,12 @@ export default {
     };
   },
   computed: {
-    menuListLevel () {
+    menuListLevel() {
       return treeDataTranslate(this.menuList, 'mid');
     }
   },
   methods: {
-    init (roleId) {
+    init(roleId) {
       this.visible = true;
       this.roleId = roleId;
       this.getMenuList();
@@ -98,14 +98,14 @@ export default {
       });
     },
     // 获取菜单列表
-    async getMenuList () {
+    async getMenuList() {
       const menuList = await getMenuList();
       this.menuList = menuList.map(item => {
         return { ...item };
       });
     },
     // Tree组件节点选中状态发生变化
-    treeCheckChange () {
+    treeCheckChange() {
       this.menuIds = [].concat(
         this.$refs.menuListTree.getCheckedKeys(),
         [this.tempKey],
@@ -114,7 +114,7 @@ export default {
       this.$set(this.dataForm, 'menuIds', this.menuIds.join(','));
     },
     // 表单提交
-    dataFormSubmit () {
+    dataFormSubmit() {
       if (this.ajaxLoading) {
         return false;
       }
