@@ -8,7 +8,8 @@
         <el-input v-model="dataForm.remark" placeholder="备注"></el-input>
       </el-form-item>
       <el-form-item label="授权菜单" prop="menuIds">
-        <el-tree ref="menuListTree" :data="menuListLevel" :props="menuListTreeProps" node-key="mid" :default-expand-all="false" show-checkbox @check-change="treeCheckChange"></el-tree>
+        <el-tree ref="menuListTree" :data="menuListLevel" :props="menuListTreeProps" node-key="mid" :default-expand-all="false" show-checkbox
+          @check-change="treeCheckChange"></el-tree>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
