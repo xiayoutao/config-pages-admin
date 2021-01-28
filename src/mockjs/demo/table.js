@@ -1,10 +1,10 @@
 import Mock from 'mockjs';
 
-Mock.mock('/adminApi/table/list', 'post', function (req) {
+Mock.mock('/api/table/list', 'post', function (req) {
   let limit = req.body.limit || 10;
   let dataList = [];
   let totalCount = Math.floor(Math.random(0, 1) * 100);
-  for (let i = 0; i < limit; i++) {
+  for (let i = 0;i < limit;i++) {
     dataList.push({
       id: Mock.mock('@guid'),
       username: Mock.mock('@cfirst') + Mock.mock('@cname'),

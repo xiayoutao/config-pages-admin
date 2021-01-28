@@ -18,10 +18,10 @@ import {
 } from '@/apis/system.js';
 import {
   password,
-} from '@/scripts/pattern';
+} from '@/common/pattern';
 
 export default {
-  data () {
+  data() {
     return {
       visible: false,
       dataForm: {
@@ -36,12 +36,12 @@ export default {
     };
   },
   methods: {
-    init (userid) {
+    init(userid) {
       this.visible = true;
       this.dataForm.userid = userid;
     },
     // 表单提交
-    dataFormSubmit () {
+    dataFormSubmit() {
       this.$refs.dataForm.validate(async (valid) => {
         if (valid) {
           if (this.ajaxLoading) {

@@ -11,8 +11,11 @@
         <el-input v-model="dataForm.name" placeholder="菜单名称"></el-input>
       </el-form-item>
       <el-form-item label="上级菜单" prop="pid">
-        <el-popover ref="menuListPopover" v-model="parentPopoverVisible" placement="bottom-start" :visible-arrow="true" popper-class="popover-menulist-container">
-          <el-tree :data="menuListLevel" :props="menuListTreeProps" ref="menuListTree" node-key="mid" @current-change="menuListTreeCurrentChangeHandle" :default-expand-all="false" :default-expanded-keys="[0]" :highlight-current="true" :expand-on-click-node="false">
+        <el-popover ref="menuListPopover" v-model="parentPopoverVisible" placement="bottom-start" :visible-arrow="true"
+          popper-class="popover-menulist-container">
+          <el-tree :data="menuListLevel" :props="menuListTreeProps" ref="menuListTree" node-key="mid"
+            @current-change="menuListTreeCurrentChangeHandle" :default-expand-all="false" :default-expanded-keys="[0]" :highlight-current="true"
+            :expand-on-click-node="false">
           </el-tree>
         </el-popover>
         <el-input v-model="dataForm.pName" v-popover:menuListPopover :readonly="true" placeholder="点击选择上级菜单" class="menu-list__input"></el-input>
@@ -26,7 +29,8 @@
       <el-form-item label="图标" prop="icon">
         <el-popover ref="iconListPopover" v-model="iconPopoverVisible" trigger="click" width="360px" popper-class="mod-menu__icon-popover">
           <div class="mod-menu__icon-list">
-            <el-button v-for="(item, index) in menuIcons" :key="index" @click="iconActiveHandle(item)" :class="{ 'is-active': item === dataForm.icon }">
+            <el-button v-for="(item, index) in menuIcons" :key="index" @click="iconActiveHandle(item)"
+              :class="{ 'is-active': item === dataForm.icon }">
               <span :class="$iconfont + item"></span>
             </el-button>
           </div>
@@ -57,12 +61,12 @@ import {
 } from '@/constants';
 import {
   treeDataTranslate,
-} from '@/scripts/treeUtils';
-import Icons from '@/scripts/icons';
+} from '@/common/treeUtils';
+import Icons from '@/common/icons';
 const menuIcons = Icons.getNameList();
 
 export default {
-  data () {
+  data() {
     const _this = this;
     const validatePid = (rule, value, callback) => {
       console.log(_this.dataForm.type, menuTypes.menu, value);
@@ -139,7 +143,7 @@ export default {
       },
       rules: {
         mid: [
-          { max: 40, message: '菜单ID不能超过40个字符',},
+          { max: 40, message: '菜单ID不能超过40个字符', },
         ],
         name: [
           { required: true, message: '菜单名称不能为空', },
@@ -173,12 +177,12 @@ export default {
     };
   },
   computed: {
-    menuListLevel () {
+    menuListLevel() {
       return treeDataTranslate(this.menuList, 'mid');
     }
   },
   methods: {
-    init (mid) {
+    init(mid) {
       this.mid = mid;
       this.$set(this.dataForm, 'mid', mid || 0);
       this.getMenuList();
@@ -197,7 +201,7 @@ export default {
       });
     },
     // 获取菜单列表
-    async getMenuList () {
+    async getMenuList() {
       const data = await getMenuList();
       if (!this.isEmptyObject(data)) {
         this.menuList = [];
@@ -207,25 +211,25 @@ export default {
       }
     },
     // 菜单树选中
-    menuListTreeCurrentChangeHandle (data, node) {
+    menuListTreeCurrentChangeHandle(data, node) {
       this.dataForm.pid = data.mid;
       this.dataForm.pName = data.name;
       this.parentPopoverVisible = false;
     },
     // 菜单树设置当前选中节点
-    menuListTreeSetCurrentNode () {
+    menuListTreeSetCurrentNode() {
       this.$refs.menuListTree.setCurrentKey(this.dataForm.pid);
       this.dataForm.pName = (this.$refs.menuListTree.getCurrentNode() || {})[
         'name'
       ];
     },
     // 图标选中
-    iconActiveHandle (iconName) {
+    iconActiveHandle(iconName) {
       this.dataForm.icon = iconName;
       this.iconPopoverVisible = false;
     },
     // 表单提交
-    dataFormSubmit () {
+    dataFormSubmit() {
       if (this.ajaxLoading) {
         return false;
       }

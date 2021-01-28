@@ -1,5 +1,5 @@
 import * as API from '@/apis/urls';
-import http from '@/scripts/axios';
+import http from '@/common/axios';
 
 export const adminFlags = {
   enabled: 1, // 启用
@@ -7,7 +7,7 @@ export const adminFlags = {
 };
 
 // 有问题的
-export async function getAllUser (data) {
+export async function getAllUser(data) {
   const res = await http({
     url: http.adornUrl(API.getUserList),
     method: 'post',
@@ -20,7 +20,7 @@ export async function getAllUser (data) {
 }
 
 // 获取用户列表（分页）
-export async function getUserList (data) {
+export async function getUserList(data) {
   const res = await http({
     url: http.adornUrl(API.getUserList),
     method: 'post',
@@ -33,7 +33,7 @@ export async function getUserList (data) {
 }
 
 // 查询用户信息
-export async function getUserInfo (data) {
+export async function getUserInfo(data) {
   const res = await http({
     url: http.adornUrl(API.getUserInfo),
     method: 'post',

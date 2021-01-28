@@ -54,14 +54,14 @@ import {
   savePage,
 } from '@/apis/app';
 import pageConfig from '@/constants/pageConfig';
-import { getUUID, } from '@/scripts/utils';
+import { getUUID, } from '@/common/utils';
 import {
   compUse,
   compList,
   compDefaultData,
   compItemBox,
 } from '@/constants/components';
-import { postMessage, checkIFrameLoaded } from '@/scripts/tools';
+import { postMessage, checkIFrameLoaded } from '@/common/tools';
 import PreviewTabs from '@/components/previewTabs/index.vue';
 import PreviewComponents from '@/components/previewComponents/index.vue';
 import configDataEditCps from '@/components/configDataEdit/index.js';

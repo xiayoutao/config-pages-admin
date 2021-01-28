@@ -24,18 +24,19 @@ import {
   updateRole,
   insertRole,
   getRoleInfo,
-  getMenuList,
 } from '@/apis/system.js';
-import { treeDataTranslate } from '@/scripts/treeUtils';
+import { treeDataTranslate } from '@/common/treeUtils';
 import {
   menuIds,
-} from '@/scripts/pattern';
+} from '@/common/pattern';
 
 export default {
+  props: {
+    menuList: Array,
+  },
   data() {
     return {
       visible: false,
-      menuList: [],
       menuListTreeProps: {
         label: 'name',
         children: 'children'
@@ -77,7 +78,6 @@ export default {
     init(roleId) {
       this.visible = true;
       this.roleId = roleId;
-      this.getMenuList();
       this.$nextTick(async () => {
         this.$refs.menuListTree.setCheckedKeys([]);
         if (roleId) {
@@ -96,13 +96,6 @@ export default {
             this.visible = true;
           }
         }
-      });
-    },
-    // 获取菜单列表
-    async getMenuList() {
-      const menuList = await getMenuList();
-      this.menuList = menuList.map(item => {
-        return { ...item };
       });
     },
     // Tree组件节点选中状态发生变化

@@ -7,8 +7,8 @@ import {
 } from 'vue-router-tab';
 import {
   treeDataTranslate,
-} from '@/scripts/treeUtils';
-import { isEmptyObject } from '@/scripts/utils';
+} from '@/common/treeUtils';
+import { isEmptyObject } from '@/common/utils';
 import { getMenuAccess } from '@/apis/system';
 
 const importPage = view => () => import(`@/views${view}.vue`);
@@ -84,10 +84,10 @@ Routers.beforeEach(async (to, from, next) => {
  * @param {*} menuList 菜单列表
  * @param {*} routes 递归创建的动态路由
  */
-function fnAddDynamicRoutes (menuList = [], routes = []) {
+function fnAddDynamicRoutes(menuList = [], routes = []) {
   console.log('%c<---- 新增动态路由 start ---->', 'color:pink');
   var temp = [];
-  for (var i = 0; i < menuList.length; i++) {
+  for (var i = 0;i < menuList.length;i++) {
     if (menuList[i].children && menuList[i].children.length >= 1) {
       temp = temp.concat(menuList[i].children);
     } else if (menuList[i].path && /\S/.test(menuList[i].path)) {

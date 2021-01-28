@@ -1,8 +1,8 @@
 import * as API from '@/apis/urls';
-import http from '@/scripts/axios';
+import http from '@/common/axios';
 
 // 登录
-export async function login (data) {
+export async function login(data) {
   const res = await http({
     url: http.adornUrl(API.login),
     method: 'post',
@@ -14,7 +14,7 @@ export async function login (data) {
 }
 
 // 退出
-export async function logout () {
+export async function logout() {
   const res = await http({
     url: http.adornUrl(API.logout),
     method: 'post',
@@ -25,7 +25,7 @@ export async function logout () {
 }
 
 // 获取七牛上传凭证
-export async function getQiniuUptoken (data) {
+export async function getQiniuUptoken(data) {
   const res = await http({
     url: http.adornUrl(API.getQiniuUptoken),
     method: 'post',
@@ -36,7 +36,7 @@ export async function getQiniuUptoken (data) {
   });
 }
 
-export async function getBaiduToken () {
+export async function getBaiduToken() {
   const res = await http({
     url: http.adornUrl(API.getBaiduToken),
     method: 'post',

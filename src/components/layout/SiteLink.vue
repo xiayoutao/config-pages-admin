@@ -1,19 +1,20 @@
 <template>
   <div class="site-link">
-    <a v-for="(item, index) in links" :key="index" :href="item.url" :target="item.url.indexOf('http') === 0 ? '_blank' : '_self'" :title="item.title" :class="$iconfont + item.icon"></a>
+    <a v-for="(item, index) in links" :key="index" :href="item.url" :target="item.url.indexOf('http') === 0 ? '_blank' : '_self'" :title="item.title"
+      :class="$iconfont + item.icon"></a>
     <a href="javascript:;" :class="$iconfont + 'xyt-tuichu'" title="安全退出" @click="logout()"></a><!-- 安全退出 -->
   </div>
 </template>
 
 <script>
-import { clearLoginInfo } from '@/scripts/common';
+import { clearLoginInfo } from '@/common/common';
 import {
   logout,
 } from '@/apis/common';
 
 export default {
   name: 'SiteLink',
-  data () {
+  data() {
     return {
       links: [
         {
@@ -27,7 +28,7 @@ export default {
   },
   methods: {
     // 退出登录
-    logout () {
+    logout() {
       this.$confirm('安全退出系统？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -37,7 +38,7 @@ export default {
         logout();
         location.href = '/login.html';
         clearLoginInfo();
-      }).catch(() => {});
+      }).catch(() => { });
     },
   },
 };

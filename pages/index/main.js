@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
-import '@babel/polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 // import Vue from 'vue';
 import store from '@/store';
@@ -28,7 +29,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 Vue.mixin({
-  data () {
+  data() {
     return {
       ajaxLoading: false,
     };

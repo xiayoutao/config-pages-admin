@@ -18,36 +18,36 @@
 <script>
 import SidebarItem from './SidebarItem';
 import SiteLink from './SiteLink.vue';
-import { treeDataTranslate } from '@/scripts/treeUtils';
+import { treeDataTranslate } from '@/common/treeUtils';
 
 export default {
   name: 'AppAside',
   computed: {
     menuActiveName: {
-      get () {
+      get() {
         return this.$store.state.common.menuActiveName;
       },
-      set (val) {
+      set(val) {
         this.$store.commit('common/updateMenuActiveName', val);
       }
     },
-    sidebarFold () {
+    sidebarFold() {
       return this.$store.state.common.sidebarFold;
     },
-    menuList () {
+    menuList() {
       return this.$store.state.common.menuList;
     },
-    dynamicRoutes () {
+    dynamicRoutes() {
       return JSON.parse(sessionStorage.getItem('dynamicRoutes') || '[]');
     }
   },
-  created () {
+  created() {
     console.log(this.$route);
     this.routeHandle(this.$route);
   },
   methods: {
     // 路由操作
-    routeHandle (route) {
+    routeHandle(route) {
       if (route.path) {
         this.menuActiveName = route.path; // 设置当前菜单
       } else {

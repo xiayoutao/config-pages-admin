@@ -1,8 +1,8 @@
 import * as API from '@/apis/urls';
-import http from '@/scripts/axios';
+import http from '@/common/axios';
 
 // 新增基本信息
-export async function insertBaseInfo (data) {
+export async function insertBaseInfo(data) {
   const res = await http({
     url: http.adornUrl(API.insertBaseInfo),
     method: 'post',
@@ -14,7 +14,7 @@ export async function insertBaseInfo (data) {
 }
 
 // 更新基本信息
-export async function updateBaseInfo (data) {
+export async function updateBaseInfo(data) {
   const res = await http({
     url: http.adornUrl(API.updateBaseInfo),
     method: 'post',
@@ -26,7 +26,7 @@ export async function updateBaseInfo (data) {
 }
 
 // 查询基本信息
-export async function getBaseInfo (data) {
+export async function getBaseInfo(data) {
   const res = await http({
     url: http.adornUrl(API.getBaseInfo),
     method: 'post',
@@ -38,7 +38,7 @@ export async function getBaseInfo (data) {
 }
 
 // 获取点赞列表
-export async function getBlessList (data) {
+export async function getBlessList(data) {
   const res = await http({
     url: http.adornUrl(API.getBlessList),
     method: 'post',
@@ -50,7 +50,7 @@ export async function getBlessList (data) {
 }
 
 // 获取文件列表
-export async function getFileList (data) {
+export async function getFileList(data) {
   const res = await http({
     url: http.adornUrl(API.getFileList),
     method: 'post',
@@ -62,7 +62,7 @@ export async function getFileList (data) {
 }
 
 // 获取所有文件
-export async function getAllFile (data) {
+export async function getAllFile(data) {
   const res = await http({
     url: http.adornUrl(API.getAllFile),
     method: 'post',
@@ -74,7 +74,7 @@ export async function getAllFile (data) {
 }
 
 // 上传文件
-export async function uploadFile (data) {
+export async function uploadFile(data) {
   const res = await http({
     url: http.adornUrl(API.uploadFile),
     method: 'post',
@@ -86,7 +86,7 @@ export async function uploadFile (data) {
 }
 
 // 删除文件
-export async function deleteFile (data) {
+export async function deleteFile(data) {
   const res = await http({
     url: http.adornUrl(API.deleteFile),
     method: 'post',
@@ -98,7 +98,7 @@ export async function deleteFile (data) {
 }
 
 // 获取留言列表
-export async function getMsgList (data) {
+export async function getMsgList(data) {
   const res = await http({
     url: http.adornUrl(API.getMsgList),
     method: 'post',
@@ -110,7 +110,7 @@ export async function getMsgList (data) {
 }
 
 // 删除留言
-export async function deleteMsg (data) {
+export async function deleteMsg(data) {
   const res = await http({
     url: http.adornUrl(API.deleteMsg),
     method: 'post',
@@ -122,7 +122,7 @@ export async function deleteMsg (data) {
 }
 
 // 获取照片列表
-export async function getPhotoList (data) {
+export async function getPhotoList(data) {
   const res = await http({
     url: http.adornUrl(API.getPhotoList),
     method: 'post',
@@ -134,7 +134,7 @@ export async function getPhotoList (data) {
 }
 
 // 获取所有照片
-export async function getAllPhoto (data) {
+export async function getAllPhoto(data) {
   const res = await http({
     url: http.adornUrl(API.getAllPhoto),
     method: 'post',
@@ -146,7 +146,7 @@ export async function getAllPhoto (data) {
 }
 
 // 新增照片
-export async function insertPhoto (data) {
+export async function insertPhoto(data) {
   const res = await http({
     url: http.adornUrl(API.insertPhoto),
     method: 'post',
@@ -158,7 +158,7 @@ export async function insertPhoto (data) {
 }
 
 // 删除照片
-export async function deletePhoto (data) {
+export async function deletePhoto(data) {
   const res = await http({
     url: http.adornUrl(API.deletePhoto),
     method: 'post',
@@ -170,7 +170,7 @@ export async function deletePhoto (data) {
 }
 
 // 更新照片
-export async function updatePhoto (data) {
+export async function updatePhoto(data) {
   const res = await http({
     url: http.adornUrl(API.updatePhoto),
     method: 'post',
@@ -182,7 +182,7 @@ export async function updatePhoto (data) {
 }
 
 // 修改照片排序
-export async function updatePhotoSort (data) {
+export async function updatePhotoSort(data) {
   const res = await http({
     url: http.adornUrl(API.updatePhotoSort),
     method: 'post',
@@ -194,7 +194,7 @@ export async function updatePhotoSort (data) {
 }
 
 // 查看照片
-export async function getPhotoInfo (data) {
+export async function getPhotoInfo(data) {
   const res = await http({
     url: http.adornUrl(API.getPhotoInfo),
     method: 'post',

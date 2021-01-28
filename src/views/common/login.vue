@@ -1,28 +1,28 @@
 <template>
-<div class="page-login">
-  <div class="login-box">
-    <div class="title">
-      <h1>后台管理系统</h1>
-    </div>
-    <el-form ref="dataForm" class="login-form" :model="dataForm" :rules="rules" status-icon size="large" @keyup.enter.native="dataFormSubmit()">
-      <el-form-item prop="userid">
-        <el-input v-model="dataForm.userid" autocomplete="off" placeholder="请输入用户名"></el-input>
-      </el-form-item>
-      <el-form-item prop="pwd">
-        <el-input v-model="dataForm.pwd" type="password" autocomplete="off" placeholder="密码"></el-input>
-      </el-form-item>
-      <!-- <el-form-item prop="captcha">
+  <div class="page-login">
+    <div class="login-box">
+      <div class="title">
+        <h1>后台管理系统</h1>
+      </div>
+      <el-form ref="dataForm" class="login-form" :model="dataForm" :rules="rules" status-icon size="large" @keyup.enter.native="dataFormSubmit()">
+        <el-form-item prop="userid">
+          <el-input v-model="dataForm.userid" autocomplete="off" placeholder="请输入用户名"></el-input>
+        </el-form-item>
+        <el-form-item prop="pwd">
+          <el-input v-model="dataForm.pwd" type="password" autocomplete="off" placeholder="密码"></el-input>
+        </el-form-item>
+        <!-- <el-form-item prop="captcha">
         <el-input v-model="dataForm.captcha" autocomplete="off" placeholder="验证码" style="width: 132px;"></el-input>
         <img class="img-captcha" :src="captchaUrl" @click="handleResetCaptcha">
       </el-form-item> -->
-      <el-form-item>
-        <el-button type="primary" :loading="ajaxLoading" @click="dataFormSubmit()" style="width: 100%;">登录</el-button>
-      </el-form-item>
-    </el-form>
+        <el-form-item>
+          <el-button type="primary" :loading="ajaxLoading" @click="dataFormSubmit()" style="width: 100%;">登录</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <!-- <p class="copyright" v-html="copyright"></p> -->
+    <p class="version">{{ version }}</p>
   </div>
-  <!-- <p class="copyright" v-html="copyright"></p> -->
-  <p class="version">{{ version }}</p>
-</div>
 </template>
 
 <script>
@@ -30,16 +30,16 @@ import { login } from '@/apis/common';
 import {
   getUUID,
   isEmptyObject,
-} from '@/scripts/utils';
+} from '@/common/utils';
 import Validate from '@/mixins/validate';
 import {
   userid,
   password
-} from '@/scripts/pattern';
+} from '@/common/pattern';
 
 export default {
   mixins: [Validate],
-  data () {
+  data() {
     return {
       usecaptcha: false, // 是否需要验证码
       dataForm: {
@@ -50,7 +50,7 @@ export default {
         captcha: ''
       },
       time: new Date().getTime(),
-      captchaPath: '/adminApi/common/captcha', // 验证码图片路径
+      captchaPath: '/api/common/captcha', // 验证码图片路径
       rules: {
         userid: [
           { required: true, message: '用户名不能为空' },
@@ -65,22 +65,22 @@ export default {
     };
   },
   computed: {
-    version () {
+    version() {
       return '版本：' + this.$store.state.version;
     },
-    copyright () {
+    copyright() {
       return this.$store.state.copyright;
     },
-    captchaUrl () {
+    captchaUrl() {
       return `${this.captchaPath}?t=${this.time}`;
     }
   },
-  activated () {
+  activated() {
     this.getCaptcha();
   },
   methods: {
     // 提交表单
-    async dataFormSubmit () {
+    async dataFormSubmit() {
       this.$refs.dataForm.validate(async (valid) => {
         if (valid) {
           const data = await login(this.dataForm);
@@ -98,12 +98,12 @@ export default {
         }
       });
     },
-    handleResetCaptcha () {
+    handleResetCaptcha() {
       this.time = new Date().getTime();
     }
   },
   watch: {
-    'dataForm.captcha' (val) { // 监听输入的验证码，自动转大写
+    'dataForm.captcha'(val) { // 监听输入的验证码，自动转大写
       if (val === val.toUpperCase()) return;
       this.dataForm.captcha = val.toUpperCase();
     }

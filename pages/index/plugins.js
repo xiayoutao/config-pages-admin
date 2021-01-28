@@ -1,25 +1,25 @@
 import isAuth from '@/directives/isAuth';
 import imgurl from '@/directives/imgurl';
-import permisson from '@/scripts/permisson';
+import permisson from '@/common/permisson';
 import {
   formatDate,
   zeroize
-} from '@/scripts/formatDate';
+} from '@/common/formatDate';
 import {
   formatHttpData,
   messageCallback,
   validateFormMsg,
   createUrlByKey,
   createImageUrl,
-} from '@/scripts/common';
+} from '@/common/common';
 import {
   isEmptyObject,
-} from '@/scripts/utils.js';
-import * as formatter from '@/scripts/formatter'; // Table组件 formatter方法
-import * as getFormatValue from '@/scripts/getFormatValue';
+} from '@/common/utils.js';
+import * as formatter from '@/common/formatter'; // Table组件 formatter方法
+import * as getFormatValue from '@/common/getFormatValue';
 
 export default {
-  install (Vue, options) {
+  install(Vue, options) {
     // 挂载全局
     Vue.prototype.isEmptyObject = isEmptyObject;
     Vue.prototype.permisson = permisson;

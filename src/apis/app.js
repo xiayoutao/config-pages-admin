@@ -1,8 +1,8 @@
 import * as API from '@/apis/urls.js';
-import http from '@/scripts/axios.js';
+import http from '@/common/axios.js';
 
 // 获取文字列表
-export async function getWordList (data) {
+export async function getWordList(data) {
   const res = await http({
     url: http.adornUrl(API.getWordList),
     method: 'post',
@@ -14,7 +14,7 @@ export async function getWordList (data) {
 }
 
 // 新增文字
-export async function insertWord (data) {
+export async function insertWord(data) {
   const res = await http({
     url: http.adornUrl(API.insertWord),
     method: 'post',
@@ -26,7 +26,7 @@ export async function insertWord (data) {
 }
 
 // 批量新增文字
-export async function batchInsertWord (data) {
+export async function batchInsertWord(data) {
   const res = await http({
     url: http.adornUrl(API.batchInsertWord),
     method: 'post',
@@ -38,7 +38,7 @@ export async function batchInsertWord (data) {
 }
 
 // 删除文字
-export async function deleteWord (data) {
+export async function deleteWord(data) {
   const res = await http({
     url: http.adornUrl(API.deleteWord),
     method: 'post',
@@ -50,7 +50,7 @@ export async function deleteWord (data) {
 }
 
 // 更新文字
-export async function updateWord (data) {
+export async function updateWord(data) {
   const res = await http({
     url: http.adornUrl(API.updateWord),
     method: 'post',
@@ -62,7 +62,7 @@ export async function updateWord (data) {
 }
 
 // 获取页面列表
-export async function getPageList (data) {
+export async function getPageList(data) {
   const res = await http({
     url: http.adornUrl(API.getPageList),
     method: 'post',
@@ -74,7 +74,7 @@ export async function getPageList (data) {
 }
 
 // 保存页面
-export async function savePage (data) {
+export async function savePage(data) {
   const res = await http({
     url: http.adornUrl(API.savePage),
     method: 'post',
@@ -86,7 +86,7 @@ export async function savePage (data) {
 }
 
 // 删除页面
-export async function deletePage (data) {
+export async function deletePage(data) {
   const res = await http({
     url: http.adornUrl(API.deletePage),
     method: 'post',
@@ -98,7 +98,7 @@ export async function deletePage (data) {
 }
 
 // 查询页面信息
-export async function getPageInfo (data) {
+export async function getPageInfo(data) {
   console.log(data);
   const res = await http({
     url: http.adornUrl(API.getPageInfo),

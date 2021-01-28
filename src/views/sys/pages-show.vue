@@ -1,15 +1,16 @@
 <template>
-  <el-dialog custom-class="pages-show" title="预览"  width="375px" :close-on-press-escape="true" :close-on-click-modal="true" append-to-body :visible.sync="visible">
+  <el-dialog custom-class="pages-show" title="预览" width="375px" :close-on-press-escape="true" :close-on-click-modal="true" append-to-body
+    :visible.sync="visible">
     <div class="loading" element-loading-text="拼命加载中" v-loading="loading" v-if="loading"></div>
     <iframe ref="layoutIframe" frameborder="0" allowfullscreen width="100%" height="667px" :src="`${iframeUrl}?uuid=${uuid}`"></iframe>
   </el-dialog>
 </template>
 
 <script>
-import { checkIFrameLoaded } from '@/scripts/tools';
+import { checkIFrameLoaded } from '@/common/tools';
 
 export default {
-  data () {
+  data() {
     return {
       loading: false,
       visible: false,
@@ -17,12 +18,12 @@ export default {
     };
   },
   computed: {
-    iframeUrl () {
+    iframeUrl() {
       return this.$store.state.previewOrigin + '/show';
     }
   },
   methods: {
-    init (uuid) {
+    init(uuid) {
       this.uuid = uuid;
       this.visible = true;
       this.loading = true;

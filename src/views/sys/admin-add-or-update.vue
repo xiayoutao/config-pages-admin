@@ -39,7 +39,6 @@ import {
   getAdminInfo,
   insertAdmin,
   updateAdmin,
-  getAllRole,
 } from '@/apis/system';
 import {
   adminFlags,
@@ -49,14 +48,16 @@ import {
   email,
   userid,
   password
-} from '@/scripts/pattern';
+} from '@/common/pattern';
 
 export default {
-  data () {
+  props: {
+    roleList: Array,
+  },
+  data() {
     return {
       visible: false,
       userid: null,
-      roleList: [],
       adminFlags,
       dataForm: {
         roleId: null,
@@ -92,8 +93,7 @@ export default {
     };
   },
   methods: {
-    init (userid) {
-      this.getAllRole();
+    init(userid) {
       this.visible = true;
       this.userid = userid;
       this.$nextTick(async () => {
@@ -110,19 +110,8 @@ export default {
         }
       });
     },
-    // 获取权限列表
-    async getAllRole () {
-      // 0图片，1音频，2视频
-      const data = await getAllRole();
-      if (!this.isEmptyObject(data)) {
-        this.roleList = [];
-        data.forEach(item => {
-          this.roleList.push(item);
-        });
-      }
-    },
     // 表单提交
-    dataFormSubmit () {
+    dataFormSubmit() {
       this.$refs.dataForm.validate(async (valid) => {
         if (valid) {
           let data;

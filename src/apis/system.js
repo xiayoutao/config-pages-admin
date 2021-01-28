@@ -1,8 +1,8 @@
 import * as API from '@/apis/urls';
-import http from '@/scripts/axios';
+import http from '@/common/axios';
 
 // 获取用户列表（分页）
-export async function getAdminList (data) {
+export async function getAdminList(data) {
   const res = await http({
     url: http.adornUrl(API.getAdminList),
     method: 'post',
@@ -14,7 +14,7 @@ export async function getAdminList (data) {
 }
 
 // 获取所有用户
-export async function getAllAdmin (data) {
+export async function getAllAdmin(data) {
   const res = await http({
     url: http.adornUrl(API.getAllAdmin),
     method: 'post',
@@ -26,7 +26,7 @@ export async function getAllAdmin (data) {
 }
 
 // 新增用户
-export async function insertAdmin (data) {
+export async function insertAdmin(data) {
   const res = await http({
     url: http.adornUrl(API.insertAdmin),
     method: 'post',
@@ -38,7 +38,7 @@ export async function insertAdmin (data) {
 }
 
 // 删除用户
-export async function deleteAdmin (data) {
+export async function deleteAdmin(data) {
   const res = await http({
     url: http.adornUrl(API.deleteAdmin),
     method: 'post',
@@ -50,7 +50,7 @@ export async function deleteAdmin (data) {
 }
 
 // 更新用户信息
-export async function updateAdmin (data) {
+export async function updateAdmin(data) {
   const res = await http({
     url: http.adornUrl(API.updateAdmin),
     method: 'post',
@@ -62,7 +62,7 @@ export async function updateAdmin (data) {
 }
 
 // 更新用户密码
-export async function updateAdminPwd (data) {
+export async function updateAdminPwd(data) {
   console.log(data);
   const res = await http({
     url: http.adornUrl(API.updateAdminPwd),
@@ -75,7 +75,7 @@ export async function updateAdminPwd (data) {
 }
 
 // 查询用户信息
-export async function getAdminInfo (data) {
+export async function getAdminInfo(data) {
   const res = await http({
     url: http.adornUrl(API.getAdminInfo),
     method: 'post',
@@ -87,7 +87,7 @@ export async function getAdminInfo (data) {
 }
 
 // 获取配置列表
-export async function getConfigList (data) {
+export async function getConfigList(data) {
   const res = await http({
     url: http.adornUrl(API.getConfigList),
     method: 'post',
@@ -99,7 +99,7 @@ export async function getConfigList (data) {
 }
 
 // 新增配置
-export async function insertConfig (data) {
+export async function insertConfig(data) {
   const res = await http({
     url: http.adornUrl(API.insertConfig),
     method: 'post',
@@ -111,7 +111,7 @@ export async function insertConfig (data) {
 }
 
 // 删除配置
-export async function deleteConfig (data) {
+export async function deleteConfig(data) {
   const res = await http({
     url: http.adornUrl(API.deleteConfig),
     method: 'post',
@@ -123,7 +123,7 @@ export async function deleteConfig (data) {
 }
 
 // 更新配置
-export async function updateConfig (data) {
+export async function updateConfig(data) {
   const res = await http({
     url: http.adornUrl(API.updateConfig),
     method: 'post',
@@ -135,7 +135,7 @@ export async function updateConfig (data) {
 }
 
 // 查询配置信息
-export async function getConfigInfo (data) {
+export async function getConfigInfo(data) {
   const res = await http({
     url: http.adornUrl(API.getConfigInfo),
     method: 'post',
@@ -147,7 +147,7 @@ export async function getConfigInfo (data) {
 }
 
 // 获取菜单列表
-export async function getMenuList (data) {
+export async function getMenuList(data) {
   const res = await http({
     url: http.adornUrl(API.getMenuList),
     method: 'post',
@@ -159,7 +159,7 @@ export async function getMenuList (data) {
 }
 
 // 获取菜单权限
-export async function getMenuAccess (data) {
+export async function getMenuAccess(data) {
   const res = await http({
     url: http.adornUrl(API.getMenuAccess),
     method: 'post',
@@ -171,7 +171,7 @@ export async function getMenuAccess (data) {
 }
 
 // 新增菜单
-export async function insertMenu (data) {
+export async function insertMenu(data) {
   const res = await http({
     url: http.adornUrl(API.insertMenu),
     method: 'post',
@@ -183,7 +183,7 @@ export async function insertMenu (data) {
 }
 
 // 删除菜单
-export async function deleteMenu (data) {
+export async function deleteMenu(data) {
   const res = await http({
     url: http.adornUrl(API.deleteMenu),
     method: 'post',
@@ -195,7 +195,7 @@ export async function deleteMenu (data) {
 }
 
 // 更新菜单信息
-export async function updateMenu (data) {
+export async function updateMenu(data) {
   const res = await http({
     url: http.adornUrl(API.updateMenu),
     method: 'post',
@@ -207,7 +207,7 @@ export async function updateMenu (data) {
 }
 
 // 查询菜单信息
-export async function getMenuInfo (data) {
+export async function getMenuInfo(data) {
   const res = await http({
     url: http.adornUrl(API.getMenuInfo),
     method: 'post',
@@ -219,7 +219,7 @@ export async function getMenuInfo (data) {
 }
 
 // 获取所有角色
-export async function getAllRole (data) {
+export async function getAllRole(data) {
   const res = await http({
     url: http.adornUrl(API.getAllRole),
     method: 'post',
@@ -231,7 +231,7 @@ export async function getAllRole (data) {
 }
 
 // 获取角色列表
-export async function getRoleList (data) {
+export async function getRoleList(data) {
   const res = await http({
     url: http.adornUrl(API.getRoleList),
     method: 'post',
@@ -243,7 +243,7 @@ export async function getRoleList (data) {
 }
 
 // 新增角色
-export async function insertRole (data) {
+export async function insertRole(data) {
   const res = await http({
     url: http.adornUrl(API.insertRole),
     method: 'post',
@@ -255,7 +255,7 @@ export async function insertRole (data) {
 }
 
 // 删除角色
-export async function deleteRole (data) {
+export async function deleteRole(data) {
   const res = await http({
     url: http.adornUrl(API.deleteRole),
     method: 'post',
@@ -267,7 +267,7 @@ export async function deleteRole (data) {
 }
 
 // 更新角色信息
-export async function updateRole (data) {
+export async function updateRole(data) {
   const res = await http({
     url: http.adornUrl(API.updateRole),
     method: 'post',
@@ -279,7 +279,7 @@ export async function updateRole (data) {
 }
 
 // 查询角色信息
-export async function getRoleInfo (data) {
+export async function getRoleInfo(data) {
   const res = await http({
     url: http.adornUrl(API.getRoleInfo),
     method: 'post',
@@ -291,7 +291,7 @@ export async function getRoleInfo (data) {
 }
 
 // 获取日志列表
-export async function getLogsList (data) {
+export async function getLogsList(data) {
   const res = await http({
     url: http.adornUrl(API.getLogsList),
     method: 'post',
@@ -303,7 +303,7 @@ export async function getLogsList (data) {
 }
 
 // 删除日志
-export async function deleteLogs (data) {
+export async function deleteLogs(data) {
   const res = await http({
     url: http.adornUrl(API.deleteLogs),
     method: 'post',
