@@ -12,8 +12,8 @@ export const updateAdmin = '/admin/update'; // 更新用户信息
 export const updateAdminPwd = '/admin/updatePwd'; // 修改用户密码
 export const getAdminInfo = '/admin/info'; // 获取用户信息
 // 用户
-export const getUserList = '/user/list'; // 获取用户列表
-export const getUserInfo = '/user/info'; // 获取用户信息
+export const getUserList = '/member/list'; // 获取用户列表
+export const getUserInfo = '/member/detail'; // 获取用户信息
 // 配置管理
 export const getConfigList = '/config/list'; // 获取配置列表
 export const insertConfig = '/config/add'; // 新增配置

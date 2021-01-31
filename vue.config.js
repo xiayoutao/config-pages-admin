@@ -31,11 +31,12 @@ module.exports = {
     }
   },
   devServer: {
-    open: true,
+    open: false,
     port: 7000,
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:1339',
+        // target: 'https://api-test.xiayoutao.wang',
         // target: 'https://api.xiayoutao.wang',
         ws: true,
         changeOrigin: true,
