@@ -54,7 +54,8 @@ http.interceptors.response.use(response => {
  */
 http.adornUrl = (actionName) => {
   // 非生产环境 && 开启代理, 接口前缀统一使用[/api/]前缀做代理拦截!
-  return window.SITE_CONFIG.baseUrl + '/api' + actionName;
+  // return window.SITE_CONFIG.baseUrl + '/api' + actionName;
+  return '/api' + actionName;
 };
 
 /**
